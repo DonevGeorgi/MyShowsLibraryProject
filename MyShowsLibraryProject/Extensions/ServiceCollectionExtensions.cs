@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MyShowsLibraryProject.Data;
+using MyShowsLibraryProject.Infrastructure.Data;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DataConstants\" />
     <Folder Include="Data\DatabaseSeed\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

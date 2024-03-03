@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
-    public class SerieReview
+    public class SerieGenre
     {
         [Required]
         [Comment("Serie identifier")]
@@ -12,9 +13,9 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         [ForeignKey(nameof(SerieId))]
         public Serie Serie { get; set; } = null!;
         [Required]
-        [Comment("Review identitfier")]
-        public int ReviewId { get; set; }
-        [ForeignKey(nameof(ReviewId))]
-        public Review Review { get; set;} = null!;
+        [Comment("Genre identifier")]
+        public int GenreId { get; set; }
+        [ForeignKey(nameof(GenreId))]
+        public Genre Genre { get; set; } = null!;
     }
 }

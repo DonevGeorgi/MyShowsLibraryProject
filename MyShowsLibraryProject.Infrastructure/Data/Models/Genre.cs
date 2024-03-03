@@ -1,21 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore;
+using MyShowsLibraryProject.Infrastructure.Constants;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
     public class Genre
     {
         [Key]
+        [Comment("Genre identifier")]
         public int GenreId { get; set; }
         [Required]
+        [MaxLength(DataConstants.GenreNameMaxLength)]
+        [Comment("Genre name")]
         public string Name { get; set; } = string.Empty;
-        [Required]
-        public int MovieId { get; set; }
-        [ForeignKey(nameof(MovieId))]
-        public Movie Movie { get; set; } = null!;
-        [Required]
-        public int SerieId { get; set; }
-        [ForeignKey(nameof(SerieId))]
-        public Serie Serie { get; set; } = null!;
+        public IEnumerable<MovieGenre> MovieGenres { get; set; } = new List<MovieGenre>();
+        public IEnumerable<SerieGenre> SerieGenres { get; set; } = new List<SerieGenre>();
     }
 }

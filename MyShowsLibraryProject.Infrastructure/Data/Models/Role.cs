@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using MyShowsLibraryProject.Infrastructure.Constants;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
@@ -6,10 +8,14 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
     public class Role
     {
         [Key]
+        [Comment("Role identifier")]
         public int RoleId { get; set; }
         [Required]
+        [MaxLength(DataConstants.RoleNameMaxLength)]
+        [Comment("Role name")]
         public string Name { get; set; } = string.Empty;
         [Required]
+        [Comment("Crew identifier")]
         public int CrewId { get; set; }
         [ForeignKey(nameof(CrewId))]
         public Crew Crew { get; set; } = null!;

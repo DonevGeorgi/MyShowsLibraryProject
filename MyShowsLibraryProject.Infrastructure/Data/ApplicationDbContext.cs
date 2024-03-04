@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
 
 namespace MyShowsLibraryProject.Infrastructure.Data
@@ -12,23 +13,16 @@ namespace MyShowsLibraryProject.Infrastructure.Data
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<MovieCrew>()
-                .HasKey(mc => new { mc.MovieId, mc.CrewId });
-
-            builder.Entity<SerieCrew>()
-                .HasKey(sc => new { sc.SerieId, sc.CrewId });
-
-            builder.Entity<SerieGenre>()
-                .HasKey(sg => new { sg.SerieId, sg.GenreId });
-
-            builder.Entity<MovieGenre>()
-                .HasKey(mg => new { mg.MovieId, mg.GenreId });
-
-            builder.Entity<MovieReview>()
-                .HasKey(mv => new { mv.MovieId, mv.ReviewId });
-
-            builder.Entity<SerieReview>()
-                .HasKey(sv => new { sv.SerieId, sv.ReviewId });
+            builder.ApplyConfiguration(new EpisodesConfiguration());
+            builder.ApplyConfiguration(new GenreConfiguration());
+            builder.ApplyConfiguration(new MovieConfiguration());
+            builder.ApplyConfiguration(new MovieCrewConfiguration());
+            builder.ApplyConfiguration(new MovieGenreConfiguration());
+            builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new SeasonConfiguration());
+            builder.ApplyConfiguration(new SerieConfiguration());
+            builder.ApplyConfiguration(new SerieCrewConfiguration());
+            builder.ApplyConfiguration(new SerieGenreConfiguration());
 
             builder.Entity<UserMovie>()
                 .HasKey(um => new { um.UserId, um.MovieId });

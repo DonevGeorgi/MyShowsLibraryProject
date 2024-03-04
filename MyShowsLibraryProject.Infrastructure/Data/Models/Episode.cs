@@ -25,6 +25,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         [Comment("Episode summary")]
         public string Summary {  get; set; } = string.Empty;
         [Comment("Episode release date")]
+        [Column(TypeName = "Date")]
         public DateTime ReleaseDate { get; set; }
         [Required]
         [Comment("Season identifier")]

@@ -255,7 +255,7 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                         .HasComment("Crew biography");
 
                     b.Property<DateTime>("Birthdate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("Date")
                         .HasComment("Crew birthdate");
 
                     b.Property<string>("MoreInfo")
@@ -291,6 +291,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasKey("CrewId");
 
                     b.ToTable("Crews");
+
+                    b.HasComment("Shows crew");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.Episode", b =>
@@ -312,7 +314,7 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                         .HasComment("Url for the episode poster");
 
                     b.Property<DateTime>("ReleaseDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("Date")
                         .HasComment("Episode release date");
 
                     b.Property<int>("SeasonId")
@@ -334,6 +336,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasIndex("SeasonId");
 
                     b.ToTable("Episodes");
+
+                    b.HasComment("Season episode");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.Genre", b =>
@@ -354,6 +358,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasKey("GenreId");
 
                     b.ToTable("Genres");
+
+                    b.HasComment("Shows genres");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.Movie", b =>
@@ -365,7 +371,7 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MovieId"), 1L, 1);
 
                     b.Property<DateTime>("DateOfRelease")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("Date")
                         .HasComment("Movie release date");
 
                     b.Property<int>("Duration")
@@ -411,6 +417,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasKey("MovieId");
 
                     b.ToTable("Movies");
+
+                    b.HasComment("Movie model");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.MovieCrew", b =>
@@ -428,6 +436,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasIndex("CrewId");
 
                     b.ToTable("MoviesCrews");
+
+                    b.HasComment("Movie crew");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.MovieGenre", b =>
@@ -445,6 +455,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasIndex("GenreId");
 
                     b.ToTable("MoviesGenres");
+
+                    b.HasComment("Movie genres");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.MovieReview", b =>
@@ -462,6 +474,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasIndex("ReviewId");
 
                     b.ToTable("MoviesReviews");
+
+                    b.HasComment("Movie reviews");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.Review", b =>
@@ -486,6 +500,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasKey("ReviewId");
 
                     b.ToTable("Reviews");
+
+                    b.HasComment("Review model");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.Role", b =>
@@ -512,6 +528,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasIndex("CrewId");
 
                     b.ToTable("Roles");
+
+                    b.HasComment("Crew role in the show");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.Season", b =>
@@ -550,6 +568,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasIndex("SeriesId");
 
                     b.ToTable("Seasons");
+
+                    b.HasComment("Show season");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.Serie", b =>
@@ -612,6 +632,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasKey("SeriesId");
 
                     b.ToTable("Series");
+
+                    b.HasComment("Serie model");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.SerieCrew", b =>
@@ -629,6 +651,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasIndex("CrewId");
 
                     b.ToTable("SeriesCrews");
+
+                    b.HasComment("Serie crew");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.SerieGenre", b =>
@@ -646,6 +670,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasIndex("GenreId");
 
                     b.ToTable("SeriesGenres");
+
+                    b.HasComment("Serie genres");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.SerieReview", b =>
@@ -663,6 +689,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasIndex("ReviewId");
 
                     b.ToTable("SeriesReviews");
+
+                    b.HasComment("Serie reviews");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.UserMovie", b =>
@@ -680,6 +708,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasIndex("MovieId");
 
                     b.ToTable("UsersMovies");
+
+                    b.HasComment("User movies");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.UserReview", b =>
@@ -697,6 +727,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasIndex("ReviewId");
 
                     b.ToTable("UsersReviews");
+
+                    b.HasComment("User reviews");
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.UserSerie", b =>
@@ -714,6 +746,8 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasIndex("SerieId");
 
                     b.ToTable("UsersSeries");
+
+                    b.HasComment("User series");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

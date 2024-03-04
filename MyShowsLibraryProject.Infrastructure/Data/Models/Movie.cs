@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyShowsLibraryProject.Infrastructure.Constants;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
@@ -25,6 +26,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         [Comment("Movie trailer URL")]
         public string TrailerUrl { get; set; } = string.Empty;
         [Comment("Movie release date")]
+        [Column(TypeName = "Date")]
         public DateTime DateOfRelease { get; set; }
         [Required]
         [MaxLength(DataConstants.SummaryMaxLength)]

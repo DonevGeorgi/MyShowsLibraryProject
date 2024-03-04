@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyShowsLibraryProject.Infrastructure.Constants;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
@@ -19,6 +20,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         public string Pseudonyms { get; set; } = string.Empty;
         [Required]
         [Comment("Crew birthdate")]
+        [Column(TypeName = "Date")]
         public DateTime Birthdate { get; set; }
         [Required]
         [MaxLength(DataConstants.CrewNationalityMaxLength)]

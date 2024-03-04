@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
+    [Comment("User series")]
     public class UserSerie
     {
         [Required]

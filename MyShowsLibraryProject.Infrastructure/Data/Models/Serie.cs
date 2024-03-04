@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
+    [Comment("Serie model")]
     public class Serie
     {
         [Key]

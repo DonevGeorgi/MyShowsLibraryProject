@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
+    [Comment("Serie genres")]
     public class SerieGenre
     {
         [Required]

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
+    [Comment("Review model")]
     public class Review
     {
         [Key]

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
+    [Comment("Movie model")]
     public class Movie
     {
         [Key]

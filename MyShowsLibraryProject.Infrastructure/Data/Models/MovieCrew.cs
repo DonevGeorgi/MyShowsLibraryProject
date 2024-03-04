@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
+    [Comment("Movie crew")]
     public class MovieCrew
     {
         [Required]

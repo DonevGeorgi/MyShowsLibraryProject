@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
+    [Comment("Serie reviews")]
     public class SerieReview
     {
         [Required]

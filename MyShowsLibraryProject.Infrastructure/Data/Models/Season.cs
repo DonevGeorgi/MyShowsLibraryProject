@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
+    [Comment("Show season")]
     public class Season
     {
         [Key]

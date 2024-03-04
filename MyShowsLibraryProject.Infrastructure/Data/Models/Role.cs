@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
+    [Comment("Crew role in the show")]
     public class Role
     {
         [Key]

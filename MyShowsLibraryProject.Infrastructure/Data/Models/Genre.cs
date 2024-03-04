@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
+    [Comment("Shows genres")]
     public class Genre
     {
         [Key]

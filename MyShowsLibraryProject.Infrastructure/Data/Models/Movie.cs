@@ -26,8 +26,8 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         [Comment("Movie trailer URL")]
         public string TrailerUrl { get; set; } = string.Empty;
         [Comment("Movie release date")]
-        [Column(TypeName = "Date")]
-        public DateTime DateOfRelease { get; set; }
+        [MaxLength(DataConstants.MovieReleaseDateMaxLength)]
+        public string DateOfRelease { get; set; } = string.Empty;
         [Required]
         [MaxLength(DataConstants.SummaryMaxLength)]
         [Comment("Movie summary")]

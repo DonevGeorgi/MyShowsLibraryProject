@@ -19,9 +19,9 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         [Comment("Crew pseudonym")]
         public string Pseudonyms { get; set; } = string.Empty;
         [Required]
+        [MaxLength(DataConstants.CrewBirthdayMaxLength)]
         [Comment("Crew birthdate")]
-        [Column(TypeName = "Date")]
-        public DateTime Birthdate { get; set; }
+        public string Birthdate { get; set; } = string.Empty;
         [Required]
         [MaxLength(DataConstants.CrewNationalityMaxLength)]
         [Comment("Crew nationality")]
@@ -36,7 +36,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         [MaxLength(DataConstants.UrlsMaxLength)]
         [Comment("Crew link for more biography")]
         public string MoreInfo { get; set; } = string.Empty;
-        public IEnumerable<Role> Roles { get; set; } = Enumerable.Empty<Role>();
+        public IEnumerable<CrewRole> Roles { get; set; } = new List<CrewRole>();
         public IEnumerable<SerieCrew> SerieCrew { get; set; } = new List<SerieCrew>();
         public IEnumerable<MovieCrew> MovieCrew { get; set; } = new List<MovieCrew>();
     }

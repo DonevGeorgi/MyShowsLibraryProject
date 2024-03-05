@@ -15,10 +15,6 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         [MaxLength(DataConstants.RoleNameMaxLength)]
         [Comment("Role name")]
         public string Name { get; set; } = string.Empty;
-        [Required]
-        [Comment("Crew identifier")]
-        public int CrewId { get; set; }
-        [ForeignKey(nameof(CrewId))]
-        public Crew Crew { get; set; } = null!;
+        public IEnumerable<CrewRole> CrewRoles { get; set; } = new List<CrewRole>();
     }
 }

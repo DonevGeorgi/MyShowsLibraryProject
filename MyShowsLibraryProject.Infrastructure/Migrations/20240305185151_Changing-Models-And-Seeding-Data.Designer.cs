@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyShowsLibraryProject.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using MyShowsLibraryProject.Infrastructure.Data;
 namespace MyShowsLibraryProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240305185151_Changing-Models-And-Seeding-Data")]
+    partial class ChangingModelsAndSeedingData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,8 +258,7 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
 
                     b.Property<string>("Birthdate")
                         .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)")
+                        .HasColumnType("nvarchar(max)")
                         .HasComment("Crew birthdate");
 
                     b.Property<string>("MoreInfo")
@@ -479,8 +480,7 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
 
                     b.Property<string>("ReleaseDate")
                         .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)")
+                        .HasColumnType("nvarchar(max)")
                         .HasComment("Episode release date");
 
                     b.Property<int>("SeasonId")
@@ -697,8 +697,7 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
 
                     b.Property<string>("DateOfRelease")
                         .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)")
+                        .HasColumnType("nvarchar(max)")
                         .HasComment("Movie release date");
 
                     b.Property<int>("Duration")

@@ -8,10 +8,10 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
     {
         public void Configure(EntityTypeBuilder<MovieGenre> builder)
         {
-            var data = new SeedData();
-
             builder
                .HasKey(mg => new { mg.MovieId, mg.GenreId });
+           
+            var data = new SeedData();
 
             builder.HasData(new MovieGenre[] 
             { 

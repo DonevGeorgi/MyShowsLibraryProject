@@ -8,16 +8,20 @@
         public const int YearMaxLength = 4;
         public const int SummaryMaxLength = 255;
         //Movie
+        public const int MovieReleaseDateMaxLength = 11;
         public const int MovieLenguageMaxLength = 30;
         //Serie constants
         public const int SerieLenguageMaxLength = 30;
         //Season constants
         public const int SeasonEpisodeMaxLength = 5;
         //Crew constants
+        public const int CrewBirthdayMaxLength = 11;
         public const int CrewNameMaxLength = 50;
         public const int CrewPseudonymMaxLength = 50;
         public const int CrewNationalityMaxLength = 30;
         public const int CrewBiographyMaxLength = 8000;
+        //Episode constants
+        public const int EpisodeReleaseDateMaxLength = 11;
         //Review constants 
         public const int ReviewContentMaxLength = 8000;
         //Genre constants

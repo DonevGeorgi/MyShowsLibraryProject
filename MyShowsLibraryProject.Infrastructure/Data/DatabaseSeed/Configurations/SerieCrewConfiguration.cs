@@ -8,12 +8,13 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
     {
         public void Configure(EntityTypeBuilder<SerieCrew> builder)
         {
-            var data = new SeedData();
-
             builder
                 .HasKey(sc => new { sc.SerieId, sc.CrewId });
 
-            builder.HasData( new SerieCrew[]
+            var data = new SeedData();
+
+            builder.HasData(
+                new SerieCrew[]
             {
                 data.SCFirstConnection,
                 data.SCSecondConnection,

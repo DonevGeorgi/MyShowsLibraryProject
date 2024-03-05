@@ -21,7 +21,8 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
                 data.SeventhEpisode,
                 data.EighthEpisode,
                 data.NinthEpisode,
-                data.TenthEpisode});
+                data.TenthEpisode
+            });
         }
     }
 }

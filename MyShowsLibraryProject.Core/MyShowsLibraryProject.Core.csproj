@@ -10,4 +10,8 @@
     <ProjectReference Include="..\MyShowsLibraryProject.Infrastructure\MyShowsLibraryProject.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Constants\" />
+  </ItemGroup>
+
 </Project>

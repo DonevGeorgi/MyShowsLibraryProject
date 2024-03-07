@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MyShowsLibraryProject.Core.Services;
+using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data;
+using MyShowsLibraryProject.Infrastructure.Data.Common;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -8,6 +11,9 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddScoped<IMovieService, MovieService>();
+            services.AddScoped<ISerieService, SerieService>();
+
             return services;
         }
 
@@ -16,6 +22,8 @@ namespace Microsoft.Extensions.DependencyInjection
             var connectionString = config.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
+
+            services.AddScoped<IRepository,Repository>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 

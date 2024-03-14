@@ -4,3 +4,24 @@
     ViewData["Title"] = "Movies library";
 }
 
+<div>
+    <a class="btn btn-outline-dark" asp-controller="Serie" asp-action="Index">To Serie</a>
+</div>
+
+@foreach (var m in Model)
+{
+    <div class="card bg-transparent border-0 p-1" style="width: 18em;">
+        <img src="@m.PosterUrl" style="border-radius: 0.5rem;">
+        <div class="card-body p-0 m-0 position-absolute bottom-0 start-50 translate-middle-x">
+            <div class="card-title text-center">
+                <a  asp-controller="" asp-action="" 
+                class="card-title text-white text-decoration-none bg-black bg-opacity-75 p-1" style="border-radius: 0.5em;">
+                @m.Title</a>
+            </div>
+            <div class="card-text text-white d-flex justify-content-between mb-2">
+                <span class="bg-black bg-opacity-75 p-1" style="border-radius: 0.5em;">@m.YearOfRelease</span>
+                <span class="bg-black bg-opacity-75 p-1" style="border-radius: 0.5em;">@(m.Rating == null ? "0.00" : m.Rating)</span>
+            </div>
+        </div>
+    </div>
+}  

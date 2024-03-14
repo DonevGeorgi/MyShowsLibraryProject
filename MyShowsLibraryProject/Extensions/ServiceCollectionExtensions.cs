@@ -32,8 +32,17 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<IdentityUser>(options => 
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //services.AddAuthentication()
+            //    .AddCookie(options =>
+            //    {
+            //        options.LoginPath = PathString.FromUriComponent("/Account/Login");
+            //    });
 
             return services;
         }

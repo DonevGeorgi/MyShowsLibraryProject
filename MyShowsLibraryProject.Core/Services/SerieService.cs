@@ -22,6 +22,8 @@ namespace MyShowsLibraryProject.Core.Services
             {
                 Title = s.Title,
                 PosterUrl = s.PosterUrl,
+                StartYear = s.YearOfStart,
+                EndYear = s.YearOfEnd,
                 //Later when you add review try make method and add null check not implemented yet
                 Rating = repository
                         .TakeAll<SerieReview>()

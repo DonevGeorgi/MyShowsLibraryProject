@@ -219,7 +219,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
                 Title = "Back to the Future",
                 Duration = 116,
                 PosterUrl = "https://upload.wikimedia.org/wikipedia/en/thumb/d/d2/Back_to_the_Future.jpg/220px-Back_to_the_Future.jpg",
-                TrailerUrl = "https://www.youtube.com/watch?v=qvsgGtivCgs&ab_channel=RottenTomatoesClassicTrailers",
+                TrailerUrl = "https://www.youtube.com/embed/qvsgGtivCgs?si=fc5W3Tjq1xSBOYoZ&amp",
                 DateOfRelease = "03 Jul 1985",
                 Summary = "Marty McFly, a 17-year-old high school student, is accidentally sent 30 years into the " +
                 "past in a time-traveling DeLorean invented by his close friend, the maverick scientist Doc Brown.",
@@ -235,7 +235,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
                 SeriesId = 1,
                 Title = "Game of Thrones",
                 PosterUrl = "https://i.pinimg.com/originals/ac/4f/fd/ac4ffd8309980a091dd1dc57abe908b4.jpg",
-                TrailerUrl = "https://www.youtube.com/watch?v=bjqEWgDVPe0&ab_channel=HBOUK",
+                TrailerUrl = "https://www.youtube.com/embed/bjqEWgDVPe0?si=1az-pQmunA3VvNlG",
                 YearOfStart = "2011",
                 YearOfEnd = "2019",
                 Summary = "Nine noble families fight for control over the lands of Westeros," +

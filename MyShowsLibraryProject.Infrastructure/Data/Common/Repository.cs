@@ -1,7 +1,5 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using MyShowsLibraryProject.Infrastructure.Data.Models;
-using System.Runtime.InteropServices;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Common
 {
@@ -26,8 +24,11 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Common
         public IQueryable<T> TakeAllReadOnly<T>() where T : class
             => DbSet<T>()
                 .AsNoTracking();
+        public async Task<T?> GetByIdAsync<T>(object id) where T : class
+            => await DbSet<T>().FindAsync(id);
 
         public async Task SaveChangesAsyn()
             => await dbContext.SaveChangesAsync();
+
     }
 }

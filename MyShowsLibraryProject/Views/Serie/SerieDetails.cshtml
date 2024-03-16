@@ -1,0 +1,30 @@
+﻿@model SeriesDetailsServiceModel
+
+@{
+    ViewData["Title"] = "Serie Detail";
+}
+
+<div class="bg-white bg-opacity-50 d-flex flex-column p-2 gap-2" style="border-radius: 0.5em">
+    <div class="container d-flex flex-row">
+        <div>
+            <img src="@Model.PosterUrl">
+        </div>
+        <div class="container d-flex flex-column gap-2 p-2">
+            <div class="container d-flex justify-content-center p-1">
+                <span class="fw-bolder">@Model.Title</span>
+            </div>
+            <div class="d-flex flex-column">
+                <span>@(Model.YearOfEnd == string.Empty ? Model.YearOfStart : Model.YearOfStart + " - " + Model.YearOfEnd)</span>
+                <span>@string.Join(", ", Model.Genres.Select(n => n.Name))</span>
+                <span>@Model.OriginalAudioLanguage</span>
+            </div>
+        </div>
+    </div>
+    <div class="container p-2">
+        <p>@Model.Summary</p>
+        <a href="@Model.ForMoreSummaryUrl" class="text-decoration-none" style="color: lightcyan">For more information you can visit this link:</a>
+    </div>
+    <div class="container p-2 d-flex justify-content-center">
+        <iframe width="1280" height="720" src="@Model.TrailerUrl" allowfullscreen></iframe>
+    </div>
+</div>

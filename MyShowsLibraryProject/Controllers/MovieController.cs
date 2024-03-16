@@ -14,9 +14,19 @@ namespace MyShowsLibraryProject.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var model = await movieService.GetAllReadonlyAsync();
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> MovieDetails(int movieId)
+        {
+            var model = await movieService.GetMovieDetailsByIdAsync(movieId);
 
             return View(model);
         }

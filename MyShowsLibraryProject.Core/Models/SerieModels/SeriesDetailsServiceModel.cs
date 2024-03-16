@@ -1,0 +1,17 @@
+﻿using MyShowsLibraryProject.Core.Models.GenreModels;
+
+namespace MyShowsLibraryProject.Core.Models.SerieModels
+{
+    public class SeriesDetailsServiceModel
+    {
+        public string Title { get; set; } = string.Empty;
+        public string PosterUrl { get; set; } = string.Empty;
+        public string TrailerUrl { get; set; } = string.Empty;
+        public string YearOfStart { get; set; } = string.Empty;
+        public string YearOfEnd { get; set; } = string.Empty;
+        public string Summary { get; set; } = string.Empty;
+        public string OriginalAudioLanguage { get; set; } = string.Empty;
+        public string ForMoreSummaryUrl { get; set; } = string.Empty;
+        public IEnumerable<GenreInfoSeviceModel> Genres { get; set; } = new List<GenreInfoSeviceModel>();
+    }
+}

@@ -4,6 +4,7 @@ namespace MyShowsLibraryProject.Core.Services.Contacts
 {
     public interface IMovieService
     {
-        Task<IEnumerable<MovieCardInfoServiceModel>> GetAllReadonlyAsync();
+        Task<IEnumerable<MoviesCardInfoServiceModel>> GetAllReadonlyAsync();
+        Task<MoviesDetailsServiceModel> GetMovieDetailsByIdAsync(int movieId);
     }
 }

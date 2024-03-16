@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Core.Models.SerieModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
@@ -20,6 +21,7 @@ namespace MyShowsLibraryProject.Core.Services
             .TakeAllReadOnly<Serie>()
             .Select(s => new SeriesCardInfoServiceModel()
             {
+                SerieId = s.SeriesId,
                 Title = s.Title,
                 PosterUrl = s.PosterUrl,
                 StartYear = s.YearOfStart,
@@ -32,5 +34,30 @@ namespace MyShowsLibraryProject.Core.Services
                         .ToString()
             })
             .ToListAsync();
+
+        public async Task<SeriesDetailsServiceModel> GetSerieDetailsByIdAsync(int serieId)
+            => await repository
+            .TakeAllReadOnly<Serie>()
+            .Where(s => s.SeriesId == serieId)
+            .Select(s => new SeriesDetailsServiceModel() 
+            {
+                Title = s.Title,
+                PosterUrl = s.PosterUrl,
+                TrailerUrl = s.TrailerUrl,
+                YearOfStart = s.YearOfStart,
+                YearOfEnd = s.YearOfEnd,
+                Summary = s.Summary,
+                OriginalAudioLanguage = s.OriginalAudioLanguage,
+                ForMoreSummaryUrl = s.ForMoreSummaryUrl,
+                Genres = repository
+                .TakeAllReadOnly<SerieGenre>()
+                .Select(sg => new GenreInfoSeviceModel() 
+                { 
+                    GenreId = sg.GenreId,
+                    Name = sg.Genre.Name,
+                })
+                .ToList()
+            })
+            .FirstAsync();
     }
 }

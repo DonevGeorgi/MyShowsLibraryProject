@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Core.Models.MovieModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
@@ -15,11 +16,12 @@ namespace MyShowsLibraryProject.Core.Services
             repository = _repository;
         }
 
-        public async Task<IEnumerable<MovieCardInfoServiceModel>> GetAllReadonlyAsync()
+        public async Task<IEnumerable<MoviesCardInfoServiceModel>> GetAllReadonlyAsync()
             => await repository
             .TakeAllReadOnly<Movie>()
-            .Select(m => new MovieCardInfoServiceModel()
+            .Select(m => new MoviesCardInfoServiceModel()
             {
+                MovieId = m.MovieId,
                 Title = m.Title,
                 PosterUrl = m.PosterUrl,
                 YearOfRelease = m.DateOfRelease,
@@ -32,6 +34,30 @@ namespace MyShowsLibraryProject.Core.Services
             })
             .ToListAsync();
 
-        
+        public async Task<MoviesDetailsServiceModel> GetMovieDetailsByIdAsync(int movieId)
+            => await repository
+            .TakeAllReadOnly<Movie>()
+            .Where(m => m.MovieId == movieId)
+            .Select(m => new MoviesDetailsServiceModel()
+            {
+                Title = m.Title,
+                Duration = m.Duration.ToString(),
+                PosterUrl = m.PosterUrl,
+                TrailerUrl = m.TrailerUrl,
+                DateOfRelease = m.DateOfRelease,
+                Summary = m.Summary,
+                OriginalAudioLanguage = m.OriginalAudioLanguage,
+                ForMoreSummaryUrl = m.ForMoreSummaryUrl,
+                Genres = repository
+                    .TakeAllReadOnly<MovieGenre>()
+                    .Where(mg => mg.MovieId == movieId)
+                    .Select(mg => new GenreInfoSeviceModel()
+                    {
+                        GenreId = mg.GenreId,
+                        Name = mg.Genre.Name
+                    })
+                    .ToList()
+            })
+            .FirstAsync();
     }
 }

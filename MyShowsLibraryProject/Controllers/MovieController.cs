@@ -23,7 +23,6 @@ namespace MyShowsLibraryProject.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> MovieDetails(int movieId)
         {
             var model = await movieService.GetMovieDetailsByIdAsync(movieId);

@@ -23,7 +23,6 @@ namespace MyShowsLibraryProject.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> SerieDetails(int serieId)
         {
             var model = await serieService.GetSerieDetailsByIdAsync(serieId);

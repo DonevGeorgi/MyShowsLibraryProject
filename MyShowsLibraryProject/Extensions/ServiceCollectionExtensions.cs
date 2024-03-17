@@ -13,6 +13,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<ISerieService, SerieService>();
+            services.AddScoped<IEpisodeService, EpisodeService>();
+            services.AddScoped<ISeasonService, SeasonService>();
 
             return services;
         }

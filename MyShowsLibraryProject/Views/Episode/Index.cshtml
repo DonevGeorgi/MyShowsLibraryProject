@@ -1,0 +1,31 @@
+﻿@model IEnumerable<EpisodeDetailsServiceModel>
+
+@{
+    ViewData["Title"] = "Episode Page";
+}
+
+<h1 class="text-center text-white p-4" style="font-size: 4em; text-shadow: 1px 1px 2px black;">
+   Season: @Model.Select(s => s.EpisodeNumeration).First()
+</h1>
+
+<div class="containter bg-white bg-opacity-50 p-4" style="border-radius: 0.5em;">
+    @foreach (var m in Model)
+    {
+        <div class="container d-flex bg-black bg-opacity-50 p-3" style="border-radius: 2em;">
+            <div class="container">
+                <img class="h-100 w-100 position-relative" style="border-radius: 2em;" src="@m.PosterUrl" />
+            </div>
+            <div class="container d-flex flex-column justify-content-center">
+                <a asp-action="Index" asp-controller="Episode" asp-route-seasonId="@m.EpisodeNumeration" class="text-white text-decoration-none pb-2" style="font-size: 2em;">Episode: @m.EpisodeNumeration</a>
+                <p class="text-white" style="font-size: 2em;">Release year: @m.ReleaseDate</p>
+                <p class="text-white" style="font-size: 2em;">@m.Summary</p>
+            </div>
+        </div>
+
+        <p></p>
+    }
+</div>
+
+<div class="container h-25 w-75 p-3 mt-3 text-center" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">
+    <a asp-action="Index" asp-controller="Season" asp-route-serieId="@Model.Select(s => s.SeasonId).First()" class="text-decoration-none text-black">Back to season preview.</a>
+</div>

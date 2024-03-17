@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyShowsLibraryProject.Core.Models.CrewModels;
 using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Core.Models.MovieModels;
+using MyShowsLibraryProject.Core.Models.RolesModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
+using System.Diagnostics;
 
 namespace MyShowsLibraryProject.Core.Services
 {
@@ -35,29 +38,55 @@ namespace MyShowsLibraryProject.Core.Services
             .ToListAsync();
 
         public async Task<MoviesDetailsServiceModel> GetMovieDetailsByIdAsync(int movieId)
-            => await repository
-            .TakeAllReadOnly<Movie>()
-            .Where(m => m.MovieId == movieId)
-            .Select(m => new MoviesDetailsServiceModel()
-            {
-                Title = m.Title,
-                Duration = m.Duration.ToString(),
-                PosterUrl = m.PosterUrl,
-                TrailerUrl = m.TrailerUrl,
-                DateOfRelease = m.DateOfRelease,
-                Summary = m.Summary,
-                OriginalAudioLanguage = m.OriginalAudioLanguage,
-                ForMoreSummaryUrl = m.ForMoreSummaryUrl,
-                Genres = repository
-                    .TakeAllReadOnly<MovieGenre>()
-                    .Where(mg => mg.MovieId == movieId)
-                    .Select(mg => new GenreInfoSeviceModel()
-                    {
-                        GenreId = mg.GenreId,
-                        Name = mg.Genre.Name
-                    })
-                    .ToList()
-            })
+        {
+            var stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+
+            var movies = await repository
+             .TakeAllReadOnly<Movie>()
+             .Where(m => m.MovieId == movieId)
+             .Select(m => new MoviesDetailsServiceModel()
+             {
+                 Title = m.Title,
+                 Duration = m.Duration.ToString(),
+                 PosterUrl = m.PosterUrl,
+                 TrailerUrl = m.TrailerUrl,
+                 DateOfRelease = m.DateOfRelease,
+                 Summary = m.Summary,
+                 OriginalAudioLanguage = m.OriginalAudioLanguage,
+                 ForMoreSummaryUrl = m.ForMoreSummaryUrl,
+                 Genres = repository
+                     .TakeAllReadOnly<MovieGenre>()
+                     .Where(mg => mg.MovieId == movieId)
+                     .Select(mg => new GenreInfoSeviceModel()
+                     {
+                         Name = mg.Genre.Name
+                     })
+                     .ToList(),
+                 Crews = repository
+                     .TakeAllReadOnly<MovieCrew>()
+                     .Where(mr => mr.MovieId == movieId)
+                     .Select(mr => new CrewInfoServiceModel
+                     {
+                         Name = mr.Crew.Name,
+                         PictureUrl = mr.Crew.PictureUrl,
+                         Roles = repository
+                         .TakeAllReadOnly<CrewRole>()
+                         .Where(cr => cr.CrewId == mr.CrewId)
+                         .Select(r => new RoleInfoServiceModel
+                         {
+                             Name = r.Role.Name
+                         })
+                         .ToList()
+                     })
+                     .ToList()
+             })
             .FirstAsync();
+
+            stopwatch.Stop();
+
+            return movies;
+        }
     }
 }

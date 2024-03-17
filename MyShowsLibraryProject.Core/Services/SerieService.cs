@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyShowsLibraryProject.Core.Models.CrewModels;
 using MyShowsLibraryProject.Core.Models.GenreModels;
+using MyShowsLibraryProject.Core.Models.RolesModels;
 using MyShowsLibraryProject.Core.Models.SerieModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
@@ -53,8 +55,23 @@ namespace MyShowsLibraryProject.Core.Services
                 .TakeAllReadOnly<SerieGenre>()
                 .Select(sg => new GenreInfoSeviceModel() 
                 { 
-                    GenreId = sg.GenreId,
                     Name = sg.Genre.Name,
+                })
+                .ToList(),
+                Crews = repository
+                .TakeAllReadOnly<SerieCrew>()
+                .Select(sc => new CrewInfoServiceModel() 
+                {
+                    Name = sc.Crew.Name,
+                    PictureUrl = sc.Crew.PictureUrl,
+                    Roles = repository
+                    .TakeAllReadOnly<CrewRole>()
+                    .Where(cr => cr.CrewId == sc.CrewId)
+                    .Select(cr =>  new RoleInfoServiceModel()
+                    {
+                        Name = cr.Role.Name
+                    })
+                    .ToList()
                 })
                 .ToList()
             })

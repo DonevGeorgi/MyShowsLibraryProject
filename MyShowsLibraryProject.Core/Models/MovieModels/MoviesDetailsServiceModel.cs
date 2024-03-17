@@ -1,4 +1,5 @@
-﻿using MyShowsLibraryProject.Core.Models.GenreModels;
+﻿using MyShowsLibraryProject.Core.Models.CrewModels;
+using MyShowsLibraryProject.Core.Models.GenreModels;
 
 namespace MyShowsLibraryProject.Core.Models.MovieModels
 {
@@ -13,5 +14,6 @@ namespace MyShowsLibraryProject.Core.Models.MovieModels
         public string OriginalAudioLanguage { get; set; } = string.Empty;
         public string ForMoreSummaryUrl { get; set; } = string.Empty;
         public IEnumerable<GenreInfoSeviceModel> Genres { get; set; } = new List<GenreInfoSeviceModel>();
+        public IEnumerable<CrewInfoServiceModel> Crews { get; set; } = new List<CrewInfoServiceModel>();
     }
 }

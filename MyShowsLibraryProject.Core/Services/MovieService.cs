@@ -6,7 +6,6 @@ using MyShowsLibraryProject.Core.Models.RolesModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
-using System.Diagnostics;
 
 namespace MyShowsLibraryProject.Core.Services
 {
@@ -39,11 +38,7 @@ namespace MyShowsLibraryProject.Core.Services
 
         public async Task<MoviesDetailsServiceModel> GetMovieDetailsByIdAsync(int movieId)
         {
-            var stopwatch = new Stopwatch();
-
-            stopwatch.Start();
-
-            var movies = await repository
+            var movie = await repository
              .TakeAllReadOnly<Movie>()
              .Where(m => m.MovieId == movieId)
              .Select(m => new MoviesDetailsServiceModel()
@@ -84,9 +79,7 @@ namespace MyShowsLibraryProject.Core.Services
              })
             .FirstAsync();
 
-            stopwatch.Stop();
-
-            return movies;
+            return movie;
         }
     }
 }

@@ -38,11 +38,13 @@ namespace MyShowsLibraryProject.Core.Services
             .ToListAsync();
 
         public async Task<SeriesDetailsServiceModel> GetSerieDetailsByIdAsync(int serieId)
-            => await repository
+        {
+            var serie = await repository
             .TakeAllReadOnly<Serie>()
             .Where(s => s.SeriesId == serieId)
-            .Select(s => new SeriesDetailsServiceModel() 
+            .Select(s => new SeriesDetailsServiceModel()
             {
+                SerieId = s.SeriesId,
                 Title = s.Title,
                 PosterUrl = s.PosterUrl,
                 TrailerUrl = s.TrailerUrl,
@@ -53,21 +55,21 @@ namespace MyShowsLibraryProject.Core.Services
                 ForMoreSummaryUrl = s.ForMoreSummaryUrl,
                 Genres = repository
                 .TakeAllReadOnly<SerieGenre>()
-                .Select(sg => new GenreInfoSeviceModel() 
-                { 
+                .Select(sg => new GenreInfoSeviceModel()
+                {
                     Name = sg.Genre.Name,
                 })
                 .ToList(),
                 Crews = repository
                 .TakeAllReadOnly<SerieCrew>()
-                .Select(sc => new CrewInfoServiceModel() 
+                .Select(sc => new CrewInfoServiceModel()
                 {
                     Name = sc.Crew.Name,
                     PictureUrl = sc.Crew.PictureUrl,
                     Roles = repository
                     .TakeAllReadOnly<CrewRole>()
                     .Where(cr => cr.CrewId == sc.CrewId)
-                    .Select(cr =>  new RoleInfoServiceModel()
+                    .Select(cr => new RoleInfoServiceModel()
                     {
                         Name = cr.Role.Name
                     })
@@ -76,5 +78,8 @@ namespace MyShowsLibraryProject.Core.Services
                 .ToList()
             })
             .FirstAsync();
+
+            return serie;
+        }
     }
 }

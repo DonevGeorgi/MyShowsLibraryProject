@@ -6,6 +6,7 @@ namespace MyShowsLibraryProject.Core.Models.SerieModels
 {
     public class SeriesDetailsServiceModel
     {
+        public int SerieId { get; set; }
         public string Title { get; set; } = string.Empty;
         public string PosterUrl { get; set; } = string.Empty;
         public string TrailerUrl { get; set; } = string.Empty;

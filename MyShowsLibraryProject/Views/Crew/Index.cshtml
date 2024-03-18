@@ -1,0 +1,60 @@
+﻿@model CrewDetailsServiceModel
+
+@{
+    ViewData["Title"] = "Crew Detail";
+}
+
+<div class="containter bg-white bg-opacity-50 p-4" style="border-radius: 0.5em;">
+    <div class="container d-flex flex-row gap-2">
+        <div class=" p-3">
+            @if (@Model.Pseudonyms == "")
+            {
+                <p class="fw-bolder text-center">@Model.Name</p>
+            }
+            else
+            {
+                <p class="fw-bolder text-center">@Model.Name - @Model.Pseudonyms</p>
+            }
+            <img style="height: 360px;" src="@Model.PictureUrl">
+            <div class="container d-flex flex-column p-4">
+                <p>@string.Join(", ", Model.Roles.Select(r => r.Name))</p>
+                <p>Nationality: @Model.Nationality</p>
+                <p>Birthdate: @Model.Birthdate</p>
+            </div>
+        </div>
+        <div class="container p-3">
+            <p class="pt-5">@Model.Biography</p>
+            <a href="@Model.MoreInfo" class="text-decoration-none text-black fw-bold">For more information you can visit this link:</a>
+        </div>
+    </div>
+    <hr />
+    <h2>Related shows:</h2>
+    <div class="container p-2 d-flex gap-1 flex-wrap">
+        @foreach (var series in Model.Series)
+        {
+            <div class="d-flex flex-column gap-1 p-3" style="max-height: 75%; max-width: 33%;">
+                <div>
+                    <img class="h-auto w-100 d-block" style="border-radius: 0.5em" src="@series.PosterUrl" />
+                </div>
+                <div class="d-flex flex-column p-2 align-items-center">
+                    <a asp-action="SerieDetails" asp-controller="Serie" asp-route-serieId="@series.SerieId" class="text-black text-decoration-none fw-bold">@series.Title</a>
+                    <p class="mb-0">@series.StartYear - @series.EndYear</p>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="container p-2 d-flex gap-1 flex-wrap">
+        @foreach (var movies in Model.Movies)
+        {
+            <div class="d-flex flex-column gap-1 p-3" style="max-height: 75%; max-width: 33%;">
+                <div>
+                    <img class="h-auto w-100 d-block" style="border-radius: 0.5em" src="@movies.PosterUrl" />
+                </div>
+                <div class="d-flex flex-column p-2 align-items-center">
+                    <a asp-action="MovieDetails" asp-controller="Movie" asp-route-movieId="@movies.MovieId" class="text-black text-decoration-none fw-bold">@movies.Title</a>
+                    <p class="mb-0">@movies.YearOfRelease</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

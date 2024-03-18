@@ -15,6 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<ISerieService, SerieService>();
             services.AddScoped<IEpisodeService, EpisodeService>();
             services.AddScoped<ISeasonService, SeasonService>();
+            services.AddScoped<ICrewService, CrewService>();
 
             return services;
         }

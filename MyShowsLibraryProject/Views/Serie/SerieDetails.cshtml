@@ -38,7 +38,7 @@
                     <img class="h-auto w-100 d-block" style="border-radius: 0.5em" src="@crew.PictureUrl" />
                 </div>
                 <div class="d-flex flex-column p-2 align-items-center">
-                    <a asp-action="" asp-controller="" class="text-black text-decoration-none fw-bold">@crew.Name</a>
+                    <a asp-controller="Crew" asp-action="Index" asp-route-crewId="@crew.CrewId" class="text-black text-decoration-none fw-bold">@crew.Name</a>
                     <p class="mb-0">@string.Join(", ", crew.Roles.Select(r => r.Name))</p>
                 </div>
             </div>

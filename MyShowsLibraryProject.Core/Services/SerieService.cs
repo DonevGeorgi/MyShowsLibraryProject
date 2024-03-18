@@ -64,6 +64,7 @@ namespace MyShowsLibraryProject.Core.Services
                 .TakeAllReadOnly<SerieCrew>()
                 .Select(sc => new CrewInfoServiceModel()
                 {
+                    CrewId = sc.CrewId,
                     Name = sc.Crew.Name,
                     PictureUrl = sc.Crew.PictureUrl,
                     Roles = repository

@@ -64,6 +64,7 @@ namespace MyShowsLibraryProject.Core.Services
                      .Where(mr => mr.MovieId == movieId)
                      .Select(mr => new CrewInfoServiceModel
                      {
+                         CrewId = mr.CrewId,
                          Name = mr.Crew.Name,
                          PictureUrl = mr.Crew.PictureUrl,
                          Roles = repository

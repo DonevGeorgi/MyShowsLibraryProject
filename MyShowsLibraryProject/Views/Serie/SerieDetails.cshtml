@@ -44,4 +44,24 @@
             </div>
         }
     </div>
+    <div class="container h-25 w-75 p-2 text-center" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">
+        <a asp-action="AddingReview" asp-controller="Review" asp-route-showId="@Model.SerieId" asp-route-showType="@("serie")" asp class="text-decoration-none text-black">Add new review</a>
+    </div>
+    <div class="bg-white bg-opacity-50 p-4" style="border-radius: 0.5em;">
+        <p class="text-center fw-bold" style="font-size: 2em">Reviews:</p>
+        @foreach (var review in Model.Reviews)
+        {
+            <div class="d-flex flex-column">
+                <div class="d-flex justify-content-between">
+                    <span class="m-2 p-2 fw-bold">@review.UserUsername</span>
+                    <span class="m-2 p-2" style="background-color: gold; border-radius: 3em;">Rating: @review.Rating</span>
+                </div>
+                <div class="d-flex" style="background-color: lightgrey; border-radius: 0.5em;">
+                    <p class="p-2">@review.Content</p>
+                </div>
+            </div>
+            <hr style="border: 3px solid black; border-radius: 0.5em;" />
+
+        }
+    </div>
 </div>

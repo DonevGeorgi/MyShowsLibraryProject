@@ -6,5 +6,6 @@ namespace MyShowsLibraryProject.Core.Services.Contacts
     {
         Task<IEnumerable<SeriesCardInfoServiceModel>> GetAllReadonlyAsync();
         Task<SeriesDetailsServiceModel> GetSerieDetailsByIdAsync(int serieId);
+        Task<bool> IsSeriePresent(int serieId);
     }
 }

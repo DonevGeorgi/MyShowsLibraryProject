@@ -1,10 +1,12 @@
 ﻿using MyShowsLibraryProject.Core.Models.CrewModels;
 using MyShowsLibraryProject.Core.Models.GenreModels;
+using MyShowsLibraryProject.Core.Models.ReviewModels;
 
 namespace MyShowsLibraryProject.Core.Models.MovieModels
 {
     public class MoviesDetailsServiceModel
     {
+        public int MovieId { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Duration { get; set; } = string.Empty;
         public string PosterUrl { get; set; } = string.Empty;
@@ -15,5 +17,6 @@ namespace MyShowsLibraryProject.Core.Models.MovieModels
         public string ForMoreSummaryUrl { get; set; } = string.Empty;
         public IEnumerable<GenreInfoSeviceModel> Genres { get; set; } = new List<GenreInfoSeviceModel>();
         public IEnumerable<CrewInfoServiceModel> Crews { get; set; } = new List<CrewInfoServiceModel>();
+        public IEnumerable<ReviewInfoServiceModel> Reviews { get; set; } = new List<ReviewInfoServiceModel>();  
     }
 }

@@ -2,6 +2,7 @@
 using MyShowsLibraryProject.Core.Models.CrewModels;
 using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Core.Models.MovieModels;
+using MyShowsLibraryProject.Core.Models.ReviewModels;
 using MyShowsLibraryProject.Core.Models.RolesModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
@@ -35,7 +36,6 @@ namespace MyShowsLibraryProject.Core.Services
                         .ToString()
             })
             .ToListAsync();
-
         public async Task<MoviesDetailsServiceModel> GetMovieDetailsByIdAsync(int movieId)
         {
             var movie = await repository
@@ -43,6 +43,7 @@ namespace MyShowsLibraryProject.Core.Services
              .Where(m => m.MovieId == movieId)
              .Select(m => new MoviesDetailsServiceModel()
              {
+                 MovieId = m.MovieId,
                  Title = m.Title,
                  Duration = m.Duration.ToString(),
                  PosterUrl = m.PosterUrl,
@@ -76,11 +77,36 @@ namespace MyShowsLibraryProject.Core.Services
                          })
                          .ToList()
                      })
-                     .ToList()
+                     .ToList(),
+                 Reviews = repository
+                    .TakeAllReadOnly<MovieReview>()
+                    .Where(r => r.MovieId == movieId)
+                    .Select(r => new ReviewInfoServiceModel
+                    {
+                        Rating = r.Review.Rating.ToString(),
+                        Content = r.Review.Content,
+                        UserUsername = repository
+                        .TakeAllReadOnly<UserReview>()
+                        .Where(ur => ur.ReviewId == r.ReviewId)
+                        .Select(ur => ur.User.UserName)
+                        .First()
+                    })
+                    .ToList()
              })
             .FirstAsync();
 
             return movie;
+        }
+        public async Task<bool> IsMoviePresent(int movieId)
+        {
+            var result = await repository.GetByIdAsync<Movie>(movieId);
+
+            if (result == null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

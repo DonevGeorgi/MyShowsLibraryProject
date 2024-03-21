@@ -1,5 +1,6 @@
 ﻿using MyShowsLibraryProject.Core.Models.CrewModels;
 using MyShowsLibraryProject.Core.Models.GenreModels;
+using MyShowsLibraryProject.Core.Models.ReviewModels;
 using MyShowsLibraryProject.Core.Models.RolesModels;
 
 namespace MyShowsLibraryProject.Core.Models.SerieModels
@@ -17,5 +18,6 @@ namespace MyShowsLibraryProject.Core.Models.SerieModels
         public string ForMoreSummaryUrl { get; set; } = string.Empty;
         public IEnumerable<GenreInfoSeviceModel> Genres { get; set; } = new List<GenreInfoSeviceModel>();
         public IEnumerable<CrewInfoServiceModel> Crews { get; set; } = new List<CrewInfoServiceModel>();
+        public IEnumerable<ReviewInfoServiceModel> Reviews { get; set; } = new List<ReviewInfoServiceModel>();   
     }
 }

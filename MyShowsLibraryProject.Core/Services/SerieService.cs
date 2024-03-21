@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyShowsLibraryProject.Core.Models.CrewModels;
 using MyShowsLibraryProject.Core.Models.GenreModels;
+using MyShowsLibraryProject.Core.Models.ReviewModels;
 using MyShowsLibraryProject.Core.Models.RolesModels;
 using MyShowsLibraryProject.Core.Models.SerieModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
@@ -76,11 +77,37 @@ namespace MyShowsLibraryProject.Core.Services
                     })
                     .ToList()
                 })
+                .ToList(),
+                Reviews = repository
+                .TakeAllReadOnly<SerieReview>()
+                .Where(sr => sr.SerieId == serieId)
+                .Select(r => new ReviewInfoServiceModel
+                {
+                    Rating = r.Review.Rating.ToString(),
+                    Content = r.Review.Content,
+                    UserUsername = repository
+                        .TakeAllReadOnly<UserReview>()
+                        .Where(ur => ur.ReviewId == r.ReviewId)
+                        .Select(ur => ur.User.UserName)
+                        .First()
+                })
                 .ToList()
             })
             .FirstAsync();
 
             return serie;
+        }
+
+        public async Task<bool> IsSeriePresent(int serieId)
+        {
+            var result = await repository.GetByIdAsync<Serie>(serieId);
+
+            if (result == null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

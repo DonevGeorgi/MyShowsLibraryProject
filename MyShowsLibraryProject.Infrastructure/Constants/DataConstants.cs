@@ -24,6 +24,8 @@
         public const int EpisodeReleaseDateMaxLength = 11;
         //Review constants 
         public const int ReviewContentMaxLength = 8000;
+        public const int RatingMaxLength = 5;
+        public const int RatingMinLength = 1;
         //Genre constants
         public const int GenreNameMaxLength = 30;
         //Role constants

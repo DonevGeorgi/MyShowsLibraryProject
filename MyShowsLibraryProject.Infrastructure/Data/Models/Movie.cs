@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyShowsLibraryProject.Infrastructure.Constants;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {

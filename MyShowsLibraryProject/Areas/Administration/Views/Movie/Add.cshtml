@@ -1,0 +1,59 @@
+﻿@model MovieFormModel
+
+@{
+    ViewData["Title"] = "Movie form";
+}
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form asp-action="Add" method="post">
+            <div class="mb-3">
+                <label class="text-white" asp-for="@Model.Title" class="form-label-add-edit">Movie Title</label>
+                <input asp-for="@Model.Title" class="form-control" aria-required="true" />
+                <span asp-validation-for="@Model.Title" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="text-white" asp-for="@Model.Duration" class="form-label-add-edit">Duration</label>
+                <input asp-for="@Model.Duration" class="form-control" aria-required="true" />
+                <span asp-validation-for="@Model.Duration" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="text-white" asp-for="@Model.PosterUrl" class="form-label-add-edit">Movie Poster URL</label>
+                <input asp-for="@Model.PosterUrl" class="form-control" aria-required="true">
+                <span asp-validation-for="@Model.PosterUrl" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="text-white" asp-for="@Model.TrailerUrl" class="form-label-add-edit">Movie Trailer URL</label>
+                <input asp-for="@Model.TrailerUrl" class="form-control" aria-required="true" />
+                <span asp-validation-for="@Model.TrailerUrl" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="text-white" asp-for="@Model.DateOfRelease" class="form-label-add-edit">Date of release</label>
+                <input asp-for="@Model.DateOfRelease" class="form-control" aria-required="true" placeholder="dd MMM(Jun) YYYY" />
+                <span asp-validation-for="@Model.DateOfRelease" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="text-white" asp-for="@Model.OriginalAudioLanguage" class="form-label-add-edit">Movie Original Audio</label>
+                <input asp-for="@Model.OriginalAudioLanguage" class="form-control"/>
+                <span asp-validation-for="@Model.OriginalAudioLanguage" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="text-white" asp-for="@Model.Summary" class="form-label-add-edit">Summary</label>
+                <textarea asp-for="@Model.Summary" class="form-control" aria-required="true" rows="5"></textarea>
+                <span asp-validation-for="@Model.Summary" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="text-white" asp-for="@Model.ForMoreSummaryUrl" class="form-label-add-edit">Link for more summary</label>
+                <input asp-for="@Model.ForMoreSummaryUrl" class="form-control"/>
+                <span asp-validation-for="@Model.ForMoreSummaryUrl" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Announce" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

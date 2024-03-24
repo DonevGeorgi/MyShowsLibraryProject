@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyShowsLibraryProject.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using MyShowsLibraryProject.Infrastructure.Data;
 namespace MyShowsLibraryProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240324120134_Admin-And-User-Added")]
+    partial class AdminAndUserAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,7 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                         new
                         {
                             Id = "2c2c1h4e-3t6e-556f-86af-487y56fd2410",
-                            ConcurrencyStamp = "bfdc76e0-35a0-40f4-a829-0a20ec3ff67e",
+                            ConcurrencyStamp = "84ac1574-f546-47f1-956b-e83c47494a97",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -167,15 +169,15 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                         {
                             Id = "8e656345-a56d-4543-a7c6-4556d32d4db2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f302b46b-1bad-44c3-adca-412127fce1c8",
+                            ConcurrencyStamp = "43d9c8da-4d5f-4590-a168-fb3521e8ed7c",
                             Email = "admin1@abv.bg",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN1@ABV.BG",
                             NormalizedUserName = "ADMIN1@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOuWAOyFB8KWNmOS/jTktgqXzPjyYs5L3rHvPqe5ZN82Tzfk/RxlA67x3s5AZeJ1Ug==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBWBYS3nUYd3hAJo2inq9uvLbuEPG8srHoMuzIuP47lxb3wyY5T+7WGwt5eqFp5GaQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "487376fb-8f09-4f63-9d7f-b8808596327e",
+                            SecurityStamp = "3b75a223-d4ce-4521-af35-7af08fad4151",
                             TwoFactorEnabled = false,
                             UserName = "admin1@abv.bg"
                         });

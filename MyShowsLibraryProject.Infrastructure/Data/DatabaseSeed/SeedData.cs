@@ -1,4 +1,6 @@
-﻿using MyShowsLibraryProject.Infrastructure.Data.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using MyShowsLibraryProject.Infrastructure.Data.Models;
+using MyShowsLibraryProject.Infrastructure.Migrations;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
 {
@@ -70,6 +72,9 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
         public CrewRole CRThirteenthConnection { get; set; }
         public CrewRole CRFourteenthConnection { get; set; }
         public CrewRole CRFifteenthConnection { get; set; }
+        public IdentityUser AdminUser { get; set; }
+        public IdentityRole AspRole { get; set; }
+        public IdentityUserRole<string> AdminUserRole { get; set; }
 
         public SeedData()
         {
@@ -85,6 +90,9 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
             SeedMovieGenres();
             SeedSerieGenres();
             SeedCrewRole();
+            SeedAdminUser();
+            SeedAspRole();
+            SeedAdminUserRole();
         }
 
         private void SeedGenre()
@@ -591,7 +599,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
             CRFirstConnection = new CrewRole()
             {
                 CrewId = 1,
-                RoleId = WriterRole.RoleId 
+                RoleId = WriterRole.RoleId
             };
 
             CRSecondConnection = new CrewRole()
@@ -600,50 +608,50 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
                 RoleId = ProducerRole.RoleId
             };
 
-            CRThirdConnection = new CrewRole() 
+            CRThirdConnection = new CrewRole()
             {
                 CrewId = 1,
                 RoleId = DirectorRole.RoleId
             };
 
-            CRFourthConnection = new CrewRole() 
+            CRFourthConnection = new CrewRole()
             {
                 CrewId = 2,
                 RoleId = ProducerRole.RoleId
             };
 
-            CRFifthConnection = new CrewRole() 
+            CRFifthConnection = new CrewRole()
             {
                 CrewId = 2,
                 RoleId = WriterRole.RoleId
             };
 
-            CRSixthConnection = new CrewRole() 
+            CRSixthConnection = new CrewRole()
             {
                 CrewId = 3,
                 RoleId = ActorRole.RoleId
-                
+
             };
 
-            CRSeventhConnection = new CrewRole() 
+            CRSeventhConnection = new CrewRole()
             {
                 CrewId = 3,
                 RoleId = ProducerRole.RoleId
             };
 
-            CREighthConnection = new CrewRole() 
+            CREighthConnection = new CrewRole()
             {
                 CrewId = 4,
                 RoleId = ProducerRole.RoleId
             };
 
-            CRNinthConnection = new CrewRole() 
+            CRNinthConnection = new CrewRole()
             {
                 CrewId = 4,
                 RoleId = ActorRole.RoleId
             };
 
-            CRTenthConnection = new CrewRole() 
+            CRTenthConnection = new CrewRole()
             {
                 CrewId = 4,
                 RoleId = WriterRole.RoleId
@@ -655,29 +663,64 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
                 RoleId = WriterRole.RoleId
             };
 
-            CRTwelfthConnection = new CrewRole() 
+            CRTwelfthConnection = new CrewRole()
             {
                 CrewId = 5,
                 RoleId = ProducerRole.RoleId
             };
 
-            CRThirteenthConnection = new CrewRole() 
+            CRThirteenthConnection = new CrewRole()
             {
                 CrewId = 6,
-               RoleId = DirectorRole.RoleId
+                RoleId = DirectorRole.RoleId
             };
 
-            CRFourteenthConnection = new CrewRole() 
+            CRFourteenthConnection = new CrewRole()
             {
                 CrewId = 6,
                 RoleId = ProducerRole.RoleId
             };
 
-            CRFifteenthConnection = new CrewRole() 
+            CRFifteenthConnection = new CrewRole()
             {
                 CrewId = 6,
                 RoleId = WriterRole.RoleId
             };
         }
+        private void SeedAdminUser()
+        {
+            var hasher = new PasswordHasher<IdentityUser>();
+
+            var AdminUser = new IdentityUser()
+            {
+                Id = "8e656345-a56d-4543-a7c6-4556d32d4db2",
+                UserName = "admin1@abv.bg",
+                NormalizedUserName = "ADMIN1@ABV.BG",
+                Email = "admin1@abv.bg",
+                NormalizedEmail = "ADMIN1@ABV.BG",
+                EmailConfirmed = true,
+                PasswordHash = hasher.HashPassword(null, "Admin_1")
+
+            };
+        }
+        private void SeedAspRole()
+        {
+            var AspRole = new IdentityRole()
+            {
+                Id = "2c2c1h4e-3t6e-556f-86af-487y56fd2410",
+                Name = "Administrator",
+                NormalizedName = "ADMINISTRATOR".ToUpper()
+            };
+        }
+        private void SeedAdminUserRole()
+        {
+            var AdminUserRole = new IdentityUserRole<string>()
+            {
+                RoleId = "2c2c1h4e-3t6e-556f-86af-487y56fd2410",
+                UserId = "8e656345-a56d-4543-a7c6-4556d32d4db2"
+            };
+        }
     }
+
+
 }

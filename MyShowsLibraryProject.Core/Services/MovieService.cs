@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MyShowsLibraryProject.Core.Models.CrewModels;
 using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Core.Models.MovieModels;
@@ -19,8 +20,23 @@ namespace MyShowsLibraryProject.Core.Services
             repository = _repository;
         }
 
-        public async Task<IEnumerable<MoviesCardInfoServiceModel>> GetAllReadonlyAsync()
-            => await repository
+        public async Task<IEnumerable<MoviesInfoServiceModel>> GetAllReadonlyAsync()
+        {
+            var movies = await repository
+                .TakeAllReadOnly<Movie>()
+                .Select(m => new MoviesInfoServiceModel()
+                {
+                    MovieId = m.MovieId,
+                    Title = m.Title,
+                    YearOfRelease = m.DateOfRelease
+                })
+                .ToListAsync();
+
+            return movies;
+        }
+        public async Task<IEnumerable<MoviesCardInfoServiceModel>> GetAllCardInfoAsync()
+        {
+            var movies = await repository
             .TakeAllReadOnly<Movie>()
             .Select(m => new MoviesCardInfoServiceModel()
             {
@@ -36,6 +52,9 @@ namespace MyShowsLibraryProject.Core.Services
                         .ToString()
             })
             .ToListAsync();
+
+            return movies;
+        }
         public async Task<MoviesDetailsServiceModel> GetMovieDetailsByIdAsync(int movieId)
         {
             var movie = await repository
@@ -107,6 +126,25 @@ namespace MyShowsLibraryProject.Core.Services
             }
 
             return true;
+        }
+        public async Task<int> CreateAsync(MovieFormModel movie)
+        {
+            var newMovie = new Movie()
+            {
+                Title = movie.Title,
+                Duration = movie.Duration,
+                PosterUrl = movie.PosterUrl,
+                TrailerUrl = movie.TrailerUrl,
+                DateOfRelease = movie.DateOfRelease,
+                OriginalAudioLanguage = movie.OriginalAudioLanguage,
+                Summary = movie.Summary,
+                ForMoreSummaryUrl = movie.ForMoreSummaryUrl
+            };
+
+            await repository.AddAsync(newMovie);
+            //await repository.SaveChangesAsync();
+
+            return newMovie.MovieId;
         }
     }
 }

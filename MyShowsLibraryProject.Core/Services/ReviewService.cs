@@ -29,7 +29,7 @@ namespace MyShowsLibraryProject.Core.Services
             };
 
             await repository.AddAsync(newReview);
-            await repository.SaveChangesAsyn();
+            await repository.SaveChangesAsync();
 
             //maybe check if same review from same user exist becouse of spam
 
@@ -71,7 +71,7 @@ namespace MyShowsLibraryProject.Core.Services
             };
 
             await repository.AddAsync(newUserReview);
-            await repository.SaveChangesAsyn();
+            await repository.SaveChangesAsync();
 
             if (showType == "movie")
             {

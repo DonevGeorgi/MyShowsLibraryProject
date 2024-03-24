@@ -5,8 +5,10 @@ namespace MyShowsLibraryProject.Core.Services.Contacts
 {
     public interface IMovieService
     {
-        Task<IEnumerable<MoviesCardInfoServiceModel>> GetAllReadonlyAsync();
+        Task<IEnumerable<MoviesInfoServiceModel>> GetAllReadonlyAsync();
+        Task<IEnumerable<MoviesCardInfoServiceModel>> GetAllCardInfoAsync();
         Task<MoviesDetailsServiceModel> GetMovieDetailsByIdAsync(int movieId);
+        Task<int> CreateAsync(MovieFormModel movie);
         Task<bool> IsMoviePresent(int movieId);
     }
 }

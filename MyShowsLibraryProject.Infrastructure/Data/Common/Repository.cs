@@ -30,7 +30,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Common
         public async Task<bool> CheckIfExistAsync<T>(object id) where T : class
             => await DbSet<T>().ContainsAsync(id);
 
-        public async Task SaveChangesAsyn()
+        public async Task SaveChangesAsync()
             => await dbContext.SaveChangesAsync();
 
     }

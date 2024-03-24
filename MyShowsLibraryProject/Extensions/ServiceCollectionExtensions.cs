@@ -40,6 +40,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 options.SignIn.RequireConfirmedAccount = true;
             })
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
             //services.AddAuthentication()

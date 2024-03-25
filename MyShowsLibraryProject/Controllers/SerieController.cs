@@ -17,7 +17,7 @@ namespace MyShowsLibraryProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var model = await serieService.GetAllReadonlyAsync();
+            var model = await serieService.GetAllCardInfoAsync();
 
             return View(model);
         }

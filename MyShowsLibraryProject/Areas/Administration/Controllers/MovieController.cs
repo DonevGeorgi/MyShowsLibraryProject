@@ -24,10 +24,7 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var entity = new MovieFormModel()
-            {
-
-            };
+            var entity = new MovieFormModel();
 
             return View(entity);
         }

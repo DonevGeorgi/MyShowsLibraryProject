@@ -19,7 +19,22 @@ namespace MyShowsLibraryProject.Core.Services
             repository = _repository;
         }
 
-        public async Task<IEnumerable<SeriesCardInfoServiceModel>> GetAllReadonlyAsync()
+        public async Task<IEnumerable<SerieInfoServiceModel>> GetAllReadonlyAsync()
+        {
+            var model = await repository
+                 .TakeAll<Serie>()
+                 .Select(s => new SerieInfoServiceModel
+                 {
+                     SeriesId = s.SeriesId,
+                     Title = s.Title,
+                     YearOfStart = s.YearOfStart,
+                     YearOfEnd = s.YearOfEnd
+                 })
+                 .ToListAsync();
+
+            return model;
+        }
+        public async Task<IEnumerable<SeriesCardInfoServiceModel>> GetAllCardInfoAsync()
             => await repository
             .TakeAllReadOnly<Serie>()
             .Select(s => new SeriesCardInfoServiceModel()
@@ -37,7 +52,25 @@ namespace MyShowsLibraryProject.Core.Services
                         .ToString()
             })
             .ToListAsync();
+        public async Task<int> CreateAsync(SerieFormModel serie)
+        {
+            var newSeire = new Serie()
+            {
+                Title = serie.Title,
+                PosterUrl = serie.PosterUrl,
+                TrailerUrl = serie.TrailerUrl,
+                YearOfStart = serie.YearOfStart,
+                YearOfEnd = serie.YearOfEnd,
+                OriginalAudioLanguage = serie.OriginalAudioLanguage,
+                Summary = serie.Summary,
+                ForMoreSummaryUrl = serie.ForMoreSummaryUrl
+            };
 
+            await repository.AddAsync(newSeire);
+            //await repository.SaveChangesAsync();
+
+            return newSeire.SeriesId;
+        }
         public async Task<SeriesDetailsServiceModel> GetSerieDetailsByIdAsync(int serieId)
         {
             var serie = await repository
@@ -97,7 +130,6 @@ namespace MyShowsLibraryProject.Core.Services
 
             return serie;
         }
-
         public async Task<bool> IsSeriePresent(int serieId)
         {
             var result = await repository.GetByIdAsync<Serie>(serieId);

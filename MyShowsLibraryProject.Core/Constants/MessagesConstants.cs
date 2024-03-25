@@ -10,5 +10,6 @@
 
         //RegularExpresions
         public const string ReleaseDataFormat = "dd-Month-YYYY";
+        public const string ReleaseAndEndDateFormat = "YYYY";
     }
 }

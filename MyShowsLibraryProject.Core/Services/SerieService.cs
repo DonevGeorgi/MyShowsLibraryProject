@@ -21,8 +21,8 @@ namespace MyShowsLibraryProject.Core.Services
 
         public async Task<IEnumerable<SerieInfoServiceModel>> GetAllReadonlyAsync()
         {
-            var model = await repository
-                 .TakeAll<Serie>()
+            var series = await repository
+                 .TakeAllReadOnly<Serie>()
                  .Select(s => new SerieInfoServiceModel
                  {
                      SeriesId = s.SeriesId,
@@ -32,10 +32,11 @@ namespace MyShowsLibraryProject.Core.Services
                  })
                  .ToListAsync();
 
-            return model;
+            return series;
         }
         public async Task<IEnumerable<SeriesCardInfoServiceModel>> GetAllCardInfoAsync()
-            => await repository
+        {
+            var series = await repository
             .TakeAllReadOnly<Serie>()
             .Select(s => new SeriesCardInfoServiceModel()
             {
@@ -52,6 +53,9 @@ namespace MyShowsLibraryProject.Core.Services
                         .ToString()
             })
             .ToListAsync();
+
+            return series;
+        }
         public async Task<int> CreateAsync(SerieFormModel serie)
         {
             var newSeire = new Serie()

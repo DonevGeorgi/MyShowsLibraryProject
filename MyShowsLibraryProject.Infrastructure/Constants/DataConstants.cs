@@ -10,9 +10,10 @@
         public const int YearMaxLength = 4;
         public const int SummaryMinLength = 30;
         public const int SummaryMaxLength = 255;
+        public const int LenguageMinLength = 2;
+        public const int LenguageMaxLength = 30;
         //Movie
         public const int MovieReleaseDateMaxLength = 11;
-        public const int MovieLenguageMaxLength = 30;
         //Serie constants
         public const int SerieLenguageMaxLength = 30;
         //Season constants
@@ -34,6 +35,7 @@
         //Role constants
         public const int RoleNameMaxLength = 30;
         //ReqularExpresions
-        public const string ReleaseDataRegex = "(?:(?:0[1-9]|[12]\\d|30)\\s(?:Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov)|(?:0[1-9]|[12]\\d|3[01])\\s(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Dec))\\s(?:[1-9]\\d{3}|(?:19|20)\\d{2})";
+        public const string ReleaseDataRegex = @"(?:(?:0[1-9]|[12]\d|30)\s(?:Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov)|(?:0[1-9]|[12]\d|3[01])\s(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Dec))\s(?:[1-9]\d{3}|(?:19|20)\d{2})";
+        public const string ReleaseAndEndYearRegex = @"^(19|20)\d{2}$";
     }
 }

@@ -31,7 +31,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         [MaxLength(DataConstants.SummaryMaxLength)]
         [Comment("Movie summary")]
         public string Summary { get; set; } = string.Empty;
-        [MaxLength(DataConstants.MovieLenguageMaxLength)]
+        [MaxLength(DataConstants.LenguageMaxLength)]
         [Comment("Movie original lenguage")]
         public string OriginalAudioLanguage { get; set; } = string.Empty;
         [MaxLength(DataConstants.UrlsMaxLength)]

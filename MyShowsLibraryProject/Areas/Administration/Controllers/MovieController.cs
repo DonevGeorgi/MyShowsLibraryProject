@@ -22,7 +22,7 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Add()
+        public IActionResult Add()
         {
             var entity = new MovieFormModel();
 
@@ -35,10 +35,7 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var entity = new MovieFormModel()
-                {
-
-                };
+                var entity = new MovieFormModel();
 
                 return View(entity);
             }

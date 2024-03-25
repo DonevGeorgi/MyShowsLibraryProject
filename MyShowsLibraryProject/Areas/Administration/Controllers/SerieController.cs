@@ -18,17 +18,17 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var models = await serieServices.GetAllReadonlyAsync();
+            var series = await serieServices.GetAllReadonlyAsync();
 
-            return View(models);
+            return View(series);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Add()
+        public IActionResult Add()
         {
-            var model = new SerieFormModel();
+            var entity = new SerieFormModel();
 
-            return View(model);
+            return View(entity);
         }
 
         [HttpPost]
@@ -36,9 +36,7 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var entity = new SerieFormModel()
-                {
-                };
+                var entity = new SerieFormModel();
 
                 return View(entity);
             }

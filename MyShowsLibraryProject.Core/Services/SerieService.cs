@@ -13,10 +13,13 @@ namespace MyShowsLibraryProject.Core.Services
     public class SerieService : ISerieService
     {
         private readonly IRepository repository;
+        private readonly IGenreService genreService;
 
-        public SerieService(IRepository _repository)
+        public SerieService(IRepository _repository,
+            IGenreService _genreService)
         {
             repository = _repository;
+            genreService = _genreService;
         }
 
         public async Task<IEnumerable<SerieInfoServiceModel>> GetAllReadonlyAsync()
@@ -71,7 +74,31 @@ namespace MyShowsLibraryProject.Core.Services
             };
 
             await repository.AddAsync(newSeire);
-            //await repository.SaveChangesAsync();
+            await repository.SaveChangesAsync();
+
+            var genres = serie.SerieGenres
+               .Split(", ", StringSplitOptions.RemoveEmptyEntries)
+               .ToList();
+
+            foreach (var genre in genres)
+            {
+                var currGenreId = await genreService.GetGenreIdFromName(genre);
+
+                if (currGenreId == 0)
+                {
+                    //Exception
+                }
+
+                var newSerieGenre = new SerieGenre()
+                {
+                    SerieId = newSeire.SeriesId,
+                    GenreId = currGenreId
+                };
+
+                await repository.AddAsync(newSerieGenre);
+            }
+
+            await repository.SaveChangesAsync();
 
             return newSeire.SeriesId;
         }

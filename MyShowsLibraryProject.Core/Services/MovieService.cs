@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using MyShowsLibraryProject.Core.Models.CrewModels;
 using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Core.Models.MovieModels;
@@ -14,10 +13,13 @@ namespace MyShowsLibraryProject.Core.Services
     public class MovieService : IMovieService
     {
         private readonly IRepository repository;
+        private readonly IGenreService genreService;
 
-        public MovieService(IRepository _repository)
+        public MovieService(IRepository _repository,
+            IGenreService _genreService)
         {
             repository = _repository;
+            genreService = _genreService;
         }
 
         public async Task<IEnumerable<MoviesInfoServiceModel>> GetAllReadonlyAsync()
@@ -142,7 +144,31 @@ namespace MyShowsLibraryProject.Core.Services
             };
 
             await repository.AddAsync(newMovie);
-            //await repository.SaveChangesAsync();
+            await repository.SaveChangesAsync();
+
+            var genres = movie.MovieGenres
+                .Split(", ",StringSplitOptions.RemoveEmptyEntries)
+                .ToList();
+
+            foreach (var genre in genres)
+            {
+                var currGenreId = await genreService.GetGenreIdFromName(genre);
+
+                if (currGenreId == 0)
+                {
+                    //Exception
+                }
+
+                var newMovieGenre = new MovieGenre()
+                {
+                    MovieId = newMovie.MovieId,
+                    GenreId = currGenreId
+                };
+
+                await repository.AddAsync(newMovieGenre);
+            }
+
+            await repository.SaveChangesAsync();
 
             return newMovie.MovieId;
         }

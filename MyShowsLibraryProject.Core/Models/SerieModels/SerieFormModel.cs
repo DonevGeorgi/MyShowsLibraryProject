@@ -1,4 +1,5 @@
 ﻿using MyShowsLibraryProject.Core.Constants;
+using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Infrastructure.Constants;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;
@@ -46,7 +47,7 @@ namespace MyShowsLibraryProject.Core.Models.SerieModels
             ErrorMessage = MessagesConstants.LengthMessage)]
         [Display(Name = "for more information")]
         public string ForMoreSummaryUrl { get; set; } = string.Empty;
-        public IEnumerable<SerieGenre> SerieGenres { get; set; } = new List<SerieGenre>();
+        public string SerieGenres { get; set; } = string.Empty;
         public IEnumerable<Season> Seasons { get; set; } = new List<Season>();
     }
 }

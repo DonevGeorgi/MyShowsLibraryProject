@@ -1,4 +1,5 @@
 ﻿using MyShowsLibraryProject.Core.Constants;
+using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Infrastructure.Constants;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;
@@ -43,6 +44,9 @@ namespace MyShowsLibraryProject.Core.Models.MovieModels
            ErrorMessage = MessagesConstants.LengthMessage)]
         [Display(Name = "for more information")]
         public string ForMoreSummaryUrl { get; set; } = string.Empty;
-        public IEnumerable<MovieGenre> MovieGenres { get; set; } = new List<MovieGenre>();
+        [Required(ErrorMessage = MessagesConstants.RequiredMessage)]
+        [RegularExpression(DataConstants.GenresInFormat, ErrorMessage = DataConstants.GenresFormat)]
+        [Display(Name = "genres")]
+        public string MovieGenres { get; set; } = string.Empty;
     }
 }

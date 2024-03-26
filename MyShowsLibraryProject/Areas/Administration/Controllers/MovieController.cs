@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Core.Models.MovieModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
+using MyShowsLibraryProject.Infrastructure.Data.Models;
 
 namespace MyShowsLibraryProject.Areas.Administration.Controllers
 {

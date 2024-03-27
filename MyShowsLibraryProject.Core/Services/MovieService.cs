@@ -84,7 +84,7 @@ namespace MyShowsLibraryProject.Core.Services
                  Crews = repository
                      .TakeAllReadOnly<MovieCrew>()
                      .Where(mr => mr.MovieId == movieId)
-                     .Select(mr => new CrewInfoServiceModel
+                     .Select(mr => new CrewCardInfoServiceModel
                      {
                          CrewId = mr.CrewId,
                          Name = mr.Crew.Name,

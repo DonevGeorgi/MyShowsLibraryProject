@@ -12,12 +12,69 @@ namespace MyShowsLibraryProject.Core.Services
     public class CrewService : ICrewService
     {
         private readonly IRepository repository;
+        private readonly IRoleService roleService;
 
-        public CrewService(IRepository _repository)
+        public CrewService(IRepository _repository,
+            IRoleService _roleService)
         {
             repository = _repository;
+            roleService = _roleService;
         }
 
+        public async Task<IEnumerable<CrewInfoServiceModel>> GetAllReadonlyAsync()
+        {
+            var crew = await repository
+                .TakeAllReadOnly<Crew>()
+                .Select(c => new CrewInfoServiceModel
+                {
+                    Name = c.Name
+                })
+                .ToListAsync();
+
+            return crew;
+        }
+        public async Task<int> CreateAsync(CrewFormModel crew)
+        {
+            var newCrew = new Crew()
+            {
+                Name = crew.Name,
+                Pseudonyms = crew.Pseudonyms,
+                Birthdate = crew.Birthdate,
+                Nationality = crew.Nationality,
+                PictureUrl = crew.PictureUrl,
+                Biography = crew.Biography,
+                MoreInfo = crew.MoreInfo          
+            };
+
+            await repository.AddAsync(newCrew);
+            //await repository.SaveChangesAsync();
+
+            var roles = crew.Roles
+                .Split(", ", StringSplitOptions.RemoveEmptyEntries)
+                .ToList();
+
+            foreach (var role in roles)
+            {
+                var currRoleId = await roleService.GetRoleIdFromName(role);
+
+                if (currRoleId == 0)
+                {
+                    //Exception
+                }
+
+                var newCrewRole = new CrewRole()
+                {
+                    CrewId = newCrew.CrewId,
+                    RoleId = currRoleId
+                };
+
+                await repository.AddAsync(newCrewRole);
+            }
+
+            //await repository.SaveChangesAsync();
+
+            return newCrew.CrewId;
+        }
         public async Task<CrewDetailsServiceModel> GetCrewDetailsById(int crewId)
         {
             var crew = await repository
@@ -48,7 +105,6 @@ namespace MyShowsLibraryProject.Core.Services
                             SerieId = sc.SerieId,
                             Title = sc.Serie.Title,
                             PosterUrl = sc.Serie.PosterUrl,
-                            //Later add Rating Not Implemented yet
                             StartYear = sc.Serie.YearOfStart,
                             EndYear = sc.Serie.YearOfEnd,
                         })
@@ -61,7 +117,6 @@ namespace MyShowsLibraryProject.Core.Services
                             MovieId = mc.MovieId,
                             Title = mc.Movie.Title,
                             PosterUrl = mc.Movie.PosterUrl,
-                            //Later add Rating Not Implemented yet
                             YearOfRelease = mc.Movie.DateOfRelease
                         })
                         .ToList()

@@ -127,7 +127,7 @@ namespace MyShowsLibraryProject.Core.Services
                 .ToList(),
                 Crews = repository
                 .TakeAllReadOnly<SerieCrew>()
-                .Select(sc => new CrewInfoServiceModel()
+                .Select(sc => new CrewCardInfoServiceModel()
                 {
                     CrewId = sc.CrewId,
                     Name = sc.Crew.Name,

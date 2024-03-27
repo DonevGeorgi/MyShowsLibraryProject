@@ -17,7 +17,7 @@ namespace MyShowsLibraryProject.Core.Models.SerieModels
         public string OriginalAudioLanguage { get; set; } = string.Empty;
         public string ForMoreSummaryUrl { get; set; } = string.Empty;
         public IEnumerable<GenreInfoSeviceModel> Genres { get; set; } = new List<GenreInfoSeviceModel>();
-        public IEnumerable<CrewInfoServiceModel> Crews { get; set; } = new List<CrewInfoServiceModel>();
+        public IEnumerable<CrewCardInfoServiceModel> Crews { get; set; } = new List<CrewCardInfoServiceModel>();
         public IEnumerable<ReviewInfoServiceModel> Reviews { get; set; } = new List<ReviewInfoServiceModel>();   
     }
 }

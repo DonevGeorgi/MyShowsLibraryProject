@@ -1,10 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyShowsLibraryProject.Core.Models.MovieModels;
+﻿using MyShowsLibraryProject.Core.Models.MovieModels;
 using MyShowsLibraryProject.Core.Models.RolesModels;
 using MyShowsLibraryProject.Core.Models.SerieModels;
-using MyShowsLibraryProject.Infrastructure.Constants;
-using MyShowsLibraryProject.Infrastructure.Data.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace MyShowsLibraryProject.Core.Models.CrewModels
 {

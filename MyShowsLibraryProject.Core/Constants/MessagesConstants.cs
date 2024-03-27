@@ -9,7 +9,7 @@
         public const string RangeMessage = "The field {0} must be in the range {1} to {2} including";
 
         //RegularExpresions
-        public const string ReleaseDataFormat = "dd-Month-YYYY";
+        public const string DataFormat = "dd-Month-YYYY";
         public const string ReleaseAndEndDateFormat = "YYYY";
     }
 }

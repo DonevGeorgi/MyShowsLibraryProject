@@ -1,7 +1,5 @@
 ﻿using MyShowsLibraryProject.Core.Constants;
-using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Infrastructure.Constants;
-using MyShowsLibraryProject.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyShowsLibraryProject.Core.Models.MovieModels
@@ -26,7 +24,7 @@ namespace MyShowsLibraryProject.Core.Models.MovieModels
             ErrorMessage = MessagesConstants.LengthMessage)]
         [Display( Name = "movie trailer URL")]
         public string TrailerUrl { get; set; } = string.Empty;
-        [RegularExpression(DataConstants.ReleaseDataRegex,ErrorMessage = MessagesConstants.ReleaseDataFormat)]
+        [RegularExpression(DataConstants.DataRegex,ErrorMessage = MessagesConstants.DataFormat)]
         [Display(Name = "date of release")]
         public string DateOfRelease { get; set; } = string.Empty;
         [Required(ErrorMessage = MessagesConstants.RequiredMessage)]

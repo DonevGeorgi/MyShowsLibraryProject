@@ -1,5 +1,4 @@
 ﻿using MyShowsLibraryProject.Core.Constants;
-using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Infrastructure.Constants;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;

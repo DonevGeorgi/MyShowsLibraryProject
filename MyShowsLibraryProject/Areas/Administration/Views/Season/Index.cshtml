@@ -1,0 +1,35 @@
+﻿@model List<SeasonInfoServiceModel>
+
+@{
+    ViewData["Title"] = "Season managing page";
+}
+
+<div class="bg-white bg-opacity-50 d-flex flex-column p-2 gap-2" style="border-radius: 0.5em">
+    <h1 class="text-center pt-2">Season:</h1>
+    <a asp-area="Administration" asp-action="Add" asp-controller="Season" role="button" class="btn btn-lg" style="border-radius: 0.5em; background-color: rgb(255, 210, 0)">Add new season</a>
+    @foreach (var season in Model)
+    {
+        <table class="table m-2">
+            <thead>
+                <tr>
+                    <th scope="col">Season number</th>
+                    <th scope="col">Episodes in season</th>
+                    <th scope="col">Release year</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@season.SeasonNumberation</td>
+                    <td>@season.EpisodesInSeason</td>
+                    <td>@season.YearOfRelease</td>
+                    <td class="text-center">
+                        <a class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Edit</a>
+                        <a class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Delete</a>
+                        <a asp-area="Administration" asp-action="Index" asp-controller="Episode" asp-route-seasonId="@season.SeasonId" asp-route-numeration="@season.SeasonNumberation" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Add Episode</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</div>

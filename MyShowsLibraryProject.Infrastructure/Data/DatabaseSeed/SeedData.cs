@@ -259,7 +259,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
             {
                 SeasonId = 1,
                 PosterUrl = "https://static.posters.cz/image/1300/posters/game-of-thrones-season-1-key-art-i161816.jpg",
-                SeasonNumberation = 1,
+                SeasonNumeration = 1,
                 YearOfRelease = "2011",
                 EpisodesInSeason = "10",
                 SeriesId = 1,

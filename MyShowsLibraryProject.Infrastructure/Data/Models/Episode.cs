@@ -24,7 +24,6 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         [MaxLength(DataConstants.SummaryMaxLength)]
         [Comment("Episode summary")]
         public string Summary {  get; set; } = string.Empty;
-        [MaxLength(DataConstants.EpisodeReleaseDateMaxLength)]
         [Comment("Episode release date")]
         public string ReleaseDate { get; set; } = string.Empty;
         [Required]

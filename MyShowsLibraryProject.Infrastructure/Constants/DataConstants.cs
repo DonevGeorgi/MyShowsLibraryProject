@@ -17,6 +17,7 @@
         //Serie constants
         public const int SerieLenguageMaxLength = 30;
         //Season constants
+        public const int SeasonEpisodeMinLength = 1;
         public const int SeasonEpisodeMaxLength = 5;
         //Crew constants
         public const int CrewBirthdayMaxLength = 11;
@@ -29,7 +30,8 @@
         public const int CrewBiographyMinLength = 30;
         public const int CrewBiographyMaxLength = 8000;
         //Episode constants
-        public const int EpisodeReleaseDateMaxLength = 11;
+        public const int EpisodeNumerationMinLength = 1;
+        public const int EpisodeNumerationMaxLength = 5;
         //Review constants 
         public const int ReviewContentMaxLength = 8000;
         public const int RatingMaxLength = 5;

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
+    [Comment("Crew role")]
     public class CrewRole
     {
         [Required]

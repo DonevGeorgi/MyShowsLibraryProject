@@ -17,7 +17,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         public string PosterUrl { get; set; } = string.Empty;
         [Required]
         [Comment("Season numberation")]
-        public int SeasonNumberation { get; set; }
+        public int SeasonNumeration { get; set; }
         [Required]
         [MaxLength(DataConstants.YearMaxLength)]
         [Comment("The year saeson is released")]

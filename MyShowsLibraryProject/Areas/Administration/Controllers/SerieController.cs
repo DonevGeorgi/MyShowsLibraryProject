@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyShowsLibraryProject.Core.Models.MovieModels;
 using MyShowsLibraryProject.Core.Models.SerieModels;
-using MyShowsLibraryProject.Core.Services;
 using MyShowsLibraryProject.Core.Services.Contacts;
 
 namespace MyShowsLibraryProject.Areas.Administration.Controllers
@@ -42,6 +40,61 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
             }
 
             var newSerie = await serieServices.CreateAsync(model);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int serieId)
+        {
+            var serie = await serieServices.GetSerieDetailsByIdAsync(serieId);
+
+            TempData["identifier"] = serieId;
+
+            var model = new SerieFormModel()
+            {
+                Title = serie.Title,
+                PosterUrl = serie.PosterUrl,
+                TrailerUrl = serie.TrailerUrl,
+                YearOfStart = serie.YearOfStart,
+                YearOfEnd = serie.YearOfEnd,
+                Summary = serie.Summary,
+                OriginalAudioLanguage = serie.OriginalAudioLanguage,
+                ForMoreSummaryUrl = serie.ForMoreSummaryUrl,
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(SerieFormModel newSerie)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(newSerie);
+            }
+
+            var serieId = Convert.ToInt32(TempData["identifier"]);
+
+            if (serieId == 0)
+            {
+                return BadRequest();
+            }
+
+            await serieServices.EditAsync(serieId, newSerie);
+
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Delete(int serieId)
+        {
+            var serie = await serieServices.GetSerieDetailsByIdAsync(serieId);
+
+            if (serie == null)
+            {
+                return BadRequest();
+            }
+
+            await serieServices.DeleteAsync(serie.SerieId);
 
             return RedirectToAction(nameof(Index));
         }

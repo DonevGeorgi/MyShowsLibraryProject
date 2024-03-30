@@ -76,31 +76,32 @@ namespace MyShowsLibraryProject.Core.Services
             await repository.AddAsync(newSeire);
             await repository.SaveChangesAsync();
 
-            var genres = serie.SerieGenres
-               .Split(", ", StringSplitOptions.RemoveEmptyEntries)
-               .ToList();
+            return newSeire.SeriesId;
+        }
+        public async Task EditAsync(int serieId, SerieFormModel serie)
+        {
+            var movieToEdit = await repository.GetByIdAsync<Serie>(serieId);
 
-            foreach (var genre in genres)
+            if (movieToEdit == null)
             {
-                var currGenreId = await genreService.GetGenreIdFromName(genre);
-
-                if (currGenreId == 0)
-                {
-                    //Exception
-                }
-
-                var newSerieGenre = new SerieGenre()
-                {
-                    SerieId = newSeire.SeriesId,
-                    GenreId = currGenreId
-                };
-
-                await repository.AddAsync(newSerieGenre);
+                //Exception
             }
 
-            await repository.SaveChangesAsync();
+            movieToEdit.Title = serie.Title;
+            movieToEdit.PosterUrl = serie.PosterUrl;
+            movieToEdit.TrailerUrl = serie.TrailerUrl;
+            movieToEdit.YearOfStart = serie.YearOfStart;
+            movieToEdit.YearOfEnd = serie.YearOfEnd;
+            movieToEdit.Summary = serie.Summary;
+            movieToEdit.OriginalAudioLanguage = serie.OriginalAudioLanguage;
+            movieToEdit.ForMoreSummaryUrl = serie.ForMoreSummaryUrl;
 
-            return newSeire.SeriesId;
+            await repository.SaveChangesAsync();
+        }
+        public async Task DeleteAsync(int serieId)
+        {
+            await repository.DeleteAsync<Serie>(serieId);
+            await repository.SaveChangesAsync();
         }
         public async Task<SeriesDetailsServiceModel> GetSerieDetailsByIdAsync(int serieId)
         {

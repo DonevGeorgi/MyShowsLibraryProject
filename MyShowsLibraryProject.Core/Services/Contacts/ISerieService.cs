@@ -8,6 +8,8 @@ namespace MyShowsLibraryProject.Core.Services.Contacts
         Task<IEnumerable<SeriesCardInfoServiceModel>> GetAllCardInfoAsync();
         Task<SeriesDetailsServiceModel> GetSerieDetailsByIdAsync(int serieId);
         Task<int> CreateAsync(SerieFormModel model);
+        Task EditAsync(int serieId, SerieFormModel serie);
+        Task DeleteAsync(int serieId);
         Task<bool> IsSeriePresent(int serieId);
     }
 }

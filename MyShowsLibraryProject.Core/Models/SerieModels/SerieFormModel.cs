@@ -46,7 +46,6 @@ namespace MyShowsLibraryProject.Core.Models.SerieModels
             ErrorMessage = MessagesConstants.LengthMessage)]
         [Display(Name = "for more information")]
         public string ForMoreSummaryUrl { get; set; } = string.Empty;
-        public string SerieGenres { get; set; } = string.Empty;
         public IEnumerable<Season> Seasons { get; set; } = new List<Season>();
     }
 }

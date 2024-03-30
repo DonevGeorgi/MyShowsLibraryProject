@@ -1,0 +1,40 @@
+﻿@model SeasonFormModel
+
+@{
+    ViewData["Title"] = "Season form";
+}
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form asp-action="Edit" method="post">
+            <div class="mb-3">
+                <label class="text-white" asp-for="@Model.PosterUrl" class="form-label-add-edit">Season Poster URL</label>
+                <input asp-for="@Model.PosterUrl" class="form-control" aria-required="true" />
+                <span asp-validation-for="@Model.PosterUrl" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="text-white" asp-for="@Model.SeasonNumberation" class="form-label-add-edit">Season Numeration</label>
+                <input asp-for="@Model.SeasonNumberation" class="form-control" aria-required="true">
+                <span asp-validation-for="@Model.SeasonNumberation" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="text-white" asp-for="@Model.EpisodesInSeason" class="form-label-add-edit">Episode in season</label>
+                <input asp-for="@Model.EpisodesInSeason" class="form-control" aria-required="true" />
+                <span asp-validation-for="@Model.EpisodesInSeason" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="text-white" asp-for="@Model.YearOfRelease" class="form-label-add-edit">Date of release</label>
+                <input asp-for="@Model.YearOfRelease" class="form-control" aria-required="true" placeholder="YYYY" />
+                <span asp-validation-for="@Model.YearOfRelease" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Announce" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

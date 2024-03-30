@@ -22,7 +22,6 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             return View(model);
         }
-
         [HttpGet]
         public IActionResult Add()
         {
@@ -30,7 +29,6 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
             
             return View(entity);
         }
-
         [HttpPost]
         public async Task<IActionResult> Add(SeasonFormModel model)
         {
@@ -41,11 +39,65 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
                 return View(entity);
             }
 
-            var seriesId = (int)TempData["identitfier"];
+            var seriesId = Convert.ToInt32(TempData["identitfier"]);
 
             var seasonId = await seasonService.CreateAsync(model,seriesId);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { seriesId });
+        }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int seasonId)
+        {
+            var season = await seasonService.GetSeasonDetailsById(seasonId);
+
+            TempData["identifier"] = seasonId;
+
+            var model = new SeasonFormModel()
+            {
+                PosterUrl = season.PosterUrl,
+                YearOfRelease = season.YearOfRelease,
+                SeasonNumberation = season.SeasonNumberation,
+                EpisodesInSeason = season.EpisodesInSeason
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(SeasonFormModel newSeason)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(newSeason);
+            }
+
+            var seasonId = Convert.ToInt32(TempData["identifier"]);
+
+            if (seasonId == 0)
+            {
+                return BadRequest();
+            }
+
+            var seriesId = Convert.ToInt32(TempData["identitfier"]);
+
+            await seasonService.EditAsync(seasonId, newSeason);
+
+            return RedirectToAction(nameof(Index), new { seriesId });
+        }
+        [HttpGet]
+        public async Task<IActionResult> Delete(int seasonId)
+        {
+            var season = await seasonService.GetSeasonDetailsById(seasonId);
+
+            if (season == null)
+            {
+                return BadRequest();
+            }
+
+            var seriesId = Convert.ToInt32(TempData["identitfier"]);
+
+            await seasonService.DeleteAsync(seasonId);
+
+            return RedirectToAction(nameof(Index), new { seriesId });
         }
     }
 }

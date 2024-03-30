@@ -20,8 +20,8 @@
                 <tr>
                     <td>@role.Name</td>
                     <td class="text-center">
-                        <a class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Edit</a>
-                        <a class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Delete</a>
+                        <a asp-area="Administration" asp-action="Edit" asp-controller="Role" asp-route-roleName="@role.Name" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Edit</a>
+                        <a asp-area="Administration" asp-action="Delete" asp-controller="Role" asp-route-roleName="@role.Name" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Delete</a>
                     </td>
                 </tr>
             </tbody>

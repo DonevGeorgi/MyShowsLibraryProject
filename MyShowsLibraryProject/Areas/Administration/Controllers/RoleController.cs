@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Core.Models.RolesModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 
@@ -40,6 +41,55 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
             }
 
             await roleService.CreateAsync(model);
+
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Edit(string roleName)
+        {
+            var roleId = await roleService.GetRoleIdFromName(roleName);
+            var role = await roleService.GetRoleById(roleId);
+
+            TempData["identifier"] = roleId;
+
+            var model = new RoleFormModel()
+            {
+                Name = role.Name
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(RoleFormModel newRole)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(newRole);
+            }
+
+            var roleId = Convert.ToInt32(TempData["identifier"]);
+
+            if (roleId == 0)
+            {
+                return BadRequest();
+            }
+
+            await roleService.EditAsync(roleId, newRole);
+
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Delete(string roleName)
+        {
+            var roleId = await roleService.GetRoleIdFromName(roleName);
+            var role = await roleService.GetRoleById(roleId);
+
+            if (role == null)
+            {
+                return BadRequest();
+            }
+
+            await roleService.DeleteAsync(roleId);
 
             return RedirectToAction(nameof(Index));
         }

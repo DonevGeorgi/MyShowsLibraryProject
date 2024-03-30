@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyShowsLibraryProject.Core.Models.GenreModels;
+using MyShowsLibraryProject.Core.Models.SerieModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
-using System.Runtime.InteropServices;
 
 namespace MyShowsLibraryProject.Core.Services
 {
@@ -25,6 +25,19 @@ namespace MyShowsLibraryProject.Core.Services
                     Name = g.Name
                 })
                 .ToListAsync();
+
+            return genres;
+        }
+        public async Task<GenreInfoSeviceModel> GetGenreById(int genreId)
+        {
+            var genres = await repository
+               .TakeAllReadOnly<Genre>()
+               .Where(g => g.GenreId == genreId)
+               .Select(g => new GenreInfoSeviceModel
+               {
+                   Name = g.Name
+               })
+               .FirstAsync();
 
             return genres;
         }
@@ -50,6 +63,24 @@ namespace MyShowsLibraryProject.Core.Services
             };
 
             await repository.AddAsync(newGenre);
+            await repository.SaveChangesAsync();
+        }
+        public async Task EditAsync(int genreId, GenreFormModel genre)
+        {
+            var genreToEdit = await repository.GetByIdAsync<Genre>(genreId);
+
+            if (genreToEdit == null)
+            {
+                //Exception
+            }
+
+            genreToEdit.Name = genre.Name;
+
+            await repository.SaveChangesAsync();
+        }
+        public async Task DeleteAsync(int genreId)
+        {
+            await repository.DeleteAsync<Genre>(genreId);
             await repository.SaveChangesAsync();
         }
     }

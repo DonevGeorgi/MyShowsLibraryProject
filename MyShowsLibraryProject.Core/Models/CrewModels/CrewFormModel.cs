@@ -38,8 +38,5 @@ namespace MyShowsLibraryProject.Core.Models.CrewModels
         ErrorMessage = MessagesConstants.LengthMessage)]
         [Display(Name = "for more information")]
         public string MoreInfo { get; set; } = string.Empty;
-        [Required(ErrorMessage = MessagesConstants.RequiredMessage)]
-        [RegularExpression(DataConstants.GenresInFormat, ErrorMessage = DataConstants.RoleFormat)]
-        public string Roles { get; set; } = string.Empty;
     }
 }

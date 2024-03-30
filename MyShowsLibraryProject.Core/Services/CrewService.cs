@@ -27,53 +27,12 @@ namespace MyShowsLibraryProject.Core.Services
                 .TakeAllReadOnly<Crew>()
                 .Select(c => new CrewInfoServiceModel
                 {
+                    CrewId = c.CrewId,
                     Name = c.Name
                 })
                 .ToListAsync();
 
             return crew;
-        }
-        public async Task<int> CreateAsync(CrewFormModel crew)
-        {
-            var newCrew = new Crew()
-            {
-                Name = crew.Name,
-                Pseudonyms = crew.Pseudonyms,
-                Birthdate = crew.Birthdate,
-                Nationality = crew.Nationality,
-                PictureUrl = crew.PictureUrl,
-                Biography = crew.Biography,
-                MoreInfo = crew.MoreInfo          
-            };
-
-            await repository.AddAsync(newCrew);
-            //await repository.SaveChangesAsync();
-
-            var roles = crew.Roles
-                .Split(", ", StringSplitOptions.RemoveEmptyEntries)
-                .ToList();
-
-            foreach (var role in roles)
-            {
-                var currRoleId = await roleService.GetRoleIdFromName(role);
-
-                if (currRoleId == 0)
-                {
-                    //Exception
-                }
-
-                var newCrewRole = new CrewRole()
-                {
-                    CrewId = newCrew.CrewId,
-                    RoleId = currRoleId
-                };
-
-                await repository.AddAsync(newCrewRole);
-            }
-
-            //await repository.SaveChangesAsync();
-
-            return newCrew.CrewId;
         }
         public async Task<CrewDetailsServiceModel> GetCrewDetailsById(int crewId)
         {
@@ -124,6 +83,48 @@ namespace MyShowsLibraryProject.Core.Services
                 .FirstAsync();
 
             return crew;
+        }
+        public async Task<int> CreateAsync(CrewFormModel crew)
+        {
+            var newCrew = new Crew()
+            {
+                Name = crew.Name,
+                Pseudonyms = crew.Pseudonyms,
+                Birthdate = crew.Birthdate,
+                Nationality = crew.Nationality,
+                PictureUrl = crew.PictureUrl,
+                Biography = crew.Biography,
+                MoreInfo = crew.MoreInfo          
+            };
+
+            await repository.AddAsync(newCrew);
+            await repository.SaveChangesAsync();
+
+            return newCrew.CrewId;
+        }
+        public async Task EditAsync(int crewId, CrewFormModel crew)
+        {
+        var crewToEdit = await repository.GetByIdAsync<Crew>(crewId);
+
+            if (crewToEdit == null)
+            {
+                //Exception
+            }
+
+            crewToEdit.Name = crew.Name;
+            crewToEdit.Pseudonyms = crew.Pseudonyms;
+            crewToEdit.Birthdate = crew.Birthdate;
+            crewToEdit.Nationality = crew.Nationality;
+            crewToEdit.PictureUrl = crew.PictureUrl;
+            crewToEdit.Biography = crew.Biography;
+            crewToEdit.MoreInfo = crew.MoreInfo;
+
+            await repository.SaveChangesAsync();
+        }
+        public async Task DeleteAsync(int crewId)
+        {
+            await repository.DeleteAsync<Crew>(crewId);
+            await repository.SaveChangesAsync();
         }
     }
 }

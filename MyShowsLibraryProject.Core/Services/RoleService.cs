@@ -27,6 +27,19 @@ namespace MyShowsLibraryProject.Core.Services
 
            return roles;
         }
+        public async Task<RoleInfoServiceModel> GetRoleById(int roleId)
+        {
+            var role = await repository
+                .TakeAllReadOnly<Role>()
+                .Where(r => r.RoleId == roleId)
+                .Select(r => new RoleInfoServiceModel
+                {
+                    Name = r.Name
+                })
+                .FirstAsync();
+
+            return role;
+        }
         public async Task CreateAsync(RoleFormModel role)
         {
             //Add check if exists
@@ -52,6 +65,24 @@ namespace MyShowsLibraryProject.Core.Services
             }
 
             return roleId.RoleId;
+        }
+        public async Task EditAsync(int roleId, RoleFormModel role)
+        {
+            var roleToEdit = await repository.GetByIdAsync<Role>(roleId);
+
+            if (roleToEdit == null)
+            {
+                //Exception
+            }
+
+            roleToEdit.Name = role.Name;
+
+            await repository.SaveChangesAsync();
+        }
+        public async Task DeleteAsync(int roleId)
+        {
+            await repository.DeleteAsync<Role>(roleId);
+            await repository.SaveChangesAsync();
         }
     }
 }

@@ -33,5 +33,14 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Common
         public async Task SaveChangesAsync()
             => await dbContext.SaveChangesAsync();
 
+        public async Task DeleteAsync<T>(object id) where T : class
+        {
+            T? entity = await GetByIdAsync<T>(id);
+
+            if (entity != null)
+            {
+                DbSet<T>().Remove(entity);
+            }
+        }
     }
 }

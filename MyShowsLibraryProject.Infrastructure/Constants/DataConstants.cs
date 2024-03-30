@@ -18,7 +18,7 @@
         public const int SerieLenguageMaxLength = 30;
         //Season constants
         public const int SeasonEpisodeMinLength = 1;
-        public const int SeasonEpisodeMaxLength = 5;
+        public const int SeasonEpisodeMaxLength = 50;
         //Crew constants
         public const int CrewBirthdayMaxLength = 11;
         public const int CrewNameMinLength = 2;
@@ -31,7 +31,7 @@
         public const int CrewBiographyMaxLength = 8000;
         //Episode constants
         public const int EpisodeNumerationMinLength = 1;
-        public const int EpisodeNumerationMaxLength = 5;
+        public const int EpisodeNumerationMaxLength = 50;
         //Review constants 
         public const int ReviewContentMaxLength = 8000;
         public const int RatingMaxLength = 5;
@@ -45,9 +45,5 @@
         //ReqularExpresions
         public const string DataRegex = @"(?:(?:0[1-9]|[12]\d|30)\s(?:Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov)|(?:0[1-9]|[12]\d|3[01])\s(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Dec))\s(?:[1-9]\d{3}|(?:19|20)\d{2})";
         public const string ReleaseAndEndYearRegex = @"^(19|20)\d{2}$";
-        public const string GenresInFormat = @"^(?:\w+(?:-)?\w*(?:, |$))+$";
-        //Formats
-        public const string GenresFormat = "Action, Drama, Sci-fi";
-        public const string RoleFormat = "Actor, Director, Stunt";
     }
 }

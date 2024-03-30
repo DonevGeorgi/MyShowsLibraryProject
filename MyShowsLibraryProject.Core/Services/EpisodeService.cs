@@ -22,6 +22,7 @@ namespace MyShowsLibraryProject.Core.Services
                 .Where(e => e.SeasonId == seasonId)
                 .Select(e => new EpisodeInfoServiceModel
                 {
+                    EpisodeId = e.EpisodeId,
                     SeasonNumber = e.SeasonNumber.ToString(),
                     EpisodeNumeration = e.EpisodeNumeration.ToString(),
                     ReleaseDate = e.ReleaseDate,
@@ -29,6 +30,41 @@ namespace MyShowsLibraryProject.Core.Services
                 .ToListAsync();
 
             return episodes;    
+        }
+        public async Task<IEnumerable<EpisodeDetailsServiceModel>> GetEpisodeDetailsAsync(int seasonId)
+        {
+            var episodes = await repository
+            .TakeAllReadOnly<Episode>()
+            .Where(e => e.SeasonId == seasonId)
+            .Select(e => new EpisodeDetailsServiceModel()
+            {
+                SeasonNumber = e.SeasonNumber,
+                EpisodeNumeration = e.EpisodeNumeration,
+                PosterUrl = e.PosterUrl,
+                Summary = e.Summary,
+                ReleaseDate = e.ReleaseDate,
+                SeasonId = seasonId
+            })
+            .ToArrayAsync();
+
+            return episodes;
+        }
+        public async Task<EpisodeDetailsServiceModel> GetEpisodeDetailsById(int episodeId)
+        {
+            var episode = await repository
+                .TakeAllReadOnly<Episode>()
+                .Where(e => e.EpisodeId == episodeId)
+                .Select(e => new EpisodeDetailsServiceModel
+                {
+                    SeasonNumber = e.SeasonNumber,
+                    EpisodeNumeration = e.EpisodeNumeration,
+                    PosterUrl = e.PosterUrl,
+                    Summary = e.Summary,
+                    ReleaseDate = e.ReleaseDate
+                })
+                .FirstAsync();
+
+            return episode;
         }
         public async Task CreateAsync(EpisodeFormModel episode, int seasonId, int seasonNumeration)
         {
@@ -55,23 +91,26 @@ namespace MyShowsLibraryProject.Core.Services
             await repository.AddAsync(newEpisode);
             await repository.SaveChangesAsync();
         }
-        public async Task<IEnumerable<EpisodeDetailsServiceModel>> GetEpisodeDetailsAsync(int seasonId)
+        public async Task EditAsync(int episodeId, EpisodeFormModel episode)
         {
-            var episodes = await repository
-            .TakeAllReadOnly<Episode>()
-            .Where(e => e.SeasonId == seasonId)
-            .Select(e => new EpisodeDetailsServiceModel()
-            {
-                SeasonNumber = e.SeasonNumber,
-                EpisodeNumeration = e.EpisodeNumeration.ToString(),
-                PosterUrl = e.PosterUrl,
-                Summary = e.Summary,
-                ReleaseDate = e.ReleaseDate,
-                SeasonId = seasonId
-            })
-            .ToArrayAsync();
+            var episodeToEdit = await repository.GetByIdAsync<Episode>(episodeId);
 
-            return episodes;
+            if (episodeToEdit == null)
+            {
+                //Exception
+            }
+
+            episodeToEdit.EpisodeNumeration = episode.EpisodeNumeration;
+            episodeToEdit.PosterUrl = episode.PosterUrl;
+            episodeToEdit.Summary = episode.Summary;
+            episodeToEdit.ReleaseDate = episode.ReleaseDate;
+
+            await repository.SaveChangesAsync();
+        }
+        public async Task DeleteAsync(int episodeId)
+        {
+            await repository.DeleteAsync<Episode>(episodeId);
+            await repository.SaveChangesAsync();
         }
     }
 }

@@ -31,6 +31,41 @@ namespace MyShowsLibraryProject.Core.Services
 
             return seasons;
         }
+        public async Task<IEnumerable<SeasonDetailsServiceModel>> GetSeasonDetailsAsync(int seriesId)
+        {
+            var seasons = await repository
+                .TakeAllReadOnly<Season>()
+                .Where(s => s.SeriesId == seriesId)
+                .Select(s => new SeasonDetailsServiceModel()
+                {
+                    SeasonId = s.SeasonId,
+                    PosterUrl = s.PosterUrl,
+                    YearOfRelease = s.YearOfRelease,
+                    SeasonNumberation = s.SeasonNumeration,
+                    EpisodesInSeason = s.EpisodesInSeason,
+                    SerieId = seriesId
+                })
+                .ToListAsync();
+
+            return seasons;
+        }
+        public async Task<SeasonDetailsServiceModel> GetSeasonDetailsById(int seasonId)
+        {
+            var season = await repository
+                .TakeAllReadOnly<Season>()
+                .Where(s => s.SeasonId == seasonId)
+                .Select(s => new SeasonDetailsServiceModel
+                {
+                    SeasonId = s.SeasonId,
+                    PosterUrl = s.PosterUrl,
+                    YearOfRelease = s.YearOfRelease,
+                    SeasonNumberation = s.SeasonNumeration,
+                    EpisodesInSeason = s.EpisodesInSeason
+                })
+                .FirstAsync();
+
+            return season;
+        }
         public async Task<int> CreateAsync(SeasonFormModel season, int seriesId)
         {
             if (seriesId == 0)
@@ -52,23 +87,26 @@ namespace MyShowsLibraryProject.Core.Services
 
             return newSeason.SeasonId;
         }
-        public async Task<IEnumerable<SeasonDetailsServiceModel>> GetSeasonDetailsAsync(int seriesId)
+        public async Task EditAsync(int seasonId, SeasonFormModel season)
         {
-            var seasons = await repository
-                .TakeAllReadOnly<Season>()
-                .Where(s => s.SeriesId == seriesId)
-                .Select(s => new SeasonDetailsServiceModel()
-                {
-                    SeasonId = s.SeasonId,
-                    PosterUrl = s.PosterUrl,
-                    YearOfRelease = s.YearOfRelease,
-                    SeasonNumberation = s.SeasonNumeration,
-                    EpisodesInSeason = s.EpisodesInSeason,
-                    SerieId = seriesId
-                })
-                .ToListAsync();
+            var seasonToEdit = await repository.GetByIdAsync<Season>(seasonId);
 
-            return seasons;
+            if (seasonToEdit == null)
+            {
+                //Exception
+            }
+
+            seasonToEdit.PosterUrl = season.PosterUrl;
+            seasonToEdit.SeasonNumeration = season.SeasonNumberation;
+            seasonToEdit.YearOfRelease = season.YearOfRelease;
+            seasonToEdit.EpisodesInSeason = season.EpisodesInSeason;
+
+            await repository.SaveChangesAsync();
+        }
+        public async Task DeleteAsync(int seasonId)
+        {
+            await repository.DeleteAsync<Season>(seasonId);
+            await repository.SaveChangesAsync();
         }
     }
 }

@@ -66,7 +66,7 @@ namespace MyShowsLibraryProject.Core.Services
              {
                  MovieId = m.MovieId,
                  Title = m.Title,
-                 Duration = m.Duration.ToString(),
+                 Duration = m.Duration,
                  PosterUrl = m.PosterUrl,
                  TrailerUrl = m.TrailerUrl,
                  DateOfRelease = m.DateOfRelease,
@@ -146,31 +146,32 @@ namespace MyShowsLibraryProject.Core.Services
             await repository.AddAsync(newMovie);
             await repository.SaveChangesAsync();
 
-            var genres = movie.MovieGenres
-                .Split(", ",StringSplitOptions.RemoveEmptyEntries)
-                .ToList();
+            return newMovie.MovieId;
+        }
+        public async Task EditAsync(int movieId, MovieFormModel movie)
+        {
+            var movieToEdit = await repository.GetByIdAsync<Movie>(movieId);
 
-            foreach (var genre in genres)
+            if (movieToEdit == null)
             {
-                var currGenreId = await genreService.GetGenreIdFromName(genre);
-
-                if (currGenreId == 0)
-                {
-                    //Exception
-                }
-
-                var newMovieGenre = new MovieGenre()
-                {
-                    MovieId = newMovie.MovieId,
-                    GenreId = currGenreId
-                };
-
-                await repository.AddAsync(newMovieGenre);
+                //Exception
             }
 
-            await repository.SaveChangesAsync();
+            movieToEdit.Title = movie.Title;
+            movieToEdit.Duration = movie.Duration;
+            movieToEdit.PosterUrl = movie.PosterUrl;
+            movieToEdit.TrailerUrl = movie.TrailerUrl;
+            movieToEdit.DateOfRelease = movie.DateOfRelease;
+            movieToEdit.Summary = movie.Summary;
+            movieToEdit.OriginalAudioLanguage = movie.OriginalAudioLanguage;
+            movieToEdit.ForMoreSummaryUrl = movie.ForMoreSummaryUrl;
 
-            return newMovie.MovieId;
+            await repository.SaveChangesAsync();
+        }
+        public async Task DeleteAsync(int movieId)
+        {
+            await repository.DeleteAsync<Movie>(movieId);
+            await repository.SaveChangesAsync();
         }
     }
 }

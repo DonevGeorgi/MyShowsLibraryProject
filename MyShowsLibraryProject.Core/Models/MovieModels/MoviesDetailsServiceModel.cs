@@ -8,7 +8,7 @@ namespace MyShowsLibraryProject.Core.Models.MovieModels
     {
         public int MovieId { get; set; }
         public string Title { get; set; } = string.Empty;
-        public string Duration { get; set; } = string.Empty;
+        public int Duration { get; set; }
         public string PosterUrl { get; set; } = string.Empty;
         public string TrailerUrl { get; set; } = string.Empty;
         public string DateOfRelease { get; set; } = string.Empty;

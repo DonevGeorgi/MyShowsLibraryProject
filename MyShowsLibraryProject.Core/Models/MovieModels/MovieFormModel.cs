@@ -19,7 +19,7 @@ namespace MyShowsLibraryProject.Core.Models.MovieModels
         [Display(Name = "movie poster URL")]
         public string PosterUrl { get; set; } = string.Empty;
         [Required(ErrorMessage = MessagesConstants.RequiredMessage)]
-        [StringLength(DataConstants.UrlMinLength,
+        [StringLength(DataConstants.UrlsMaxLength,
             MinimumLength = DataConstants.UrlMinLength,
             ErrorMessage = MessagesConstants.LengthMessage)]
         [Display( Name = "movie trailer URL")]
@@ -42,9 +42,5 @@ namespace MyShowsLibraryProject.Core.Models.MovieModels
            ErrorMessage = MessagesConstants.LengthMessage)]
         [Display(Name = "for more information")]
         public string ForMoreSummaryUrl { get; set; } = string.Empty;
-        [Required(ErrorMessage = MessagesConstants.RequiredMessage)]
-        [RegularExpression(DataConstants.GenresInFormat, ErrorMessage = DataConstants.GenresFormat)]
-        [Display(Name = "genres")]
-        public string MovieGenres { get; set; } = string.Empty;
     }
 }

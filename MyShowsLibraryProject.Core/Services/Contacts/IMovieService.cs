@@ -1,5 +1,4 @@
 ﻿using MyShowsLibraryProject.Core.Models.MovieModels;
-using MyShowsLibraryProject.Infrastructure.Data.Models;
 
 namespace MyShowsLibraryProject.Core.Services.Contacts
 {
@@ -9,6 +8,8 @@ namespace MyShowsLibraryProject.Core.Services.Contacts
         Task<IEnumerable<MoviesCardInfoServiceModel>> GetAllCardInfoAsync();
         Task<MoviesDetailsServiceModel> GetMovieDetailsByIdAsync(int movieId);
         Task<int> CreateAsync(MovieFormModel movie);
+        Task EditAsync(int movieId, MovieFormModel movie);
+        Task DeleteAsync(int movieId);
         Task<bool> IsMoviePresent(int movieId);
     }
 }

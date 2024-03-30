@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyShowsLibraryProject.Core.Models.CrewModels;
+using MyShowsLibraryProject.Core.Models.MovieModels;
+using MyShowsLibraryProject.Core.Services;
 using MyShowsLibraryProject.Core.Services.Contacts;
 
 namespace MyShowsLibraryProject.Areas.Administration.Controllers
@@ -20,7 +22,6 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
             
             return View(entity);
         }
-
         [HttpGet]
         public IActionResult Add()
         {
@@ -28,7 +29,6 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             return View(entity);
         }
-
         [HttpPost]
         public async Task<IActionResult> Add(CrewFormModel model)
         {
@@ -40,6 +40,59 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
             }
 
             var newCrewId = await crewService.CreateAsync(model);
+
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int crewId)
+        {
+            var crew = await crewService.GetCrewDetailsById(crewId);
+
+            TempData["identifier"] = crewId;
+
+            var model = new CrewFormModel()
+            {
+                Name = crew.Name,
+                Pseudonyms = crew.Pseudonyms,
+                Birthdate = crew.Birthdate,
+                Nationality = crew.Nationality,
+                PictureUrl = crew.PictureUrl,
+                Biography = crew.Biography,
+                MoreInfo = crew.MoreInfo
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(CrewFormModel newCrew)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(newCrew);
+            }
+
+            var crewId = Convert.ToInt32(TempData["identifier"]);
+
+            if (crewId == 0)
+            {
+                return BadRequest();
+            }
+
+            await crewService.EditAsync(crewId, newCrew);
+
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Delete(int crewId)
+        {
+            var crew = await crewService.GetCrewDetailsById(crewId);
+
+            if (crew == null)
+            {
+                return BadRequest();
+            }
+
+            await crewService.DeleteAsync(crewId);
 
             return RedirectToAction(nameof(Index));
         }

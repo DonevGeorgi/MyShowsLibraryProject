@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form asp-action="Add" method="post">
+        <form asp-action="Edit" method="post">
             <div class="mb-3">
                 <label class="text-white" asp-for="@Model.Title" class="form-label-add-edit">Movie Title</label>
                 <input asp-for="@Model.Title" class="form-control" aria-required="true" />
@@ -34,7 +34,7 @@
             </div>
             <div class="mb-3">
                 <label class="text-white" asp-for="@Model.OriginalAudioLanguage" class="form-label-add-edit">Movie Original Audio</label>
-                <input asp-for="@Model.OriginalAudioLanguage" class="form-control"/>
+                <input asp-for="@Model.OriginalAudioLanguage" class="form-control" />
                 <span asp-validation-for="@Model.OriginalAudioLanguage" class="text-danger"></span>
             </div>
             <div class="mb-3">
@@ -44,7 +44,7 @@
             </div>
             <div class="mb-3">
                 <label class="text-white" asp-for="@Model.ForMoreSummaryUrl" class="form-label-add-edit">Link for more summary</label>
-                <input asp-for="@Model.ForMoreSummaryUrl" class="form-control"/>
+                <input asp-for="@Model.ForMoreSummaryUrl" class="form-control" />
                 <span asp-validation-for="@Model.ForMoreSummaryUrl" class="text-danger"></span>
             </div>
             <div class="mb-3">

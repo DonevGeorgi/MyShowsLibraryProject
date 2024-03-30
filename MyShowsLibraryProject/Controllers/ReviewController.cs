@@ -46,14 +46,14 @@ namespace MyShowsLibraryProject.Controllers
                 return BadRequest();
             }
 
-            int identitfier = (int)TempData["identitfier"];
+            int identitfier = Convert.ToInt32(TempData["identitfier"]);
 
             if (identitfier == 0)
             {
                 return BadRequest();
             }
 
-            string? type = TempData["type"].ToString();
+            string? type = Convert.ToString(TempData["type"]);
 
             if (type == null)
             {

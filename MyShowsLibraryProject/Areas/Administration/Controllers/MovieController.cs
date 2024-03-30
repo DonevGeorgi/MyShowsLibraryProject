@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Core.Models.MovieModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
-using MyShowsLibraryProject.Infrastructure.Data.Models;
 
 namespace MyShowsLibraryProject.Areas.Administration.Controllers
 {
@@ -22,7 +20,6 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             return View(movies);
         }
-
         [HttpGet]
         public IActionResult Add()
         {
@@ -30,8 +27,6 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             return View(entity);
         }
-
-
         [HttpPost]
         public async Task<IActionResult> Add(MovieFormModel model)
         {
@@ -43,6 +38,60 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
             }
 
             var newMovie = await movieService.CreateAsync(model);
+
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int movieId)
+        {
+            var movie = await movieService.GetMovieDetailsByIdAsync(movieId);
+
+            TempData["identifier"] = movieId;
+
+            var model = new MovieFormModel()
+            {
+                Title = movie.Title,
+                Duration = movie.Duration,
+                PosterUrl = movie.PosterUrl,
+                TrailerUrl = movie.TrailerUrl,
+                DateOfRelease = movie.DateOfRelease,
+                Summary = movie.Summary,
+                OriginalAudioLanguage = movie.OriginalAudioLanguage,
+                ForMoreSummaryUrl = movie.ForMoreSummaryUrl
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(MovieFormModel newMovie)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(newMovie);
+            }
+
+            var movieId = Convert.ToInt32(TempData["identifier"]);
+
+            if (movieId == 0)
+            {
+                return BadRequest();
+            }
+
+            await movieService.EditAsync(movieId,newMovie);
+
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Delete(int movieId)
+        {
+            var movie = await movieService.GetMovieDetailsByIdAsync(movieId);
+
+            if (movie == null)
+            {
+                return BadRequest();
+            }
+
+            await movieService.DeleteAsync(movieId);
 
             return RedirectToAction(nameof(Index));
         }

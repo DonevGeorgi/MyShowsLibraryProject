@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyShowsLibraryProject.Core.Models.EpisodeModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
-using MyShowsLibraryProject.Infrastructure.Data.Models;
 
 namespace MyShowsLibraryProject.Areas.Administration.Controllers
 {
@@ -19,12 +18,11 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
         {
             var model = await episodeService.GetEpisodeForSeason(seasonId);
 
-            TempData["identifier"] = seasonId;
+            TempData["seasonIdentifier"] = seasonId;
             TempData["numeration"] = numeration;
 
             return View(model);
         }
-
         [HttpGet]
         public IActionResult Add() 
         {
@@ -32,7 +30,6 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             return View(entity);
         }
-
         [HttpPost]
         public async Task<IActionResult> Add(EpisodeFormModel model)
         {
@@ -43,12 +40,67 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
                 return View(entity);
             }
 
-            var seasonId = (int)TempData["identifier"];
-            var numeration = (int)TempData["numeration"];
+            var seasonId = Convert.ToInt32(TempData["seasonIdentifier"]);
+            var numeration = Convert.ToInt32(TempData["numeration"]);
 
             await episodeService.CreateAsync(model, seasonId, numeration);
 
-            return RedirectToAction(nameof(Index), new {seasonId = seasonId});
+            return RedirectToAction(nameof(Index), new { seasonId = seasonId});
+        }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int episodeId)
+        {
+            var episode = await episodeService.GetEpisodeDetailsById(episodeId);
+
+            TempData["identifier"] = episodeId;
+
+            var model = new EpisodeFormModel()
+            {
+                SeasonNumber = episode.SeasonNumber,
+                EpisodeNumeration = episode.EpisodeNumeration,
+                PosterUrl = episode.PosterUrl,
+                Summary = episode.Summary,
+                ReleaseDate = episode.ReleaseDate
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(EpisodeFormModel newEpisode)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(newEpisode);
+            }
+
+            var episodeId = Convert.ToInt32(TempData["identifier"]);
+
+            if (episodeId == 0)
+            {
+                return BadRequest();
+            }
+
+            var seasonId = Convert.ToInt32(TempData["seasonIdentifier"]);
+
+            await episodeService.EditAsync(episodeId, newEpisode);
+
+            return RedirectToAction(nameof(Index), new { seasonId = seasonId });
+        }
+        [HttpGet]
+        public async Task<IActionResult> Delete(int episodeId)
+        {
+            var episode = await episodeService.GetEpisodeDetailsById(episodeId);
+
+            if (episode == null)
+            {
+                return BadRequest();
+            }
+
+            var seasonId = Convert.ToInt32(TempData["seasonIdentifier"]);
+
+            await episodeService.DeleteAsync(episodeId);
+
+            return RedirectToAction(nameof(Index), new { seasonId });
         }
     }
 }

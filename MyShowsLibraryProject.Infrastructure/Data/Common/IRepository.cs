@@ -8,5 +8,6 @@
         Task SaveChangesAsync();
         Task<T?> GetByIdAsync<T>(object id) where T : class;
         Task DeleteAsync<T>(object id) where T : class;
+        void Remove<T>(T entity) where T : class;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MyShowsLibraryProject.Core.Models.GenreModels;
+using MyShowsLibraryProject.Infrastructure.Data.Models;
 
 namespace MyShowsLibraryProject.Core.Services.Contacts
 {
@@ -10,5 +11,7 @@ namespace MyShowsLibraryProject.Core.Services.Contacts
         Task CreateAsync(GenreFormModel genre);
         Task EditAsync(int genreId, GenreFormModel genre);
         Task DeleteAsync(int genreId);
+        Task AddGenreToMovieAsync(int movieId, string genreName);
+        Task RemoveGenreFromMovie(int movieId, string genreName);
     }
 }

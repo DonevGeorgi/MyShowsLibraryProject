@@ -13,13 +13,10 @@ namespace MyShowsLibraryProject.Core.Services
     public class MovieService : IMovieService
     {
         private readonly IRepository repository;
-        private readonly IGenreService genreService;
 
-        public MovieService(IRepository _repository,
-            IGenreService _genreService)
+        public MovieService(IRepository _repository)
         {
             repository = _repository;
-            genreService = _genreService;
         }
 
         public async Task<IEnumerable<MoviesInfoServiceModel>> GetAllReadonlyAsync()

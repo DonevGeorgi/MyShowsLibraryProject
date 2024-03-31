@@ -37,7 +37,7 @@ namespace MyShowsLibraryProject.Core.Services
                {
                    Name = g.Name
                })
-               .FirstAsync();
+               .FirstOrDefaultAsync();
 
             return genres;
         }

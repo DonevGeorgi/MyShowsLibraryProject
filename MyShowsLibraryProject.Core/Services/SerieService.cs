@@ -158,7 +158,7 @@ namespace MyShowsLibraryProject.Core.Services
                 })
                 .ToList()
             })
-            .FirstAsync();
+            .FirstOrDefaultAsync();
 
             return serie;
         }

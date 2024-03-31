@@ -62,7 +62,7 @@ namespace MyShowsLibraryProject.Core.Services
                     Summary = e.Summary,
                     ReleaseDate = e.ReleaseDate
                 })
-                .FirstAsync();
+                .FirstOrDefaultAsync();
 
             return episode;
         }

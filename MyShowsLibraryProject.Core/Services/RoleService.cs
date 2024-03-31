@@ -36,7 +36,7 @@ namespace MyShowsLibraryProject.Core.Services
                 {
                     Name = r.Name
                 })
-                .FirstAsync();
+                .FirstOrDefaultAsync();
 
             return role;
         }

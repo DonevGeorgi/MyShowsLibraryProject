@@ -62,11 +62,11 @@ namespace MyShowsLibraryProject.Core.Services
                     SeasonNumberation = s.SeasonNumeration,
                     EpisodesInSeason = s.EpisodesInSeason
                 })
-                .FirstAsync();
+                .FirstOrDefaultAsync();
 
             return season;
         }
-        public async Task<int> CreateAsync(SeasonFormModel season, int seriesId)
+        public async Task CreateAsync(SeasonFormModel season, int seriesId)
         {
             if (seriesId == 0)
             {
@@ -84,8 +84,6 @@ namespace MyShowsLibraryProject.Core.Services
 
             await repository.AddAsync(newSeason);
             await repository.SaveChangesAsync();
-
-            return newSeason.SeasonId;
         }
         public async Task EditAsync(int seasonId, SeasonFormModel season)
         {

@@ -114,7 +114,7 @@ namespace MyShowsLibraryProject.Core.Services
                     })
                     .ToList()
              })
-            .FirstAsync();
+            .FirstOrDefaultAsync();
 
             return movie;
         }

@@ -9,13 +9,10 @@ namespace MyShowsLibraryProject.Core.Services
     public class GenreService : IGenreService
     {
         private readonly IRepository repository;
-        private readonly IMovieService movieService;
 
-        public GenreService(IRepository _repository,
-            IMovieService _movieService)
+        public GenreService(IRepository _repository)
         {
             repository = _repository;
-            movieService = _movieService;
         }
 
         public async Task<IEnumerable<GenreInfoSeviceModel>> GetAllReadonlyAsync()
@@ -24,6 +21,7 @@ namespace MyShowsLibraryProject.Core.Services
                 .TakeAllReadOnly<Genre>()
                 .Select(g => new GenreInfoSeviceModel
                 {
+                    GenreId = g.GenreId,
                     Name = g.Name
                 })
                 .ToListAsync();
@@ -37,25 +35,17 @@ namespace MyShowsLibraryProject.Core.Services
                .Where(g => g.GenreId == genreId)
                .Select(g => new GenreInfoSeviceModel
                {
+                   GenreId = g.GenreId,
                    Name = g.Name
                })
                .FirstOrDefaultAsync();
 
-            return genres;
-        }
-        public async Task<int> GetGenreIdFromName(string name)
-        {
-            var genreId = await repository
-                .TakeAllReadOnly<Genre>()
-                .Where(g => g.Name == name)
-                .FirstOrDefaultAsync();
-
-            if (genreId == null)
+            if (genres == null)
             {
-                return 0;
+                throw new NullReferenceException("Genre does not exist!");
             }
 
-            return genreId.GenreId;
+            return genres;
         }
         public async Task CreateAsync(GenreFormModel genre)
         {
@@ -73,7 +63,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (genreToEdit == null)
             {
-                //Exception
+                throw new NullReferenceException("Genre to edit dont exist!");
             }
 
             genreToEdit.Name = genre.Name;
@@ -83,57 +73,6 @@ namespace MyShowsLibraryProject.Core.Services
         public async Task DeleteAsync(int genreId)
         {
             await repository.DeleteAsync<Genre>(genreId);
-            await repository.SaveChangesAsync();
-        }
-        public async Task AddGenreToMovieAsync(int movieId, string genreName)
-        {
-            var movie = await movieService.GetMovieDetailsByIdAsync(movieId);
-
-            if (movie == null)
-            {
-                throw new NullReferenceException();
-            }
-
-            if (movie.Genres.Any(g => g.Name == genreName))
-            {
-                throw new ArgumentException("Movie contains genre already!");
-            }
-
-            var newMovieGenre = new MovieGenre()
-            {
-                MovieId = movie.MovieId,
-                GenreId = await GetGenreIdFromName(genreName)
-            };
-
-            await repository.AddAsync(newMovieGenre);
-            await repository.SaveChangesAsync();
-        }
-        public async Task RemoveGenreFromMovie(int movieId, string genreName)
-        {
-            var movie = await movieService.GetMovieDetailsByIdAsync(movieId);
-
-            if (movie == null)
-            {
-                throw new NullReferenceException();
-            }
-
-            if (!movie.Genres.Any())
-            {
-                throw new ArgumentException("Movie dont have genres!");
-            }
-
-            if (!movie.Genres.Any(g => g.Name == genreName))
-            {
-                throw new ArgumentException("Movie dont have chosen genre!");
-            }
-
-            var modelToRemove = new MovieGenre()
-            {
-                MovieId = movieId,
-                GenreId = await GetGenreIdFromName(genreName)
-            };
-
-            repository.Remove<MovieGenre>(modelToRemove);
             await repository.SaveChangesAsync();
         }
     }

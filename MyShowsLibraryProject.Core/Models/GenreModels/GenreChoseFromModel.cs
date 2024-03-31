@@ -2,7 +2,7 @@
 {
     public class GenreChoseFromModel
     {
-        public string Name { get; set; } = string.Empty;
+        public int GenreId { get; set; }
         public IEnumerable<GenreInfoSeviceModel> GenresName { get; set; } = new List<GenreInfoSeviceModel>();
     }
 }

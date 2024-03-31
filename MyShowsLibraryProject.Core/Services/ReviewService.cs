@@ -13,11 +13,11 @@ namespace MyShowsLibraryProject.Core.Services
 
         public ReviewService(IRepository _repository,
             IMovieService _movieRepository,
-            ISerieService serieRepository)
+            ISerieService _serieRepository)
         {
             repository = _repository;
             movieRepository = _movieRepository;
-            this.serieRepository = serieRepository;
+            serieRepository = _serieRepository;
         }
 
         public async Task<int> CreateAsync(ReviewFormModel model, string userId,int showId,string showType)
@@ -44,10 +44,10 @@ namespace MyShowsLibraryProject.Core.Services
 
                 await repository.AddAsync(newMovieReview);
             }
-            else
-            {
-                //error
-            }
+            //else if(showType != "movie" && !await movieRepository.IsMoviePresent(showId))
+            //{
+            //    throw new ArgumentNullException("The show you chose does not exists!");
+            //}
             
             if (showType == "serie" && await serieRepository.IsSeriePresent(showId))
             {
@@ -59,10 +59,10 @@ namespace MyShowsLibraryProject.Core.Services
 
                 await repository.AddAsync(newSerieReview);
             }
-            else
-            {
-                //error
-            }
+            //else if(showType != "serie" && !await serieRepository.IsSeriePresent(showId))
+            //{
+            //    throw new ArgumentNullException("The show you chose does not exists!");
+            //}
 
             var newUserReview = new UserReview()
             {

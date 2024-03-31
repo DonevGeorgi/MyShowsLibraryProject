@@ -75,6 +75,7 @@ namespace MyShowsLibraryProject.Core.Services
                      .Where(mg => mg.MovieId == movieId)
                      .Select(mg => new GenreInfoSeviceModel()
                      {
+                         GenreId = mg.GenreId,
                          Name = mg.Genre.Name
                      })
                      .ToList(),
@@ -151,7 +152,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (movieToEdit == null)
             {
-                //Exception
+                throw new NullReferenceException("Movie you want to edit does not exists!");
             }
 
             movieToEdit.Title = movie.Title;

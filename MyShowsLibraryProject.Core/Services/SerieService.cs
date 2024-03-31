@@ -120,14 +120,17 @@ namespace MyShowsLibraryProject.Core.Services
                 OriginalAudioLanguage = s.OriginalAudioLanguage,
                 ForMoreSummaryUrl = s.ForMoreSummaryUrl,
                 Genres = repository
-                .TakeAllReadOnly<SerieGenre>()
-                .Select(sg => new GenreInfoSeviceModel()
-                {
-                    Name = sg.Genre.Name,
-                })
-                .ToList(),
+                    .TakeAllReadOnly<SerieGenre>()
+                    .Where(sg => sg.SerieId == serieId)
+                    .Select(sg => new GenreInfoSeviceModel()
+                    {
+                        GenreId = sg.GenreId,
+                        Name = sg.Genre.Name,
+                    })
+                    .ToList(),
                 Crews = repository
                 .TakeAllReadOnly<SerieCrew>()
+                .Where(sc => sc.SerieId == serieId)
                 .Select(sc => new CrewCardInfoServiceModel()
                 {
                     CrewId = sc.CrewId,

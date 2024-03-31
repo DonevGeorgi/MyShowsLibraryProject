@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyShowsLibraryProject.Core.Constants;
 using MyShowsLibraryProject.Core.Services.Contacts;
 
 namespace MyShowsLibraryProject.Controllers
@@ -16,6 +17,11 @@ namespace MyShowsLibraryProject.Controllers
         public async Task<IActionResult> Index(int seasonId)
         {
             var model = await episodeService.GetEpisodeDetailsAsync(seasonId);
+
+            if (model.Any() == false)
+            {
+                return BadRequest();
+            }
 
             return View(model);
         }

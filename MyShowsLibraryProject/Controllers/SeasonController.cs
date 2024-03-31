@@ -17,6 +17,11 @@ namespace MyShowsLibraryProject.Controllers
         {
             var model = await seasonService.GetSeasonDetailsAsync(serieId);
 
+            if (model.Any() == false)
+            {
+                return NotFound();
+            }
+
             return View(model);
         }
     }

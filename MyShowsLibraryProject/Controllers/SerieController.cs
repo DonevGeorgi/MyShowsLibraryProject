@@ -27,6 +27,11 @@ namespace MyShowsLibraryProject.Controllers
         {
             var model = await serieService.GetSerieDetailsByIdAsync(serieId);
 
+            if (model == null)
+            {
+                return NotFound();
+            }
+
             return View(model);
         }
     }

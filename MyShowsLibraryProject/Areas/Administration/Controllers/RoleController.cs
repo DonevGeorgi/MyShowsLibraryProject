@@ -21,7 +21,6 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             return View(model);
         }
-
         [HttpGet]
         public IActionResult Add()
         {
@@ -29,7 +28,6 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             return View(entity);
         }
-
         [HttpPost]
         public async Task<IActionResult> Add(RoleFormModel model)
         {

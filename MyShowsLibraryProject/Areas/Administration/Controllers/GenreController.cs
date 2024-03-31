@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyShowsLibraryProject.Core.Models.GenreModels;
-using MyShowsLibraryProject.Core.Models.MovieModels;
-using MyShowsLibraryProject.Core.Services;
 using MyShowsLibraryProject.Core.Services.Contacts;
 
 namespace MyShowsLibraryProject.Areas.Administration.Controllers
@@ -22,7 +20,6 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             return View(genres);
         }
-
         [HttpGet]
         public IActionResult Add()
         {
@@ -30,7 +27,6 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             return View(entity);
         }
-
         [HttpPost]
         public async Task<IActionResult> Add(GenreFormModel model)
         {

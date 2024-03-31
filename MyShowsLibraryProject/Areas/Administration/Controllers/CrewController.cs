@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyShowsLibraryProject.Core.Models.CrewModels;
-using MyShowsLibraryProject.Core.Models.MovieModels;
-using MyShowsLibraryProject.Core.Services;
 using MyShowsLibraryProject.Core.Services.Contacts;
 
 namespace MyShowsLibraryProject.Areas.Administration.Controllers
@@ -41,7 +39,7 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             var newCrewId = await crewService.CreateAsync(model);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Crew", new { crewId = newCrewId, area = "default" });
         }
         [HttpGet]
         public async Task<IActionResult> Edit(int crewId)

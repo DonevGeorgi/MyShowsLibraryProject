@@ -39,7 +39,7 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             var newMovie = await movieService.CreateAsync(model);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("MovieDetails", "Movie", new { movieId = newMovie , area= "default" });
         }
         [HttpGet]
         public async Task<IActionResult> Edit(int movieId)

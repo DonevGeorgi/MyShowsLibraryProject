@@ -21,11 +21,15 @@ namespace MyShowsLibraryProject.Controllers
 
             return View(model);
         }
-
         [HttpGet]
         public async Task<IActionResult> MovieDetails(int movieId)
         {
             var model = await movieService.GetMovieDetailsByIdAsync(movieId);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
 
             return View(model);
         }

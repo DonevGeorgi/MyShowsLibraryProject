@@ -45,7 +45,7 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             await episodeService.CreateAsync(model, seasonId, numeration);
 
-            return RedirectToAction(nameof(Index), new { seasonId = seasonId});
+            return RedirectToAction("Index", "Episode", new { seasonId = seasonId, area = "default" });
         }
         [HttpGet]
         public async Task<IActionResult> Edit(int episodeId)

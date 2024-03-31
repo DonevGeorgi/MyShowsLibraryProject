@@ -16,6 +16,11 @@ namespace MyShowsLibraryProject.Controllers
         {
             var model = await crewService.GetCrewDetailsById(crewId);
 
+            if (model == null)
+            {
+                return NotFound();
+            }
+
             return View(model);
         }
     }

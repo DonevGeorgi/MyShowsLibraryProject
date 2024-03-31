@@ -6,6 +6,5 @@ namespace MyShowsLibraryProject.Controllers
     [Authorize]
     public class BaseController : Controller
     {
-      
     }
 }

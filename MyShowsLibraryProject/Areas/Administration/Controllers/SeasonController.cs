@@ -41,9 +41,9 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             var seriesId = Convert.ToInt32(TempData["identitfier"]);
 
-            var seasonId = await seasonService.CreateAsync(model,seriesId);
+            await seasonService.CreateAsync(model,seriesId);
 
-            return RedirectToAction(nameof(Index), new { seriesId });
+            return RedirectToAction("Index", "Season", new { serieId = seriesId, area = "default" });
         }
         [HttpGet]
         public async Task<IActionResult> Edit(int seasonId)

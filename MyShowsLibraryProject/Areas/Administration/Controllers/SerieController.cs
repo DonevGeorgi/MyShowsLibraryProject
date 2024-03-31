@@ -20,7 +20,6 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             return View(series);
         }
-
         [HttpGet]
         public IActionResult Add()
         {
@@ -28,7 +27,6 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             return View(entity);
         }
-
         [HttpPost]
         public async Task<IActionResult> Add(SerieFormModel model)
         {
@@ -41,9 +39,8 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             var newSerie = await serieServices.CreateAsync(model);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("SerieDetails", "Serie", new { serieId = newSerie, area = "default" });
         }
-
         [HttpGet]
         public async Task<IActionResult> Edit(int serieId)
         {

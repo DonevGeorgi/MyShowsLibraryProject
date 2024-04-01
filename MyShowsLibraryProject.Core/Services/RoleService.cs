@@ -21,6 +21,7 @@ namespace MyShowsLibraryProject.Core.Services
                 .TakeAllReadOnly<Role>()
                 .Select(r => new RoleInfoServiceModel
                 {
+                    RoleId = r.RoleId,
                     Name = r.Name
                 })
                 .ToListAsync();

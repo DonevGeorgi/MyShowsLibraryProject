@@ -53,6 +53,7 @@ namespace MyShowsLibraryProject.Core.Services
                         .Where(cr => cr.CrewId == c.CrewId)
                         .Select(cr => new RoleInfoServiceModel 
                         { 
+                            RoleId = cr.Role.RoleId,
                             Name = cr.Role.Name
                         })
                         .ToList(),

@@ -16,7 +16,7 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
         [HttpGet]
         public async Task<IActionResult> AddGenreToMovie(int movieId)
         {
-            var model = new GenreChoseFromModel()
+            var model = new GenreChoseFormModel()
             {
                 GenresName = await movieGenreService.TakeAllGenres()
             };
@@ -31,7 +31,7 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> AddGenreToMovie(GenreChoseFromModel genre)
+        public async Task<IActionResult> AddGenreToMovie(GenreChoseFormModel genre)
         {
             var movieId = Convert.ToInt32(TempData["movieIdentifier"]);
 
@@ -42,7 +42,7 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
         [HttpGet]
         public async Task<IActionResult> RemoveGenreFromMovie(int movieId)
         {
-            var model = new GenreChoseFromModel()
+            var model = new GenreChoseFormModel()
             {
                 GenresName = await movieGenreService.TakeAllGenres()
             };
@@ -57,7 +57,7 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> RemoveGenreFromMovie(GenreChoseFromModel genre)
+        public async Task<IActionResult> RemoveGenreFromMovie(GenreChoseFormModel genre)
         {
             var movieId = Convert.ToInt32(TempData["movieIdentifier"]);
 

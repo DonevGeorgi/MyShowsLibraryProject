@@ -1,0 +1,21 @@
+﻿@model RoleChoseFormModel
+
+@{
+    ViewData["Title"] = "Role form";
+}
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form asp-action="RemoveRoleFromCrew" method="post">
+            <select asp-for="@Model.RoleId" class="form-control" aria-label="Role name:">
+                @foreach (var role in Model.RoleName)
+                {
+                    <option value="@role.RoleId">@role.Name</option>
+                }
+            </select>
+            <div class="mb-3">
+                <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Remove from crew" />
+            </div>
+        </form>
+    </div>
+</div>

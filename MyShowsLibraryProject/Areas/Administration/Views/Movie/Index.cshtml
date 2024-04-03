@@ -26,6 +26,8 @@
                         <a asp-area="Administration" asp-action="Delete" asp-controller="Movie" asp-route-movieId="@movie.MovieId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Delete</a>
                         <a asp-area="Administration" asp-action="AddGenreToMovie" asp-controller="MovieGenre" asp-route-movieId="@movie.MovieId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Add Genre</a>
                         <a asp-area="Administration" asp-action="RemoveGenreFromMovie" asp-controller="MovieGenre" asp-route-movieId="@movie.MovieId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Remove Genre</a>
+                        <a asp-area="Administration" asp-action="AddCrewToMovie" asp-controller="CrewMovie" asp-route-movieId="@movie.MovieId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Add Crew</a>
+                        <a asp-area="Administration" asp-action="RemoveCrewFromMovie" asp-controller="CrewMovie" asp-route-movieId="@movie.MovieId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Remove Crew</a>
                     </td>
                 </tr>
             </tbody>

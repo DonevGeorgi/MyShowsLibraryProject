@@ -22,6 +22,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IMovieGenreService, MovieGenreService>();
             services.AddScoped<ISerieGenreService, SerieGenreService>();
             services.AddScoped<ICrewRoleService, CrewRoleService>();
+            services.AddScoped<ICrewMovieService, CrewMovieService>();
+            services.AddScoped<ICrewSerieService, CrewSerieService>();
 
             return services;
         }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyShowsLibraryProject.Core.Models.ReviewModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
-using MyShowsLibraryProject.Infrastructure.Data.Models;
 using System.Security.Claims;
 
 namespace MyShowsLibraryProject.Controllers

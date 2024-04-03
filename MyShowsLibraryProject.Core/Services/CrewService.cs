@@ -85,8 +85,24 @@ namespace MyShowsLibraryProject.Core.Services
 
             return crew;
         }
+        public async Task<int> GetCrewName(string crewName)
+        {
+            var crewId = await repository.TakeAllReadOnly<Crew>()
+                .Where(c => c.Name == crewName)
+                .Select(c => c.CrewId)
+                .FirstOrDefaultAsync();
+
+            return crewId;
+        }
         public async Task<int> CreateAsync(CrewFormModel crew)
         {
+            var crewId = await GetCrewName(crew.Name);
+
+            if (crewId == 0)
+            {
+                throw new ArgumentException("Crew with this name already exists!");
+            }
+
             var newCrew = new Crew()
             {
                 Name = crew.Name,
@@ -109,7 +125,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (crewToEdit == null)
             {
-                //Exception
+                throw new ArgumentNullException("Crew does not exists!");
             }
 
             crewToEdit.Name = crew.Name;

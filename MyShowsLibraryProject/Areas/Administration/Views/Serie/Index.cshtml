@@ -27,6 +27,8 @@
                         <a asp-area="Administration" asp-action="Index" asp-controller="Season" asp-route-seriesId="@serie.SeriesId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Add Season</a>
                         <a asp-area="Administration" asp-action="AddGenreToSerie" asp-controller="SerieGenre" asp-route-serieId="@serie.SeriesId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Add Genre</a>
                         <a asp-area="Administration" asp-action="RemoveGenreFromSerie" asp-controller="SerieGenre" asp-route-serieId="@serie.SeriesId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Remove Genre</a>
+                        <a asp-area="Administration" asp-action="AddCrewToSerie" asp-controller="CrewSerie" asp-route-serieId="@serie.SeriesId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Add Crew</a>
+                        <a asp-area="Administration" asp-action="RemoveCrewFromSerie" asp-controller="CrewSerie" asp-route-serieId="@serie.SeriesId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Remove Crew</a>
                     </td>
                 </tr>
             </tbody>

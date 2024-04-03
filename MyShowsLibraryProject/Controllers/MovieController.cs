@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyShowsLibraryProject.Core.Services.Contacts;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MyShowsLibraryProject.Controllers
 {

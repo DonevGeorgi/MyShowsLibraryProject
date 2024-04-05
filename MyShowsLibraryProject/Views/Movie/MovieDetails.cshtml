@@ -53,12 +53,19 @@
                 <div class="d-flex justify-content-between">
                     <span class="m-2 p-2 fw-bold">@review.UserUsername</span>
                     <span class="m-2 p-2" style="background-color: gold; border-radius: 3em;">Rating: @review.Rating</span>
-                </div >
-                <div class ="d-flex" style="background-color: lightgrey; border-radius: 0.5em;">
+                </div>
+                <div class="d-flex" style="background-color: lightgrey; border-radius: 0.5em;">
                     <p class="p-2">@review.Content</p>
+                </div>
+                <div class="p-1">
+                    @if(User.Identity.Name == review.UserUsername){
+                        <a asp-area="default" asp-action="EditingReview" asp-controller="Review" asp-route-reviewId="@review.ReviewId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Edit</a>
+                        <a asp-area="default" asp-action="RemovingReview" asp-controller="Review" asp-route-reviewId="@review.ReviewId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Delete</a>
+                    }
                 </div>
             </div>
             <hr style="border: 3px solid black; border-radius: 0.5em;" />
 
         }
     </div>
+</div>

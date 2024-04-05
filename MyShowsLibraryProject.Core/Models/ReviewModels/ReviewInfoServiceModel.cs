@@ -2,7 +2,8 @@
 {
     public class ReviewInfoServiceModel
     {
-        public string Rating { get; set; } = string.Empty;
+        public int ReviewId { get; set; }
+        public int Rating { get; set; }
         public string Content {  get; set; } = string.Empty;
         public string UserUsername {  get; set; } = string.Empty;
     }

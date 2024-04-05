@@ -13,13 +13,10 @@ namespace MyShowsLibraryProject.Core.Services
     public class SerieService : ISerieService
     {
         private readonly IRepository repository;
-        private readonly IGenreService genreService;
 
-        public SerieService(IRepository _repository,
-            IGenreService _genreService)
+        public SerieService(IRepository _repository)
         {
             repository = _repository;
-            genreService = _genreService;
         }
 
         public async Task<IEnumerable<SerieInfoServiceModel>> GetAllReadonlyAsync()
@@ -48,11 +45,10 @@ namespace MyShowsLibraryProject.Core.Services
                 PosterUrl = s.PosterUrl,
                 StartYear = s.YearOfStart,
                 EndYear = s.YearOfEnd,
-                //Later when you add review try make method and add null check not implemented yet
-                Rating = repository
-                        .TakeAll<SerieReview>()
-                        .Where(sr => sr.SerieId == s.SeriesId)
-                        .Average(sr => sr.Review.Rating)
+                Rating = Math.Round(((double)repository
+                        .TakeAll<MovieReview>()
+                        .Where(r => r.MovieId == s.SeriesId)
+                        .Average(mr => mr.Review.Rating)), 2)
                         .ToString()
             })
             .ToListAsync();
@@ -80,21 +76,22 @@ namespace MyShowsLibraryProject.Core.Services
         }
         public async Task EditAsync(int serieId, SerieFormModel serie)
         {
-            var movieToEdit = await repository.GetByIdAsync<Serie>(serieId);
+            var serieToEdit = await repository.GetByIdAsync<Serie>(serieId); 
 
-            if (movieToEdit == null)
+            if (serieToEdit == null)
             {
-                //Exception
+                throw new NullReferenceException("Serie you want to edit does not exists!");
             }
 
-            movieToEdit.Title = serie.Title;
-            movieToEdit.PosterUrl = serie.PosterUrl;
-            movieToEdit.TrailerUrl = serie.TrailerUrl;
-            movieToEdit.YearOfStart = serie.YearOfStart;
-            movieToEdit.YearOfEnd = serie.YearOfEnd;
-            movieToEdit.Summary = serie.Summary;
-            movieToEdit.OriginalAudioLanguage = serie.OriginalAudioLanguage;
-            movieToEdit.ForMoreSummaryUrl = serie.ForMoreSummaryUrl;
+
+            serieToEdit.Title = serie.Title;
+            serieToEdit.PosterUrl = serie.PosterUrl;
+            serieToEdit.TrailerUrl = serie.TrailerUrl;
+            serieToEdit.YearOfStart = serie.YearOfStart;
+            serieToEdit.YearOfEnd = serie.YearOfEnd;
+            serieToEdit.Summary = serie.Summary;
+            serieToEdit.OriginalAudioLanguage = serie.OriginalAudioLanguage;
+            serieToEdit.ForMoreSummaryUrl = serie.ForMoreSummaryUrl;
 
             await repository.SaveChangesAsync();
         }
@@ -151,7 +148,8 @@ namespace MyShowsLibraryProject.Core.Services
                 .Where(sr => sr.SerieId == serieId)
                 .Select(r => new ReviewInfoServiceModel
                 {
-                    Rating = r.Review.Rating.ToString(),
+                    ReviewId = r.ReviewId,
+                    Rating = r.Review.Rating,
                     Content = r.Review.Content,
                     UserUsername = repository
                         .TakeAllReadOnly<UserReview>()
@@ -162,6 +160,11 @@ namespace MyShowsLibraryProject.Core.Services
                 .ToList()
             })
             .FirstOrDefaultAsync();
+
+            if (serie == null)
+            {
+                throw new ArgumentNullException("Serie does not exists!");
+            }
 
             return serie;
         }

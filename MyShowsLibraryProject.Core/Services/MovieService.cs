@@ -43,13 +43,12 @@ namespace MyShowsLibraryProject.Core.Services
                 Title = m.Title,
                 PosterUrl = m.PosterUrl,
                 YearOfRelease = m.DateOfRelease,
-                //Later when you add review try make method and add null check not implemented yet
-                Rating = repository
+                Rating = Math.Round(((double)repository
                         .TakeAll<MovieReview>()
                         .Where(r => r.MovieId == m.MovieId)
-                        .Average(mr => mr.Review.Rating)
+                        .Average(mr => mr.Review.Rating)),2)
                         .ToString()
-            })
+        })
             .ToListAsync();
 
             return movies;
@@ -102,7 +101,8 @@ namespace MyShowsLibraryProject.Core.Services
                     .Where(r => r.MovieId == movieId)
                     .Select(r => new ReviewInfoServiceModel
                     {
-                        Rating = r.Review.Rating.ToString(),
+                        ReviewId = r.ReviewId,
+                        Rating = r.Review.Rating,
                         Content = r.Review.Content,
                         UserUsername = repository
                         .TakeAllReadOnly<UserReview>()
@@ -113,6 +113,11 @@ namespace MyShowsLibraryProject.Core.Services
                     .ToList()
              })
             .FirstOrDefaultAsync();
+
+            if (movie == null)
+            {
+                throw new ArgumentNullException("Movie does not exists!");
+            }
 
             return movie;
         }

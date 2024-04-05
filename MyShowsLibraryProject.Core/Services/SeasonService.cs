@@ -64,6 +64,11 @@ namespace MyShowsLibraryProject.Core.Services
                 })
                 .FirstOrDefaultAsync();
 
+            if (season == null)
+            {
+                throw new ArgumentNullException("Season does not exists!");
+            }
+
             return season;
         }
         public async Task CreateAsync(SeasonFormModel season, int seriesId)

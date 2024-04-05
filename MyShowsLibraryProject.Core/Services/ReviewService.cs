@@ -1,4 +1,5 @@
-﻿using MyShowsLibraryProject.Core.Models.ReviewModels;
+﻿using Microsoft.EntityFrameworkCore;
+using MyShowsLibraryProject.Core.Models.ReviewModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
@@ -20,6 +21,26 @@ namespace MyShowsLibraryProject.Core.Services
             serieRepository = _serieRepository;
         }
 
+        public async Task<ReviewInfoServiceModel> GetReviewById(int reviewId)
+        {
+            var reviews = await repository
+                .TakeAllReadOnly<Review>()
+                .Where(r => r.ReviewId == reviewId)
+                .Select(r => new ReviewInfoServiceModel
+                {
+                    ReviewId = r.ReviewId,
+                    Rating = r.Rating,
+                    Content = r.Content
+                })
+                .FirstOrDefaultAsync();
+
+            if (reviews == null)
+            {
+                throw new NullReferenceException("Review does not exists!");
+            }
+
+            return reviews;
+        }
         public async Task<int> CreateAsync(ReviewFormModel model, string userId,int showId,string showType)
         {
             var newReview = new Review()
@@ -31,9 +52,6 @@ namespace MyShowsLibraryProject.Core.Services
             await repository.AddAsync(newReview);
             await repository.SaveChangesAsync();
 
-            //maybe check if same review from same user exist becouse of spam
-
-
             if (showType == "movie" && await movieRepository.IsMoviePresent(showId))
             {
                 var newMovieReview = new MovieReview()
@@ -44,11 +62,11 @@ namespace MyShowsLibraryProject.Core.Services
 
                 await repository.AddAsync(newMovieReview);
             }
-            //else if(showType != "movie" && !await movieRepository.IsMoviePresent(showId))
-            //{
-            //    throw new ArgumentNullException("The show you chose does not exists!");
-            //}
-            
+            else if (showType == "movie" && !await movieRepository.IsMoviePresent(showId))
+            {
+                throw new ArgumentNullException("The show you chose does not exists!");
+            }
+
             if (showType == "serie" && await serieRepository.IsSeriePresent(showId))
             {
                 var newSerieReview = new SerieReview()
@@ -59,10 +77,10 @@ namespace MyShowsLibraryProject.Core.Services
 
                 await repository.AddAsync(newSerieReview);
             }
-            //else if(showType != "serie" && !await serieRepository.IsSeriePresent(showId))
-            //{
-            //    throw new ArgumentNullException("The show you chose does not exists!");
-            //}
+            else if (showType == "serie" && !await serieRepository.IsSeriePresent(showId))
+            {
+                throw new ArgumentNullException("the show you chose does not exists!");
+            }
 
             var newUserReview = new UserReview()
             {
@@ -79,6 +97,32 @@ namespace MyShowsLibraryProject.Core.Services
             }
 
             return showId;
+        }
+        public async Task EditAsync(int reviewId, ReviewFormModel review)
+        {
+            var reviewToEdit = await repository.GetByIdAsync<Review>(reviewId);
+
+            if (reviewToEdit == null)
+            {
+                throw new NullReferenceException("Review you want to edit does not exists!");
+            }
+
+            reviewToEdit.Rating = review.Rating;
+            reviewToEdit.Content = review.Content;
+
+            await repository.SaveChangesAsync();
+        }
+        public async Task DeleteAsync(int reviewId, string userId)
+        {
+            var modelToRemove = new UserReview()
+            {
+                UserId = userId,
+                ReviewId = reviewId
+            };
+
+            repository.Remove<UserReview>(modelToRemove);
+            await repository.DeleteAsync<Review>(reviewId);
+            await repository.SaveChangesAsync();
         }
     }
 }

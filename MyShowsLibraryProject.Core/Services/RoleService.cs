@@ -35,15 +35,38 @@ namespace MyShowsLibraryProject.Core.Services
                 .Where(r => r.RoleId == roleId)
                 .Select(r => new RoleInfoServiceModel
                 {
+                    RoleId = r.RoleId,
                     Name = r.Name
                 })
                 .FirstOrDefaultAsync();
 
+            if(role == null)
+            {
+                throw new NullReferenceException("Role does not exists!");
+            }
+
             return role;
+        }
+        public async Task<bool> IsRolePresent(string roleName)
+        {
+            var role = await repository
+                .TakeAllReadOnly<Role>()
+                .Where(r => r.Name == roleName)
+                .FirstOrDefaultAsync();
+
+            if (role == null)
+            {
+                return true;
+            }
+
+            return false;
         }
         public async Task CreateAsync(RoleFormModel role)
         {
-            //Add check if exists
+            if (await IsRolePresent(role.Name))
+            {
+                throw new ArgumentNullException("Role does not exists!");
+            }
 
             var newRole = new Role()
             {
@@ -53,27 +76,13 @@ namespace MyShowsLibraryProject.Core.Services
             await repository.AddAsync(newRole);   
             await repository.SaveChangesAsync();
         }
-        public async Task<int> GetRoleIdFromName(string name)
-        {
-            var roleId = await repository
-               .TakeAllReadOnly<Role>()
-               .Where(r => r.Name == name)
-               .FirstOrDefaultAsync();
-
-            if (roleId == null)
-            {
-                return 0;
-            }
-
-            return roleId.RoleId;
-        }
         public async Task EditAsync(int roleId, RoleFormModel role)
         {
             var roleToEdit = await repository.GetByIdAsync<Role>(roleId);
 
             if (roleToEdit == null)
             {
-                //Exception
+                throw new NullReferenceException("Role you want to edit does not exists!");
             }
 
             roleToEdit.Name = role.Name;

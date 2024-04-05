@@ -19,7 +19,6 @@ namespace MyShowsLibraryProject.Controllers
         {
             return View();
         }
-
         [HttpGet]
         public IActionResult AddingReview(int showId, string showType)
         {
@@ -30,7 +29,6 @@ namespace MyShowsLibraryProject.Controllers
 
             return View(model);
         }
-
         [HttpPost]
         public async Task<IActionResult> AddingReview(ReviewFormModel model)
         {
@@ -76,5 +74,62 @@ namespace MyShowsLibraryProject.Controllers
 
             return RedirectToAction("SerieDetails", "Serie", new { serieId = showId });
         }
+        [HttpGet]
+        public async Task<IActionResult> EditingReview(int reviewId)
+        {
+            var review = await reviewService.GetReviewById(reviewId);
+
+            TempData["identifier"] = reviewId;
+
+            var model = new ReviewFormModel()
+            {
+                Rating = review.Rating,
+                Content = review.Content
+            };
+
+            return View(model);
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditingReview(ReviewFormModel newReview)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(newReview);
+            }
+
+            var reviewId = Convert.ToInt32(TempData["identifier"]);
+
+            if (reviewId == 0)
+            {
+                return BadRequest();
+            }
+
+            await reviewService.EditAsync(reviewId, newReview);
+
+            return RedirectToAction("Index","Movie");
+        }
+        [HttpGet]
+        public async Task<IActionResult> RemovingReview(int reviewId)
+        {
+            var review = await reviewService.GetReviewById(reviewId);
+
+            if (review == null)
+            {
+                return BadRequest();
+            }
+
+            var userId = User.GetId();
+
+            if (userId == null)
+            {
+                return NotFound();
+            }
+
+            await reviewService.DeleteAsync(reviewId,userId);
+
+            return RedirectToAction("Index","Movie");
+        }
+
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Core.Models.RolesModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 
@@ -43,9 +42,8 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
-        public async Task<IActionResult> Edit(string roleName)
+        public async Task<IActionResult> Edit(int roleId)
         {
-            var roleId = await roleService.GetRoleIdFromName(roleName);
             var role = await roleService.GetRoleById(roleId);
 
             TempData["identifier"] = roleId;
@@ -77,9 +75,8 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
-        public async Task<IActionResult> Delete(string roleName)
+        public async Task<IActionResult> Delete(int roleId)
         {
-            var roleId = await roleService.GetRoleIdFromName(roleName);
             var role = await roleService.GetRoleById(roleId);
 
             if (role == null)

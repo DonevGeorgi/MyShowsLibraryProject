@@ -5,7 +5,7 @@ namespace MyShowsLibraryProject.Core.Models.SerieModels
 {
     public class SerieQueryModel
     {
-        public int SeriePerPage = 12;
+        public int SeriePerPage { get; } = 12;
         [Display(Name = "Search by text")]
         public string SearchTerm { get; set; } = string.Empty;
         public SerieSorting Sorting { get; set; }

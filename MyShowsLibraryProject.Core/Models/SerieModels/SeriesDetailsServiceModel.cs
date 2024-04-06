@@ -1,7 +1,6 @@
 ﻿using MyShowsLibraryProject.Core.Models.CrewModels;
 using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Core.Models.ReviewModels;
-using MyShowsLibraryProject.Core.Models.RolesModels;
 
 namespace MyShowsLibraryProject.Core.Models.SerieModels
 {

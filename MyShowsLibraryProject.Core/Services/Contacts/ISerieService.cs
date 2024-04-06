@@ -1,11 +1,12 @@
-﻿using MyShowsLibraryProject.Core.Models.SerieModels;
+﻿using MyShowsLibraryProject.Core.Enumeration;
+using MyShowsLibraryProject.Core.Models.SerieModels;
 
 namespace MyShowsLibraryProject.Core.Services.Contacts
 {
     public interface ISerieService
     {
         Task<IEnumerable<SerieInfoServiceModel>> GetAllReadonlyAsync();
-        Task<IEnumerable<SeriesCardInfoServiceModel>> GetAllCardInfoAsync();
+        Task<SerieQueryServiceModel> GetAllCardInfoAsync(string? searchTerm, SerieSorting sorting, int currPage, int seriePerPage);
         Task<SeriesDetailsServiceModel> GetSerieDetailsByIdAsync(int serieId);
         Task<int> CreateAsync(SerieFormModel model);
         Task EditAsync(int serieId, SerieFormModel serie);

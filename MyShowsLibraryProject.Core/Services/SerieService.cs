@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyShowsLibraryProject.Core.Enumeration;
 using MyShowsLibraryProject.Core.Models.CrewModels;
 using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Core.Models.ReviewModels;
@@ -34,26 +35,53 @@ namespace MyShowsLibraryProject.Core.Services
 
             return series;
         }
-        public async Task<IEnumerable<SeriesCardInfoServiceModel>> GetAllCardInfoAsync()
+        public async Task<SerieQueryServiceModel> GetAllCardInfoAsync(
+            string? searchTerm = null,
+            SerieSorting sorting = SerieSorting.FromA,
+            int currPage = 1,
+            int seriePerPage = 4)
         {
-            var series = await repository
-            .TakeAllReadOnly<Serie>()
-            .Select(s => new SeriesCardInfoServiceModel()
+            var serie = repository.TakeAllReadOnly<Serie>();
+
+            if (searchTerm != null)
             {
-                SerieId = s.SeriesId,
-                Title = s.Title,
-                PosterUrl = s.PosterUrl,
-                StartYear = s.YearOfStart,
-                EndYear = s.YearOfEnd,
-                Rating = Math.Round(((double)repository
-                        .TakeAll<MovieReview>()
-                        .Where(r => r.MovieId == s.SeriesId)
+                string normalizeSearchTerm = searchTerm.ToLower();
+                serie = serie
+                    .Where(m => m.Title.ToLower().Contains(normalizeSearchTerm));
+            }
+
+            serie = sorting switch
+            {
+                SerieSorting.FromA => serie.OrderBy(m => m.Title),
+                SerieSorting.ToA => serie.OrderByDescending(m => m.Title),
+                _ => serie
+            };
+
+            var serieToShow = await serie
+                .Skip((currPage - 1) * seriePerPage)
+                .Take(seriePerPage)
+                .Select(s => new SeriesCardInfoServiceModel()
+                {
+                    SerieId = s.SeriesId,
+                    Title = s.Title,
+                    PosterUrl = s.PosterUrl,
+                    StartYear = s.YearOfStart,
+                    EndYear = s.YearOfEnd,
+                    Rating = Math.Round(((double)repository
+                        .TakeAll<SerieReview>()
+                        .Where(r => r.SerieId == s.SeriesId)
                         .Average(mr => mr.Review.Rating)), 2)
                         .ToString()
-            })
-            .ToListAsync();
+                })
+                .ToListAsync();
 
-            return series;
+            int totalSerie = await serie.CountAsync();
+
+            return new SerieQueryServiceModel()
+            {
+               Serie = serieToShow,
+               TotalSerieCount = totalSerie
+            };
         }
         public async Task<int> CreateAsync(SerieFormModel serie)
         {

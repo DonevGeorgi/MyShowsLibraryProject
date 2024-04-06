@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyShowsLibraryProject.Core.Enumeration;
 using MyShowsLibraryProject.Core.Models.CrewModels;
 using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Core.Models.MovieModels;
@@ -33,25 +34,51 @@ namespace MyShowsLibraryProject.Core.Services
 
             return movies;
         }
-        public async Task<IEnumerable<MoviesCardInfoServiceModel>> GetAllCardInfoAsync()
+        public async Task<MoviesQueryServiceModel> GetAllCardInfoAsync(string? searchTerm = null,
+            MovieSorting sorting = MovieSorting.FromA,
+            int currPage = 1,
+            int moviePerPage = 4)
         {
-            var movies = await repository
-            .TakeAllReadOnly<Movie>()
-            .Select(m => new MoviesCardInfoServiceModel()
+            var movies = repository.TakeAllReadOnly<Movie>();
+
+            if (searchTerm != null)
             {
-                MovieId = m.MovieId,
-                Title = m.Title,
-                PosterUrl = m.PosterUrl,
-                YearOfRelease = m.DateOfRelease,
-                Rating = Math.Round(((double)repository
+                string normalizeSearchTerm = searchTerm.ToLower();
+                movies = movies
+                    .Where(m => m.Title.ToLower().Contains(normalizeSearchTerm));
+            }
+
+            movies = sorting switch
+            {
+                MovieSorting.FromA => movies.OrderBy(m => m.Title),
+                MovieSorting.ToA => movies.OrderByDescending(m => m.Title),
+                _ => movies
+            };
+
+            var moviesToShow = await movies
+                .Skip((currPage - 1) * moviePerPage)
+                .Take(moviePerPage)
+                .Select(m => new MoviesCardInfoServiceModel()
+                {
+                    MovieId = m.MovieId,
+                    Title = m.Title,
+                    PosterUrl = m.PosterUrl,
+                    YearOfRelease = m.DateOfRelease,
+                    Rating = Math.Round(((double)repository
                         .TakeAll<MovieReview>()
                         .Where(r => r.MovieId == m.MovieId)
-                        .Average(mr => mr.Review.Rating)),2)
+                        .Average(mr => mr.Review.Rating)), 2)
                         .ToString()
-        })
-            .ToListAsync();
+                })
+                .ToListAsync();
 
-            return movies;
+            int totalMovies = await movies.CountAsync();
+
+            return new MoviesQueryServiceModel()
+            {
+                Movies = moviesToShow,
+                TotalMovieCount = totalMovies
+            };
         }
         public async Task<MoviesDetailsServiceModel> GetMovieDetailsByIdAsync(int movieId)
         {

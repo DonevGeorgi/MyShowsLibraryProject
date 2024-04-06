@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyShowsLibraryProject.Core.Models.SerieModels;
+using MyShowsLibraryProject.Core.Services;
 using MyShowsLibraryProject.Core.Services.Contacts;
 
 namespace MyShowsLibraryProject.Controllers
@@ -15,11 +17,14 @@ namespace MyShowsLibraryProject.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] SerieQueryModel query)
         {
-            var model = await serieService.GetAllCardInfoAsync();
+            var serie = await serieService.GetAllCardInfoAsync(query.SearchTerm, query.Sorting, query.CurrentPage, query.SeriePerPage);
 
-            return View(model);
+            query.TotalSeriesCount = serie.TotalSerieCount;
+            query.Serie = serie.Serie;
+
+            return View(query);
         }
 
         [HttpGet]

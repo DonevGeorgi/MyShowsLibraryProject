@@ -1,0 +1,17 @@
+﻿@model SeriesCardInfoServiceModel
+
+<div class="card bg-transparent border-0 p-1" style="width: 300px; height: 460px">
+    <img class="w-100 h-100" src="@Model.PosterUrl" style="border-radius: 0.5rem;">
+    <div class="card-body p-0 m-0 position-absolute bottom-0 start-50 translate-middle-x">
+        <div class="card-title text-center">
+            <a asp-controller="Serie" asp-action="SerieDetails" asp-route-serieId="@Model.SerieId"
+               class="card-title text-white text-decoration-none bg-black bg-opacity-75 p-1" style="border-radius: 0.5em;">
+                @Model.Title
+            </a>
+        </div>
+        <div class="card-text text-white d-flex justify-content-between mb-2">
+            <span class="bg-black bg-opacity-75 p-1" style="border-radius: 0.5em;">@(Model.EndYear == string.Empty ? Model.StartYear : Model.StartYear + " - " + Model.EndYear)</span>
+            <span class="bg-black bg-opacity-75 p-1" style="border-radius: 0.5em;">@(Model.Rating == null ? "0.00" : Model.Rating)</span>
+        </div>
+    </div>
+</div>

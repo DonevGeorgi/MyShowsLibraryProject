@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.QuickInfo;
+using MyShowsLibraryProject.Core.Models.MovieModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MyShowsLibraryProject.Controllers
 {
@@ -16,11 +17,14 @@ namespace MyShowsLibraryProject.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery]MoviesQueryModel query)
         {
-            var model = await movieService.GetAllCardInfoAsync();
+            var model = await movieService.GetAllCardInfoAsync(query.SearchTerm,query.Sorting,query.CurrentPage,query.MoviePerPage);
 
-            return View(model);
+            query.TotalMoviesCount = model.TotalMovieCount;
+            query.Movies = model.Movies;
+
+            return View(query);
         }
         [HttpGet]
         public async Task<IActionResult> MovieDetails(int movieId)

@@ -56,7 +56,7 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
             {
                 PosterUrl = season.PosterUrl,
                 YearOfRelease = season.YearOfRelease,
-                SeasonNumberation = season.SeasonNumberation,
+                SeasonNumeration = season.SeasonNumberation,
                 EpisodesInSeason = season.EpisodesInSeason
             };
 

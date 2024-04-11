@@ -15,7 +15,7 @@ namespace MyShowsLibraryProject.Core.Models.SeasonModels
         [Range(DataConstants.SeasonEpisodeMinLength,
             DataConstants.SeasonEpisodeMaxLength,
             ErrorMessage = MessagesConstants.RangeMessage)]
-        public int SeasonNumberation { get; set; }
+        public int SeasonNumeration { get; set; }
         [Required(ErrorMessage = MessagesConstants.RequiredMessage)]
         [RegularExpression(DataConstants.ReleaseAndEndYearRegex,
             ErrorMessage = MessagesConstants.ReleaseAndEndDateFormat)]

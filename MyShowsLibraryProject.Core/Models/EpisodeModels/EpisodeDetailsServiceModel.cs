@@ -2,6 +2,7 @@
 {
     public class EpisodeDetailsServiceModel
     {
+        public int EpisodeId { get; set; }  
         public int SeasonNumber { get; set; }
         public int EpisodeNumeration { get; set; }
         public string PosterUrl { get; set; } = string.Empty;

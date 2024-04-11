@@ -27,9 +27,6 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Common
         public async Task<T?> GetByIdAsync<T>(object id) where T : class
             => await DbSet<T>().FindAsync(id);
 
-        public async Task<bool> CheckIfExistAsync<T>(object id) where T : class
-            => await DbSet<T>().ContainsAsync(id);
-
         public async Task SaveChangesAsync()
             => await dbContext.SaveChangesAsync();
 

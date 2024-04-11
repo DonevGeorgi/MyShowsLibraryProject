@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyShowsLibraryProject.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using MyShowsLibraryProject.Infrastructure.Data;
 namespace MyShowsLibraryProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240410165444_Add-Review-Seeding")]
+    partial class AddReviewSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,7 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                         new
                         {
                             Id = "2c2c1h4e-3t6e-556f-86af-487y56fd2410",
-                            ConcurrencyStamp = "c3e5ab60-7376-45ab-a951-8c054ba57c49",
+                            ConcurrencyStamp = "cd16a960-c63b-4c4d-aa5f-fb2f4ddd9c53",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -167,15 +169,15 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                         {
                             Id = "8e656345-a56d-4543-a7c6-4556d32d4db2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "54b221b4-dcf0-4f89-a7c0-9e930c87a789",
+                            ConcurrencyStamp = "56179d24-f278-419f-a56b-7eb7c532453b",
                             Email = "admin1@abv.bg",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN1@ABV.BG",
                             NormalizedUserName = "ADMIN1@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAELl2LtfEDUOxTY8uv+8dQiG1n2hIEV3cRdMOyBZBgkidz272HXcijYhb4hqbZ2Bs4g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDzPIt4Avpk1KE/9rhzMy3TYny1gwd7DXvU5Frj/oJKxwwFlUmPQF3nU478mIvWwqQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cfb49ab8-3a9b-4584-b6ff-cbedc63acf77",
+                            SecurityStamp = "80052daa-86bf-4b36-b1bd-c8d27d8b014f",
                             TwoFactorEnabled = false,
                             UserName = "admin1@abv.bg"
                         });
@@ -1271,18 +1273,6 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.ToTable("UsersReviews");
 
                     b.HasComment("User reviews");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "8e656345-a56d-4543-a7c6-4556d32d4db2",
-                            ReviewId = 67
-                        },
-                        new
-                        {
-                            UserId = "8e656345-a56d-4543-a7c6-4556d32d4db2",
-                            ReviewId = 68
-                        });
                 });
 
             modelBuilder.Entity("MyShowsLibraryProject.Infrastructure.Data.Models.UserSerie", b =>

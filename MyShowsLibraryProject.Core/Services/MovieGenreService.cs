@@ -29,7 +29,7 @@ namespace MyShowsLibraryProject.Core.Services
         public async Task AddGenreToMovieAsync(int movieId, int genreId)
         {
             var movie = await movieService.GetMovieDetailsByIdAsync(movieId);
-
+             
             if (movie == null)
             {
                 throw new NullReferenceException();
@@ -52,11 +52,6 @@ namespace MyShowsLibraryProject.Core.Services
         public async Task RemoveGenreFromMovieAsync(int movieId, int genreId)
         {
             var movie = await movieService.GetMovieDetailsByIdAsync(movieId);
-
-            if (movie == null)
-            {
-                throw new NullReferenceException("Movie you chose dont exist!");
-            }
 
             if (!movie.Genres.Any())
             {

@@ -9,10 +9,13 @@ namespace MyShowsLibraryProject.Core.Services
     public class EpisodeService : IEpisodeService
     {
         private readonly IRepository repository;
+        private readonly ISeasonService seasonService;
 
-        public EpisodeService(IRepository _repository)
+        public EpisodeService(IRepository _repository,
+            ISeasonService _seasonService)
         {
             repository = _repository;
+            seasonService = _seasonService;
         }
 
         public async Task<IEnumerable<EpisodeInfoServiceModel>> GetEpisodeForSeason(int seasonId)
@@ -56,6 +59,7 @@ namespace MyShowsLibraryProject.Core.Services
                 .Where(e => e.EpisodeId == episodeId)
                 .Select(e => new EpisodeDetailsServiceModel
                 {
+                    EpisodeId = e.EpisodeId,
                     SeasonNumber = e.SeasonNumber,
                     EpisodeNumeration = e.EpisodeNumeration,
                     PosterUrl = e.PosterUrl,
@@ -64,18 +68,20 @@ namespace MyShowsLibraryProject.Core.Services
                 })
                 .FirstOrDefaultAsync();
 
+            if (episode == null)
+            {
+                throw new ArgumentNullException("Episode does not exists!");
+            }
+
             return episode;
         }
         public async Task CreateAsync(EpisodeFormModel episode, int seasonId, int seasonNumeration)
         {
-            if (seasonId == 0)
-            {
-                //Exception
-            }
+            var season = await seasonService.GetSeasonDetailsById(seasonId);
 
-            if (seasonNumeration == 0)
+            if (season == null)
             {
-                //Exception
+                throw new ArgumentNullException("Season does not exists!");
             }
 
             var newEpisode = new Episode()
@@ -97,7 +103,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (episodeToEdit == null)
             {
-                //Exception
+                throw new ArgumentNullException("Episode does not exists!");
             }
 
             episodeToEdit.EpisodeNumeration = episode.EpisodeNumeration;

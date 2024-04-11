@@ -79,7 +79,7 @@ namespace MyShowsLibraryProject.Core.Services
             }
             else if (showType == "serie" && !await serieRepository.IsSeriePresent(showId))
             {
-                throw new ArgumentNullException("the show you chose does not exists!");
+                throw new ArgumentNullException("The show you chose does not exists!");
             }
 
             var newUserReview = new UserReview()

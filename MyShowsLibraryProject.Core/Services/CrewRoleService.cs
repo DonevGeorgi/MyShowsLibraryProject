@@ -30,11 +30,6 @@ namespace MyShowsLibraryProject.Core.Services
         {
             var crew = await crewService.GetCrewDetailsById(crewId);
 
-            if (crew == null)
-            {
-                throw new NullReferenceException();
-            }
-
             if (crew.Roles.Any(g => g.RoleId == roleId))
             {
                 throw new ArgumentException("Crew contains role already!");
@@ -53,14 +48,9 @@ namespace MyShowsLibraryProject.Core.Services
         {
             var crew = await crewService.GetCrewDetailsById(crewId);
 
-            if (crew == null)
-            {
-                throw new NullReferenceException("Crew you chose dont exist!");
-            }
-
             if (!crew.Roles.Any())
             {
-                throw new ArgumentException("Crew dont have role!");
+                throw new ArgumentException("Crew dont have roles!");
             }
 
             if (!crew.Roles.Any(g => g.RoleId == roleId))

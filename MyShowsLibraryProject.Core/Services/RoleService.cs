@@ -17,16 +17,16 @@ namespace MyShowsLibraryProject.Core.Services
 
         public async Task<IEnumerable<RoleInfoServiceModel>> GetAllReadonlyAsync()
         {
-           var roles = await repository
-                .TakeAllReadOnly<Role>()
-                .Select(r => new RoleInfoServiceModel
-                {
-                    RoleId = r.RoleId,
-                    Name = r.Name
-                })
-                .ToListAsync();
+            var roles = await repository
+                 .TakeAllReadOnly<Role>()
+                 .Select(r => new RoleInfoServiceModel
+                 {
+                     RoleId = r.RoleId,
+                     Name = r.Name
+                 })
+                 .ToListAsync();
 
-           return roles;
+            return roles;
         }
         public async Task<RoleInfoServiceModel> GetRoleById(int roleId)
         {
@@ -40,7 +40,7 @@ namespace MyShowsLibraryProject.Core.Services
                 })
                 .FirstOrDefaultAsync();
 
-            if(role == null)
+            if (role == null)
             {
                 throw new NullReferenceException("Role does not exists!");
             }
@@ -56,10 +56,10 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (role == null)
             {
-                return true;
+                return false;
             }
 
-            return false;
+            return true;
         }
         public async Task CreateAsync(RoleFormModel role)
         {
@@ -73,7 +73,7 @@ namespace MyShowsLibraryProject.Core.Services
                 Name = role.Name,
             };
 
-            await repository.AddAsync(newRole);   
+            await repository.AddAsync(newRole);
             await repository.SaveChangesAsync();
         }
         public async Task EditAsync(int roleId, RoleFormModel role)

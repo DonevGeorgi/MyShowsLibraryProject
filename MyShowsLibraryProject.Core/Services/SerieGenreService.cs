@@ -53,11 +53,6 @@ namespace MyShowsLibraryProject.Core.Services
         {
             var serie = await serieService.GetSerieDetailsByIdAsync(serieId);
 
-            if (serie == null)
-            {
-                throw new NullReferenceException();
-            }
-
             if (!serie.Genres.Any())
             {
                 throw new ArgumentException("Serie dont have genres!");

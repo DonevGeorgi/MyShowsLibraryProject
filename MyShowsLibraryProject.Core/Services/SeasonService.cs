@@ -73,15 +73,17 @@ namespace MyShowsLibraryProject.Core.Services
         }
         public async Task CreateAsync(SeasonFormModel season, int seriesId)
         {
-            if (seriesId == 0)
+            var seasonForCreation = await GetSeasonDetailsById(seriesId);
+
+            if (seasonForCreation == null)
             {
-                //exception
+                throw new ArgumentNullException("Serie does not exists!");
             }
 
             var newSeason = new Season()
             {
                 PosterUrl = season.PosterUrl,
-                SeasonNumeration = season.SeasonNumberation,
+                SeasonNumeration = season.SeasonNumeration,
                 YearOfRelease = season.YearOfRelease,
                 EpisodesInSeason = season.EpisodesInSeason,
                 SeriesId = seriesId
@@ -96,11 +98,11 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (seasonToEdit == null)
             {
-                //Exception
+                throw new ArgumentNullException("Season does not exists!");
             }
 
             seasonToEdit.PosterUrl = season.PosterUrl;
-            seasonToEdit.SeasonNumeration = season.SeasonNumberation;
+            seasonToEdit.SeasonNumeration = season.SeasonNumeration;
             seasonToEdit.YearOfRelease = season.YearOfRelease;
             seasonToEdit.EpisodesInSeason = season.EpisodesInSeason;
 

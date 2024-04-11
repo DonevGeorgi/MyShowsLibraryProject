@@ -12,13 +12,10 @@ namespace MyShowsLibraryProject.Core.Services
     public class CrewService : ICrewService
     {
         private readonly IRepository repository;
-        private readonly IRoleService roleService;
 
-        public CrewService(IRepository _repository,
-            IRoleService _roleService)
+        public CrewService(IRepository _repository)
         {
             repository = _repository;
-            roleService = _roleService;
         }
 
         public async Task<IEnumerable<CrewInfoServiceModel>> GetAllReadonlyAsync()
@@ -83,6 +80,11 @@ namespace MyShowsLibraryProject.Core.Services
                 })
                 .FirstOrDefaultAsync();
 
+            if (crew == null)
+            {
+                throw new ArgumentNullException("Crew does not exists!");
+            }
+
             return crew;
         }
         public async Task<int> GetCrewName(string crewName)
@@ -98,7 +100,7 @@ namespace MyShowsLibraryProject.Core.Services
         {
             var crewId = await GetCrewName(crew.Name);
 
-            if (crewId == 0)
+            if (crewId != 0)
             {
                 throw new ArgumentException("Crew with this name already exists!");
             }

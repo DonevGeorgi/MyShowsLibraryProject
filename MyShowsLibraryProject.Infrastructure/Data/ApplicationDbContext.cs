@@ -32,6 +32,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data
             builder.ApplyConfiguration(new UserSerieConfiguration());
             builder.ApplyConfiguration(new UserMovieConfiguration());
             builder.ApplyConfiguration(new UserReviewConfiguration());
+            builder.ApplyConfiguration(new ReviewConfiguration());
 
             base.OnModelCreating(builder);
 

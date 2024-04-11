@@ -22,6 +22,14 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
                .WithMany()
                .HasForeignKey(e => e.UserId)
                .OnDelete(DeleteBehavior.Restrict);
+
+            var data = new SeedData();
+
+            builder.HasData(new UserReview[]
+            {
+                data.URFirstConnection,
+                data.URSecondConnection
+            });
         }
     }
 }

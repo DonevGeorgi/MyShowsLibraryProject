@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
-using MyShowsLibraryProject.Infrastructure.Migrations;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
 {
@@ -75,6 +74,12 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
         public IdentityUser AdminUser { get; set; }
         public IdentityRole AspRole { get; set; }
         public IdentityUserRole<string> AdminUserRole { get; set; }
+        public Review ReviewForMovie { get; set; }
+        public Review ReviewForSerie { get; set; }
+        public MovieReview MRFirstConnection { get; set; }
+        public SerieReview SRFirstConnection { get; set; }
+        public UserReview URFirstConnection { get; set; }
+        public UserReview URSecondConnection { get; set; }
 
         public SeedData()
         {
@@ -93,6 +98,10 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
             SeedAdminUser();
             SeedAspRole();
             SeedAdminUserRole();
+            SeedReview();
+            SeedMovieReview();
+            SeedSerieReview();
+            SeedUserReview();
         }
 
         private void SeedGenre()
@@ -687,6 +696,52 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
                 RoleId = WriterRole.RoleId
             };
         }
+        private void SeedReview()
+        {
+            ReviewForMovie = new Review()
+            {
+                ReviewId = 67,
+                Rating = 5,
+                Content = "Movie was great!"
+            };
+
+            ReviewForSerie = new Review()
+            {
+                ReviewId = 68,
+                Rating = 5,
+                Content = "Serie was great!"
+            };
+        }
+        private void SeedMovieReview()
+        {
+            MRFirstConnection = new MovieReview()
+            {
+                MovieId = 1,
+                ReviewId = 67
+            };
+        }
+        private void SeedSerieReview()
+        {
+            SRFirstConnection = new SerieReview()
+            {
+                SerieId = 1,
+                ReviewId = 68
+            };
+        }
+        private void SeedUserReview()
+        {
+            URFirstConnection = new UserReview()
+            {
+                UserId = "8e656345-a56d-4543-a7c6-4556d32d4db2",
+                ReviewId = 67
+            };
+
+            URSecondConnection = new UserReview()
+            {
+                UserId = "8e656345-a56d-4543-a7c6-4556d32d4db2",
+                ReviewId = 68
+            };
+        }
         private void SeedAdminUser()
         {
             var hasher = new PasswordHasher<IdentityUser>();
@@ -705,7 +760,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
         }
         private void SeedAspRole()
         {
-            var AspRole = new IdentityRole()
+            AspRole = new IdentityRole()
             {
                 Id = "2c2c1h4e-3t6e-556f-86af-487y56fd2410",
                 Name = "Administrator",
@@ -714,13 +769,11 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
         }
         private void SeedAdminUserRole()
         {
-            var AdminUserRole = new IdentityUserRole<string>()
+            AdminUserRole = new IdentityUserRole<string>()
             {
                 RoleId = "2c2c1h4e-3t6e-556f-86af-487y56fd2410",
                 UserId = "8e656345-a56d-4543-a7c6-4556d32d4db2"
             };
         }
     }
-
-
 }

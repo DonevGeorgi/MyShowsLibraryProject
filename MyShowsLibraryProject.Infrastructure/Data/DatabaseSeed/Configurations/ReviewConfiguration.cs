@@ -4,18 +4,16 @@ using MyShowsLibraryProject.Infrastructure.Data.Models;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
 {
-    internal class SerieReviewConfiguration : IEntityTypeConfiguration<SerieReview>
+    public class ReviewConfiguration : IEntityTypeConfiguration<Review>
     {
-        public void Configure(EntityTypeBuilder<SerieReview> builder)
+        public void Configure(EntityTypeBuilder<Review> builder)
         {
-            builder
-                .HasKey(sv => new { sv.SerieId, sv.ReviewId });
-
             var data = new SeedData();
 
-            builder.HasData(new SerieReview[]
+            builder.HasData(new Review[]
             {
-                data.SRFirstConnection
+                data.ReviewForMovie,
+                data.ReviewForSerie
             });
         }
     }

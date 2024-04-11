@@ -10,6 +10,13 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
         {
             builder
                .HasKey(mv => new { mv.MovieId, mv.ReviewId });
+
+            var data = new SeedData();
+
+            builder.HasData(new MovieReview[]
+            {
+                data.MRFirstConnection
+            });
         }
     }
 }

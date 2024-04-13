@@ -5,7 +5,7 @@ namespace MyShowsLibraryProject.Core.Models.MovieModels
 {
     public class MoviesQueryModel
     {
-        public int MoviePerPage { get; } = 12;
+        public int MoviePerPage { get; } = 4;
         [Display(Name = "Search by text")]
         public string SearchTerm { get; set; } = string.Empty;
         public MovieSorting Sorting { get; set; }

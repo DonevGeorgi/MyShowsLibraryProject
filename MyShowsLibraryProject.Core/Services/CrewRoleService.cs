@@ -32,7 +32,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (crew.Roles.Any(g => g.RoleId == roleId))
             {
-                throw new ArgumentException("Crew contains role already!");
+                throw new NullReferenceException("Crew contains role already!");
             }
 
             var newCrewRole = new CrewRole()
@@ -50,12 +50,12 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (!crew.Roles.Any())
             {
-                throw new ArgumentException("Crew dont have roles!");
+                throw new NullReferenceException("Crew dont have roles!");
             }
 
             if (!crew.Roles.Any(g => g.RoleId == roleId))
             {
-                throw new ArgumentException("Crew dont have chosen role!");
+                throw new NullReferenceException("Crew dont have chosen role!");
             }
 
             var modelToRemove = new CrewRole()

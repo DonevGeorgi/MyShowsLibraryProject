@@ -37,7 +37,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (movie.Genres.Any(g => g.GenreId == genreId))
             {
-                throw new ArgumentException("Movie contains genre already!");
+                throw new NullReferenceException("Movie contains genre already!");
             }
 
             var newMovieGenre = new MovieGenre()
@@ -55,12 +55,12 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (!movie.Genres.Any())
             {
-                throw new ArgumentException("Movie dont have genres!");
+                throw new NullReferenceException("Movie dont have genres!");
             }
 
             if (!movie.Genres.Any(g => g.GenreId == genreId))
             {
-                throw new ArgumentException("Movie dont have chosen genre!");
+                throw new NullReferenceException("Movie dont have chosen genre!");
             }
 
             var modelToRemove = new MovieGenre()

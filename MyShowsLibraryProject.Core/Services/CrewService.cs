@@ -82,7 +82,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (crew == null)
             {
-                throw new ArgumentNullException("Crew does not exists!");
+                throw new NullReferenceException("Crew does not exists!");
             }
 
             return crew;
@@ -102,7 +102,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (crewId != 0)
             {
-                throw new ArgumentException("Crew with this name already exists!");
+                throw new NullReferenceException("Crew with this name already exists!");
             }
 
             var newCrew = new Crew()
@@ -123,11 +123,11 @@ namespace MyShowsLibraryProject.Core.Services
         }
         public async Task EditAsync(int crewId, CrewFormModel crew)
         {
-        var crewToEdit = await repository.GetByIdAsync<Crew>(crewId);
+            var crewToEdit = await repository.GetByIdAsync<Crew>(crewId);
 
             if (crewToEdit == null)
             {
-                throw new ArgumentNullException("Crew does not exists!");
+                throw new NullReferenceException("Crew does not exists!");
             }
 
             crewToEdit.Name = crew.Name;

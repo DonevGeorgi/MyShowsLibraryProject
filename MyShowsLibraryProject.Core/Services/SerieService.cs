@@ -111,7 +111,6 @@ namespace MyShowsLibraryProject.Core.Services
                 throw new NullReferenceException("Serie you want to edit does not exists!");
             }
 
-
             serieToEdit.Title = serie.Title;
             serieToEdit.PosterUrl = serie.PosterUrl;
             serieToEdit.TrailerUrl = serie.TrailerUrl;
@@ -191,7 +190,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (serie == null)
             {
-                throw new ArgumentNullException("Serie does not exists!");
+                throw new NullReferenceException("Serie does not exists!");
             }
 
             return serie;

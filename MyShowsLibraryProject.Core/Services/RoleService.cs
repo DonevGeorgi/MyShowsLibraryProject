@@ -65,7 +65,7 @@ namespace MyShowsLibraryProject.Core.Services
         {
             if (await IsRolePresent(role.Name))
             {
-                throw new ArgumentNullException("Role does not exists!");
+                throw new NullReferenceException("Role does not exists!");
             }
 
             var newRole = new Role()

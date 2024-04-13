@@ -64,7 +64,7 @@ namespace MyShowsLibraryProject.Core.Services
             }
             else if (showType == "movie" && !await movieRepository.IsMoviePresent(showId))
             {
-                throw new ArgumentNullException("The show you chose does not exists!");
+                throw new NullReferenceException("The show you chose does not exists!");
             }
 
             if (showType == "serie" && await serieRepository.IsSeriePresent(showId))
@@ -79,7 +79,7 @@ namespace MyShowsLibraryProject.Core.Services
             }
             else if (showType == "serie" && !await serieRepository.IsSeriePresent(showId))
             {
-                throw new ArgumentNullException("The show you chose does not exists!");
+                throw new NullReferenceException("The show you chose does not exists!");
             }
 
             var newUserReview = new UserReview()

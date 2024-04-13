@@ -143,7 +143,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (movie == null)
             {
-                throw new ArgumentNullException("Movie does not exists!");
+                throw new NullReferenceException("Movie does not exists!");
             }
 
             return movie;

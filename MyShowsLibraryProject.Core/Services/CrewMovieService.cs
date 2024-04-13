@@ -25,7 +25,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (crew == 0)
             {
-                throw new ArgumentException("Crew with this name does not exists!");
+                throw new NullReferenceException("Crew with this name does not exists!");
             }
 
             return crew;
@@ -42,7 +42,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (movie.Crews.Any(g => g.Name == crewName))
             {
-                throw new ArgumentException("Movie contains crew already!");
+                throw new NullReferenceException("Movie contains crew already!");
             }
 
             var newMovieCrew = new MovieCrew()
@@ -66,12 +66,12 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (!movie.Crews.Any())
             {
-                throw new ArgumentException("Movie dont have any crew!");
+                throw new NullReferenceException("Movie dont have any crew!");
             }
 
             if (!movie.Crews.Any(c => c.CrewId == crewId))
             {
-                throw new ArgumentException("Movie dont have this crew!");
+                throw new NullReferenceException("Movie dont have this crew!");
             }
 
             var modelToRemove = new MovieCrew()

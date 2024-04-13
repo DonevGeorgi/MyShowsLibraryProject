@@ -66,7 +66,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (season == null)
             {
-                throw new ArgumentNullException("Season does not exists!");
+                throw new NullReferenceException("Season does not exists!");
             }
 
             return season;
@@ -77,7 +77,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (seasonForCreation == null)
             {
-                throw new ArgumentNullException("Serie does not exists!");
+                throw new NullReferenceException("Serie does not exists!");
             }
 
             var newSeason = new Season()
@@ -98,7 +98,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (seasonToEdit == null)
             {
-                throw new ArgumentNullException("Season does not exists!");
+                throw new NullReferenceException("Season does not exists!");
             }
 
             seasonToEdit.PosterUrl = season.PosterUrl;

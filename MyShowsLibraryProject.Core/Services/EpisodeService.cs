@@ -70,7 +70,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (episode == null)
             {
-                throw new ArgumentNullException("Episode does not exists!");
+                throw new NullReferenceException("Episode does not exists!");
             }
 
             return episode;
@@ -81,7 +81,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (season == null)
             {
-                throw new ArgumentNullException("Season does not exists!");
+                throw new NullReferenceException("Season does not exists!");
             }
 
             var newEpisode = new Episode()
@@ -103,7 +103,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (episodeToEdit == null)
             {
-                throw new ArgumentNullException("Episode does not exists!");
+                throw new NullReferenceException("Episode does not exists!");
             }
 
             episodeToEdit.EpisodeNumeration = episode.EpisodeNumeration;

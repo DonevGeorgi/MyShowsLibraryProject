@@ -29,7 +29,15 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
                 date.CRTwelfthConnection,
                 date.CRThirteenthConnection,
                 date.CRFourteenthConnection,
-                date.CRFifteenthConnection
+                date.CRFifteenthConnection,
+                date.CRSixteenthConnection,
+                date.CRSeventeenthConnection,
+                date.CREighteenthConnection,
+                date.CRNineteenthConnection,
+                date.CRTwentiethConnection,
+                date.CRTwentyFirstConnection,
+                date.CRTwentySecondConnection,
+                date.CRTwentyThirdConnection
             });
         }
     }

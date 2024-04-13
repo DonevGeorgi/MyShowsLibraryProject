@@ -10,7 +10,17 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
         {
             var data = new SeedData();
 
-            builder.HasData(new Season[] {data.FirstSeason});
+            builder.HasData(new Season[]
+            {
+                data.GotFirstSeason,
+                data.GotSecondSeason,
+                data.GotThirdSeason,
+                data.GotFourthSeason,
+                data.DaredevilFirstSeason,
+                data.StrangerThingsFirstSeason,
+                data.StrangerThingsSecondSeason,
+                data.ThreeBodyProblemFirstSeason
+            });
         }
     }
 }

@@ -10,7 +10,21 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
         {
             var data = new SeedData();
 
-            builder.HasData(new Movie[] {data.FirstMovie});
+            builder.HasData(new Movie[]
+            {
+                data.FirstMovie,
+                data.SecondMovie,
+                data.ThirdMovie,
+                data.FourthMovie,
+                data.FifthMovie,
+                data.SixthMovie,
+                data.SeventhMovie,
+                data.EighthMovie,
+                data.NinthMovie,
+                data.TenthMovie,
+                data.EleventhMovie,
+                data.TwelfthMovie
+            });
         }
     }
 }

@@ -19,6 +19,12 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
                 data.SCFirstConnection,
                 data.SCSecondConnection,
                 data.SCThirdConnection,
+                data.SCFourthConnection,
+                data.SCFifthConnection,
+                data.SCSixthConnection,
+                data.SCSeventhConnection,
+                data.SCEighthConnection,
+                data.SCNinthConnection
             });
         }
     }

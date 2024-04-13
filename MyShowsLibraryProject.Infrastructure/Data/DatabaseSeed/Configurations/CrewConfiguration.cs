@@ -12,12 +12,16 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
 
             builder.HasData(new Crew[] 
             {
-                date.FirstDirector,
-                date.SecondDirector,
-                date.FirstActor,
-                date.SecondActor,
-                date.FirstWriter,
-                date.SecondWriter
+                date.BTFDirector,
+                date.BTFFirstActor,
+                date.BTFWriter,
+                date.GOTDirector,
+                date.GOTFirstActor,
+                date.GOTWriter,
+                date.GOTSecondActor,
+                date.GOTThirdActor,
+                date.GOTFourthActor,
+                date.GOTFifthActor
             });
         }
     }

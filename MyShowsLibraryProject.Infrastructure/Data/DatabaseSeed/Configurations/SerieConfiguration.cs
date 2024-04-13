@@ -10,7 +10,21 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
         {
             var data = new SeedData();
 
-            builder.HasData(new Serie[] { data.FirstSerie });
+            builder.HasData(new Serie[] 
+            {
+                data.FirstSerie,
+                data.SecondSerie,
+                data.ThirdSerie,
+                data.FourthSerie,
+                data.FifthSerie,
+                data.SixthSerie,
+                data.SeventhSerie,
+                data.EighthSerie,
+                data.NinthSerie,
+                data.TenthSerie,
+                data.EleventhSerie,
+                data.TwelfthSerie
+            });
         }
     }
 }

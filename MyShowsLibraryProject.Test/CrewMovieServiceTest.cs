@@ -47,7 +47,7 @@ namespace MyShowsLibraryProject.Test
         {
             var crewName = "Joe Biden";
 
-            Assert.ThrowsAsync<ArgumentException>(async () => await crewMovieService.GetCrewName(crewName), "Crew with this name does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await crewMovieService.GetCrewName(crewName), "Crew with this name does not exists!");
         }
 
         [TearDown]

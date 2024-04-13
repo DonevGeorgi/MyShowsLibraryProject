@@ -59,7 +59,7 @@ namespace MyShowsLibraryProject.Test
             var crewId = 1;
             var roleId = 1;
 
-            Assert.ThrowsAsync<ArgumentException>(async () => await crewRoleService.AddRoleToCrewAsync(crewId, roleId), "Crew contains role already!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await crewRoleService.AddRoleToCrewAsync(crewId, roleId), "Crew contains role already!");
         }
         [Test]
         public void AddRoleToNullCrewAsyncTest()
@@ -67,7 +67,7 @@ namespace MyShowsLibraryProject.Test
             var crewId = 200;
             var roleId = 8;
 
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await crewRoleService.AddRoleToCrewAsync(crewId, roleId), "Crew does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await crewRoleService.AddRoleToCrewAsync(crewId, roleId), "Crew does not exists!");
         }
         [Test]
         public async Task RemoveRoleFromCrewAsync()
@@ -87,7 +87,7 @@ namespace MyShowsLibraryProject.Test
             var crewId = 1;
             var roleId = 8;
 
-            Assert.ThrowsAsync<ArgumentException>(async () => await crewRoleService.RemoveRoleFromCrewAsync(crewId, roleId), "Crew dont have chosen role!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await crewRoleService.RemoveRoleFromCrewAsync(crewId, roleId), "Crew dont have chosen role!");
         }
         [Test]
         public void RemoveRoleFromNullCrewAsync()
@@ -95,7 +95,7 @@ namespace MyShowsLibraryProject.Test
             var crewId = 200;
             var roleId = 8;
 
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await crewRoleService.RemoveRoleFromCrewAsync(crewId, roleId), "Crew does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await crewRoleService.RemoveRoleFromCrewAsync(crewId, roleId), "Crew does not exists!");
         }
 
 

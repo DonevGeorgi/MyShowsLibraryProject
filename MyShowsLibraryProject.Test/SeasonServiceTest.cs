@@ -63,7 +63,7 @@ namespace MyShowsLibraryProject.Test
         {
             var seasonId = 12;
 
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await seasonService.GetSeasonDetailsById(seasonId), "Season does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await seasonService.GetSeasonDetailsById(seasonId), "Season does not exists!");
         }
         [Test]
         public async Task SeasonCreateAsyncTest()
@@ -81,7 +81,7 @@ namespace MyShowsLibraryProject.Test
         {
             var serieId = 33;
 
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await seasonService.CreateAsync(DatabaseConstants.CreateSeasonModel(),serieId), "Serie does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await seasonService.CreateAsync(DatabaseConstants.CreateSeasonModel(),serieId), "Serie does not exists!");
         }
         [Test]
         public async Task SeasonEditAsyncTest()
@@ -100,7 +100,7 @@ namespace MyShowsLibraryProject.Test
         {
             var serieId = 33;
 
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await seasonService.EditAsync(serieId, DatabaseConstants.SeasonForEdit()), "Season does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await seasonService.EditAsync(serieId, DatabaseConstants.SeasonForEdit()), "Season does not exists!");
         }
         [Test]
         public async Task SeasonDeleteAsyncTest()

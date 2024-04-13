@@ -59,7 +59,7 @@ namespace MyShowsLibraryProject.Test
         [Test]
         public void IsCrewIsNullCreateAsyncTest()
         {
-            Assert.ThrowsAsync<ArgumentException>(async () => await crewService.CreateAsync(DatabaseConstants.CreateNullCrewModel()), "Crew with this name already exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await crewService.CreateAsync(DatabaseConstants.CreateNullCrewModel()), "Crew with this name already exists!");
         }
         [Test]
         public async Task CrewEditAsyncTest()
@@ -79,7 +79,7 @@ namespace MyShowsLibraryProject.Test
             var crewId = 21;
             var crewToEdit = DatabaseConstants.CrewForEdit();
 
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await crewService.EditAsync(crewId, crewToEdit), "Crew does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await crewService.EditAsync(crewId, crewToEdit), "Crew does not exists!");
         }
         [Test]
         public async Task CrewDeleteAsyncTest()

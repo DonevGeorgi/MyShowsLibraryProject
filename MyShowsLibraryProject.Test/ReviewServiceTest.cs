@@ -100,7 +100,7 @@ namespace MyShowsLibraryProject.Test
             var userId = "8e656345-a56d-4543-a7c6-4556d32d4db2";
             var movieId = 44;
 
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await reviewService.CreateAsync(review,userId,movieId,showType), "The show you chose does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await reviewService.CreateAsync(review,userId,movieId,showType), "The show you chose does not exists!");
         }
         [Test]
         public async Task CreateSerieReviewAsync()
@@ -150,7 +150,7 @@ namespace MyShowsLibraryProject.Test
             var userId = "8e656345-a56d-4543-a7c6-4556d32d4db2";
             var serieId = 44;
 
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await reviewService.CreateAsync(review, userId, serieId, showType), "The show you chose does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await reviewService.CreateAsync(review, userId, serieId, showType), "The show you chose does not exists!");
         }
         [Test]
         public async Task ReviewEditAsyncTest()

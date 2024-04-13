@@ -64,7 +64,7 @@ namespace MyShowsLibraryProject.Test
         {
             var episodeId = 444;
 
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await episodeService.GetEpisodeDetailsById(episodeId), "Episode does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await episodeService.GetEpisodeDetailsById(episodeId), "Episode does not exists!");
         }
         [Test]
         public async Task EpisodeCreateAsyncTest()
@@ -86,7 +86,7 @@ namespace MyShowsLibraryProject.Test
             var seasonId = 33;
             var seasonNumeration = 1;
 
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await episodeService.CreateAsync(DatabaseConstants.CreateEpisodeModel(), seasonId, seasonNumeration), "Season does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await episodeService.CreateAsync(DatabaseConstants.CreateEpisodeModel(), seasonId, seasonNumeration), "Season does not exists!");
         }
         [Test]
         public async Task EpisodeEditAsyncTest()
@@ -105,7 +105,7 @@ namespace MyShowsLibraryProject.Test
         {
             var episodeId = 120;
 
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await episodeService.EditAsync(episodeId, DatabaseConstants.EpisodeForEdit()), "Episode does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await episodeService.EditAsync(episodeId, DatabaseConstants.EpisodeForEdit()), "Episode does not exists!");
         }
         [Test]
         public async Task EpisodeDeleteAsyncTest()

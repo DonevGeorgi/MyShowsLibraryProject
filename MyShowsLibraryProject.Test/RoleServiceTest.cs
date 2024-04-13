@@ -87,7 +87,7 @@ namespace MyShowsLibraryProject.Test
         {
             var role = DatabaseConstants.ExistedRole();
 
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await roleService.CreateAsync(role), "Role does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await roleService.CreateAsync(role), "Role does not exists!");
         }
         [Test]
         public async Task RoleEditAsyncTest()

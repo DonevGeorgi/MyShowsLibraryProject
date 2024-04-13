@@ -51,7 +51,7 @@ namespace MyShowsLibraryProject.Test
 
             var count = repository.TakeAll<CrewRole>().Count();
 
-            Assert.That(count,Is.EqualTo(16), "CrewRole was not created succesfully!");
+            Assert.That(count,Is.EqualTo(24), "CrewRole was not created succesfully!");
         }
         [Test]
         public void TryAddExistingRoleToCrewAsyncTest()
@@ -79,7 +79,7 @@ namespace MyShowsLibraryProject.Test
 
             var count = repository.TakeAll<CrewRole>().Count();
 
-            Assert.That(count,Is.EqualTo(14), "RemoveRoleFromCrewAsync dont delete what was expected!");
+            Assert.That(count,Is.EqualTo(22), "RemoveRoleFromCrewAsync dont delete what was expected!");
         }
         [Test]
         public void RemoveNullRoleFromCrewAsync()

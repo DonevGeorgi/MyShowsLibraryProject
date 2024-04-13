@@ -36,7 +36,7 @@ namespace MyShowsLibraryProject.Test
         {
             var crew = await crewService.GetAllReadonlyAsync();
 
-            Assert.That(crew.Count(), Is.EqualTo(6), "GetAllReadonlyAsync method did not return expected results!");
+            Assert.That(crew.Count(), Is.EqualTo(10), "GetAllReadonlyAsync method did not return expected results!");
         }
         [Test]
         public async Task CrewGetCrewNameTest()
@@ -54,7 +54,7 @@ namespace MyShowsLibraryProject.Test
 
             var repositoryCount = repository.TakeAll<Crew>().Count();
 
-            Assert.That(repositoryCount,Is.EqualTo(7), "Crew was not created succesfully!");
+            Assert.That(repositoryCount,Is.EqualTo(11), "Crew was not created succesfully!");
         }
         [Test]
         public void IsCrewIsNullCreateAsyncTest()
@@ -101,7 +101,7 @@ namespace MyShowsLibraryProject.Test
 
             var count = repository.TakeAll<Crew>().Count();
 
-            Assert.That(count, Is.EqualTo(6), "DeleteAsync delete unexpected record!");
+            Assert.That(count, Is.EqualTo(10), "DeleteAsync delete unexpected record!");
         }
 
         [TearDown]

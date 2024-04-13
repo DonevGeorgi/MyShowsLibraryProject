@@ -78,7 +78,7 @@ namespace MyShowsLibraryProject.Test
 
             var repositoryCount = repository.TakeAll<Episode>().Count();
 
-            Assert.That(repositoryCount, Is.EqualTo(11), "Episode was not created succesfully!");
+            Assert.That(repositoryCount, Is.EqualTo(41), "Episode was not created succesfully!");
         }
         [Test]
         public void NullEpisodeCreateAsyncTest()
@@ -103,7 +103,7 @@ namespace MyShowsLibraryProject.Test
         [Test]
         public void NullSeasonEditAsyncTest()
         {
-            var episodeId = 33;
+            var episodeId = 120;
 
             Assert.ThrowsAsync<ArgumentNullException>(async () => await episodeService.EditAsync(episodeId, DatabaseConstants.EpisodeForEdit()), "Episode does not exists!");
         }
@@ -121,13 +121,13 @@ namespace MyShowsLibraryProject.Test
         [Test]
         public async Task EpisodeIsNullDeleteAsyncTest()
         {
-            var episodeId = 12;
+            var episodeId = 120;
 
             await episodeService.DeleteAsync(episodeId);
 
             var count = repository.TakeAll<Episode>().Count();
 
-            Assert.That(count, Is.EqualTo(10), "DeleteAsync delete unexpected record!");
+            Assert.That(count, Is.EqualTo(40), "DeleteAsync delete unexpected record!");
         }
 
         [TearDown]

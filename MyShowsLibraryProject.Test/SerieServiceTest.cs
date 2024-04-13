@@ -1,5 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using MyShowsLibraryProject.Core.Enumeration;
+using MyShowsLibraryProject.Core.Models.MovieModels;
 using MyShowsLibraryProject.Core.Models.SerieModels;
 using MyShowsLibraryProject.Core.Services;
 using MyShowsLibraryProject.Core.Services.Contacts;
@@ -36,7 +38,7 @@ namespace MyShowsLibraryProject.Test
         {
             var serie = await serieService.GetAllReadonlyAsync();
 
-            Assert.That(serie.Count(), Is.EqualTo(1), "GetAllReadonlyAsync method did not return expected results!");
+            Assert.That(serie.Count(), Is.EqualTo(12), "GetAllReadonlyAsync method did not return expected results!");
         }
         [Test]
         public async Task SerieCreateAsyncTest()
@@ -45,7 +47,20 @@ namespace MyShowsLibraryProject.Test
 
             var repositoryCount = repository.TakeAll<Serie>().Count();
 
-            Assert.That(repositoryCount, Is.EqualTo(2), "Serie was not created succesfully!");
+            Assert.That(repositoryCount, Is.EqualTo(13), "Serie was not created succesfully!");
+        }
+        [Test]
+        public async Task SerieGetAllInPagingCardInfoAsyncTestWithoutSorting()
+        {
+            var testQuery = new SerieQueryModel();
+
+            var query = await serieService.GetAllCardInfoAsync(
+                testQuery.SearchTerm,
+                testQuery.Sorting,
+                testQuery.CurrentPage,
+                testQuery.SeriePerPage);
+
+            Assert.That(query.Serie.Count(), Is.EqualTo(4), "GetAllCardInfoAsync method did not return expected results!");
         }
         [Test]
         public async Task SerieGetAllCardInfoAsyncTestWithoutSorting()
@@ -58,7 +73,7 @@ namespace MyShowsLibraryProject.Test
                 testQuery.CurrentPage,
                 testQuery.SeriePerPage);
 
-            Assert.That(query.Serie.Count(), Is.EqualTo(1), "GetAllCardInfoAsync method did not return expected results!");
+            Assert.That(query.TotalSerieCount, Is.EqualTo(12), "GetAllCardInfoAsync method did not return expected results!");
         }
         [Test]
         public async Task SerieGetAllCardInfoAsyncTestWithtSorting()
@@ -75,7 +90,40 @@ namespace MyShowsLibraryProject.Test
 
             Assert.That(query.Serie.Count(), Is.EqualTo(0), "GetAllCardInfoAsync method did not return expected results!");
         }
-        //Place test for alphabeticaly and nonalphabeticaly when seed more data
+        [Test]
+        public async Task SerieGetAllCardInfoAsyncSortingFromA()
+        {
+            var testQuery = new SerieQueryModel();
+
+            testQuery.Sorting = SerieSorting.FromA;
+
+            var query = await serieService.GetAllCardInfoAsync(
+                testQuery.SearchTerm,
+                testQuery.Sorting,
+                testQuery.CurrentPage,
+                testQuery.SeriePerPage);
+
+            var result = query.Serie.Take(1).Any(t => t.Title == "3 Body Problem");
+
+            Assert.IsTrue(result, "Sorting did not return expected results!");
+        }
+        [Test]
+        public async Task SerieGetAllCardInfoAsyncSortingToA()
+        {
+            var testQuery = new SerieQueryModel();
+
+            testQuery.Sorting = SerieSorting.ToA;
+
+            var query = await serieService.GetAllCardInfoAsync(
+                testQuery.SearchTerm,
+                testQuery.Sorting,
+                testQuery.CurrentPage,
+                testQuery.SeriePerPage);
+
+            var result = query.Serie.Take(1).Any(t => t.Title == "Westworld");
+
+            Assert.IsTrue(result, "Sorting did not return expected results!");
+        }
         [Test]
         public async Task IsSeriePresentTest()
         {
@@ -88,7 +136,7 @@ namespace MyShowsLibraryProject.Test
         [Test]
         public async Task IsSeriePresentTestReturnFalse()
         {
-            var serieId = 5;
+            var serieId = 15;
 
             var result = await serieService.IsSeriePresent(serieId);
 
@@ -109,7 +157,7 @@ namespace MyShowsLibraryProject.Test
         [Test]
         public void SerieEditAsyncIfMovieNullTest()
         {
-            var serieId = 4;
+            var serieId = 14;
             var serieToEdit = DatabaseConstants.SerieForEdit();
 
             Assert.ThrowsAsync<NullReferenceException>(async () => await serieService.EditAsync(serieId, serieToEdit), "Serie you want to edit does not exists!");
@@ -128,13 +176,13 @@ namespace MyShowsLibraryProject.Test
         [Test]
         public async Task SerieIsNullDeleteAsyncTest()
         {
-            var serieId = 5;
+            var serieId = 15;
 
             await serieService.DeleteAsync(serieId);
 
             var count = repository.TakeAll<Serie>().Count();
 
-            Assert.That(count, Is.EqualTo(1), "DeleteAsync delete unexpected record!");
+            Assert.That(count, Is.EqualTo(12), "DeleteAsync delete unexpected record!");
         }
 
 

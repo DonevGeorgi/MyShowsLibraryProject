@@ -38,7 +38,7 @@ namespace MyShowsLibraryProject.Test
 
             var seasons = await seasonService.GetAllSeasonForSeries(serieId);
 
-            Assert.That(seasons.Count(), Is.EqualTo(1), "GetAllSeasonForSeries method did not return expected results!");
+            Assert.That(seasons.Count(), Is.EqualTo(4), "GetAllSeasonForSeries method did not return expected results!");
         }
         [Test]
         public async Task GetSeasonDetailsAsyncTest()
@@ -47,7 +47,7 @@ namespace MyShowsLibraryProject.Test
 
             var seasons = await seasonService.GetSeasonDetailsAsync(serieId);
 
-            Assert.That(seasons.Count(), Is.EqualTo(1), "GetSeasonDetailsAsync method did not return expected results!");
+            Assert.That(seasons.Count(), Is.EqualTo(4), "GetSeasonDetailsAsync method did not return expected results!");
         }
         [Test]
         public async Task GetSeasonDetailsById()
@@ -74,7 +74,7 @@ namespace MyShowsLibraryProject.Test
 
             var repositoryCount = repository.TakeAll<Season>().Count();
 
-            Assert.That(repositoryCount, Is.EqualTo(2), "Season was not created succesfully!");
+            Assert.That(repositoryCount, Is.EqualTo(9), "Season was not created succesfully!");
         }
         [Test]
         public void NullSeasonCreateAsyncTest()
@@ -122,7 +122,7 @@ namespace MyShowsLibraryProject.Test
 
             var count = repository.TakeAll<Season>().Count();
 
-            Assert.That(count, Is.EqualTo(1), "DeleteAsync delete unexpected record!");
+            Assert.That(count, Is.EqualTo(8), "DeleteAsync delete unexpected record!");
         }
 
         [TearDown]

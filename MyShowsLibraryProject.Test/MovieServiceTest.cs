@@ -1,5 +1,6 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using MyShowsLibraryProject.Core.Enumeration;
 using MyShowsLibraryProject.Core.Models.MovieModels;
 using MyShowsLibraryProject.Core.Services;
 using MyShowsLibraryProject.Core.Services.Contacts;
@@ -36,7 +37,7 @@ namespace MyShowsLibraryProject.Test
         {
             var movies = await movieService.GetAllReadonlyAsync();
 
-            Assert.That(movies.Count(),Is.EqualTo(1), "GetAllReadonlyAsync method did not return expected results!");
+            Assert.That(movies.Count(),Is.EqualTo(12), "GetAllReadonlyAsync method did not return expected results!");
         }
         [Test]
         public async Task MovieCreateAsyncTest()
@@ -45,7 +46,20 @@ namespace MyShowsLibraryProject.Test
 
             var repositoryCount = repository.TakeAll<Movie>().Count();
 
-            Assert.That(repositoryCount, Is.EqualTo(2), "Movie was not created succesfully!");
+            Assert.That(repositoryCount, Is.EqualTo(13), "Movie was not created succesfully!");
+        }
+        [Test]
+        public async Task MovieGetOnlyForDisplayCardInfoAsyncTestWithoutSorting()
+        {
+            var testQuery = new MoviesQueryModel();
+
+            var query = await movieService.GetAllCardInfoAsync(
+                testQuery.SearchTerm,
+                testQuery.Sorting,
+                testQuery.CurrentPage,
+                testQuery.MoviePerPage);
+
+            Assert.That(query.Movies.Count(),Is.EqualTo(4), "GetAllCardInfoAsync method did not return expected results!");
         }
         [Test]
         public async Task MovieGetAllCardInfoAsyncTestWithoutSorting()
@@ -58,7 +72,7 @@ namespace MyShowsLibraryProject.Test
                 testQuery.CurrentPage,
                 testQuery.MoviePerPage);
 
-            Assert.That(query.Movies.Count(),Is.EqualTo(1), "GetAllCardInfoAsync method did not return expected results!");
+            Assert.That(query.TotalMovieCount, Is.EqualTo(12), "GetAllCardInfoAsync method did not return expected results!");
         }
         [Test]
         public async Task MovieGetAllCardInfoAsyncTestWithtSorting()
@@ -75,7 +89,40 @@ namespace MyShowsLibraryProject.Test
 
             Assert.That(query.Movies.Count(), Is.EqualTo(0), "GetAllCardInfoAsync method did not return expected results!");
         }
-        //Place test for alphabeticaly and nonalphabeticaly when seed more data
+        [Test]
+        public async Task MovieGetAllCardInfoAsyncSortingFromA()
+        {
+            var testQuery = new MoviesQueryModel();
+
+            testQuery.Sorting = MovieSorting.ToA;
+
+            var query = await movieService.GetAllCardInfoAsync(
+                testQuery.SearchTerm,
+                testQuery.Sorting,
+                testQuery.CurrentPage,
+                testQuery.MoviePerPage);
+
+            var result = query.Movies.Take(1).Any(t => t.Title == "The Lion King");
+
+            Assert.IsTrue(result, "Sorting did not return expected results!");
+        }
+        [Test]
+        public async Task MovieGetAllCardInfoAsyncSortingToA()
+        {
+            var testQuery = new MoviesQueryModel();
+
+            testQuery.Sorting = MovieSorting.FromA;
+
+            var query = await movieService.GetAllCardInfoAsync(
+                testQuery.SearchTerm,
+                testQuery.Sorting,
+                testQuery.CurrentPage,
+                testQuery.MoviePerPage);
+
+            var result = query.Movies.Take(1).Any(t => t.Title == "Back to the Future");
+
+            Assert.IsTrue(result, "Sorting did not return expected results!");
+        }
         [Test]
         public async Task IsMoviePresentTest()
         {
@@ -88,7 +135,7 @@ namespace MyShowsLibraryProject.Test
         [Test]
         public async Task IsMoviePresentTestReturnFalse()
         {
-            var movieId = 5;
+            var movieId = 15;
 
             var result = await movieService.IsMoviePresent(movieId);
 
@@ -109,7 +156,7 @@ namespace MyShowsLibraryProject.Test
         [Test]
         public void MovieEditAsyncIfMovieNullTest()
         {
-            var movieId = 4;
+            var movieId = 14;
             var movieToEdit = DatabaseConstants.MovieForEdit();
 
             Assert.ThrowsAsync<NullReferenceException>(async () => await movieService.EditAsync(movieId, movieToEdit), "Movie you want to edit does not exists!");
@@ -128,13 +175,13 @@ namespace MyShowsLibraryProject.Test
         [Test]
         public async Task MovieIsNullDeleteAsyncTest()
         {
-            var movieId = 5;
+            var movieId = 15;
 
             await movieService.DeleteAsync(movieId);
 
             var count = repository.TakeAll<Movie>().Count();
 
-            Assert.That(count,Is.EqualTo(1), "DeleteAsync delete unexpected record!");
+            Assert.That(count,Is.EqualTo(12), "DeleteAsync delete unexpected record!");
         }
 
         [TearDown]

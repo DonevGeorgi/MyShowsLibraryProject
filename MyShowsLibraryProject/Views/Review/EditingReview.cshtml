@@ -1,14 +1,14 @@
 ﻿@model ReviewFormModel
 
 @{
-    ViewData["Title"] = "Adding Review";
+    ViewData["Title"] = "Edditing Review";
 }
 
 <div class="container">
 
-    <h2 class="text-white">Create review</h2>
+    <h2 class="text-white">Edit review</h2>
 
-    <form asp-action="AddingReview" asp-controller="Review" method="post">
+    <form asp-action="EditingReview" asp-controller="Review" method="post">
         <div class="mb-3">
             <label class="text-white" asp-for="@Model.Rating">Rating</label>
             <input asp-for="@Model.Rating" class="form-control" aria-required="true" />

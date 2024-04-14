@@ -73,9 +73,9 @@ namespace MyShowsLibraryProject.Core.Services
         }
         public async Task CreateAsync(SeasonFormModel season, int seriesId)
         {
-            var seasonForCreation = await GetSeasonDetailsById(seriesId);
+            var series = await repository.GetByIdAsync<Serie>(seriesId);
 
-            if (seasonForCreation == null)
+            if (series == null)
             {
                 logger.LogInformation(MessagesConstants.EntityIdNotFountMessage,nameof(Serie),seriesId);
                 throw new NullReferenceException(MessagesConstants.SerieDoesNotExistsMessage);

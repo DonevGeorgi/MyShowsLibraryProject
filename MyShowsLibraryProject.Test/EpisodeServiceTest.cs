@@ -15,7 +15,6 @@ namespace MyShowsLibraryProject.Test
     public class EpisodeServiceTest
     {
         private IEpisodeService episodeService;
-        private ISeasonService seasonService;
         private IRepository repository;
         private SqliteConnection connection;
         private ApplicationDbContext dbContext;
@@ -24,7 +23,6 @@ namespace MyShowsLibraryProject.Test
         public void Setup()
         {
             var mockLogger = new Mock<ILogger<EpisodeService>>();
-            var mockSeasonLogger = new Mock<ILogger<SeasonService>>();
 
             connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
@@ -34,8 +32,7 @@ namespace MyShowsLibraryProject.Test
             dbContext.Database.EnsureCreated();
 
             repository = new Repository(dbContext);
-            seasonService = new SeasonService(mockSeasonLogger.Object, repository);
-            episodeService = new EpisodeService(mockLogger.Object, repository, seasonService);
+            episodeService = new EpisodeService(mockLogger.Object, repository);
         }
 
         [Test]

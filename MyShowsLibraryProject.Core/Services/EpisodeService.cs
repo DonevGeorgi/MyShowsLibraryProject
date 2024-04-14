@@ -12,15 +12,12 @@ namespace MyShowsLibraryProject.Core.Services
     {
         private readonly ILogger<EpisodeService> logger;
         private readonly IRepository repository;
-        private readonly ISeasonService seasonService;
 
         public EpisodeService(ILogger<EpisodeService> _logger,
-            IRepository _repository,
-            ISeasonService _seasonService)
+            IRepository _repository)
         {
             logger = _logger;
             repository = _repository;
-            seasonService = _seasonService;
         }
 
         public async Task<IEnumerable<EpisodeInfoServiceModel>> GetEpisodeForSeason(int seasonId)
@@ -77,7 +74,7 @@ namespace MyShowsLibraryProject.Core.Services
         }
         public async Task CreateAsync(EpisodeFormModel episode, int seasonId, int seasonNumeration)
         {
-            var season = await seasonService.GetSeasonDetailsById(seasonId);
+            var season = await repository.GetByIdAsync<Season>(seasonId);
 
             if (season == null)
             {

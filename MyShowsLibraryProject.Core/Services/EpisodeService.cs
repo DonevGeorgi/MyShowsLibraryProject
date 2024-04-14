@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using MyShowsLibraryProject.Core.Constants;
 using MyShowsLibraryProject.Core.Models.EpisodeModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
@@ -8,12 +10,15 @@ namespace MyShowsLibraryProject.Core.Services
 {
     public class EpisodeService : IEpisodeService
     {
+        private readonly ILogger<EpisodeService> logger;
         private readonly IRepository repository;
         private readonly ISeasonService seasonService;
 
-        public EpisodeService(IRepository _repository,
+        public EpisodeService(ILogger<EpisodeService> _logger,
+            IRepository _repository,
             ISeasonService _seasonService)
         {
+            logger = _logger;
             repository = _repository;
             seasonService = _seasonService;
         }
@@ -68,11 +73,6 @@ namespace MyShowsLibraryProject.Core.Services
                 })
                 .FirstOrDefaultAsync();
 
-            if (episode == null)
-            {
-                throw new NullReferenceException("Episode does not exists!");
-            }
-
             return episode;
         }
         public async Task CreateAsync(EpisodeFormModel episode, int seasonId, int seasonNumeration)
@@ -81,7 +81,8 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (season == null)
             {
-                throw new NullReferenceException("Season does not exists!");
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage, nameof(Season), seasonId);
+                throw new NullReferenceException(MessagesConstants.SeasonDoesNotExistsMessage);
             }
 
             var newEpisode = new Episode()
@@ -96,6 +97,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             await repository.AddAsync(newEpisode);
             await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityCreatedSuccesfullyMessage,nameof(Episode));
         }
         public async Task EditAsync(int episodeId, EpisodeFormModel episode)
         {
@@ -103,7 +105,8 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (episodeToEdit == null)
             {
-                throw new NullReferenceException("Episode does not exists!");
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage,nameof(Episode),episodeId);
+                throw new NullReferenceException(MessagesConstants.EpisodeDoesNotExistsMessage);
             }
 
             episodeToEdit.EpisodeNumeration = episode.EpisodeNumeration;
@@ -111,12 +114,14 @@ namespace MyShowsLibraryProject.Core.Services
             episodeToEdit.Summary = episode.Summary;
             episodeToEdit.ReleaseDate = episode.ReleaseDate;
 
+            logger.LogInformation(MessagesConstants.EntityEditedSuccesfullyMessage, nameof(Episode));
             await repository.SaveChangesAsync();
         }
         public async Task DeleteAsync(int episodeId)
         {
             await repository.DeleteAsync<Episode>(episodeId);
             await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityDeleteMessage, nameof(Episode),episodeId);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using MyShowsLibraryProject.Core.Constants;
 using MyShowsLibraryProject.Core.Models.ReviewModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
@@ -8,14 +10,17 @@ namespace MyShowsLibraryProject.Core.Services
 {
     public class ReviewService : IReviewService
     {
+        private readonly ILogger<ReviewService> logger;
         private readonly IRepository repository;
         private readonly IMovieService movieRepository;
         private readonly ISerieService serieRepository;
 
-        public ReviewService(IRepository _repository,
+        public ReviewService(ILogger<ReviewService> _logger,
+            IRepository _repository,
             IMovieService _movieRepository,
             ISerieService _serieRepository)
         {
+            logger = _logger;
             repository = _repository;
             movieRepository = _movieRepository;
             serieRepository = _serieRepository;
@@ -34,11 +39,6 @@ namespace MyShowsLibraryProject.Core.Services
                 })
                 .FirstOrDefaultAsync();
 
-            if (reviews == null)
-            {
-                throw new NullReferenceException("Review does not exists!");
-            }
-
             return reviews;
         }
         public async Task<int> CreateAsync(ReviewFormModel model, string userId,int showId,string showType)
@@ -51,6 +51,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             await repository.AddAsync(newReview);
             await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityCreatedSuccesfullyMessage, nameof(Review));
 
             if (showType == "movie" && await movieRepository.IsMoviePresent(showId))
             {
@@ -61,10 +62,12 @@ namespace MyShowsLibraryProject.Core.Services
                 };
 
                 await repository.AddAsync(newMovieReview);
+                logger.LogInformation(MessagesConstants.EntityCreatedMessage, nameof(MovieReview), showId);
             }
             else if (showType == "movie" && !await movieRepository.IsMoviePresent(showId))
             {
-                throw new NullReferenceException("The show you chose does not exists!");
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage,nameof(Movie),showId);
+                throw new NullReferenceException(MessagesConstants.ShowDoesNotExsistsMessage);
             }
 
             if (showType == "serie" && await serieRepository.IsSeriePresent(showId))
@@ -76,10 +79,12 @@ namespace MyShowsLibraryProject.Core.Services
                 };
 
                 await repository.AddAsync(newSerieReview);
+                logger.LogInformation(MessagesConstants.EntityCreatedMessage, nameof(SerieReview), showId);
             }
             else if (showType == "serie" && !await serieRepository.IsSeriePresent(showId))
             {
-                throw new NullReferenceException("The show you chose does not exists!");
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage, nameof(Serie), showId);
+                throw new NullReferenceException(MessagesConstants.ShowDoesNotExsistsMessage);
             }
 
             var newUserReview = new UserReview()
@@ -90,6 +95,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             await repository.AddAsync(newUserReview);
             await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityCreatedSuccesfullyMessage,nameof(UserReview));
 
             if (showType == "movie")
             {
@@ -104,7 +110,8 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (reviewToEdit == null)
             {
-                throw new NullReferenceException("Review you want to edit does not exists!");
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage, nameof(Movie),reviewId);
+                throw new NullReferenceException(MessagesConstants.ReviewDoesNotExistsMessage);
             }
 
             reviewToEdit.Rating = review.Rating;

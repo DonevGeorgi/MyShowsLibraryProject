@@ -1,4 +1,6 @@
-﻿using MyShowsLibraryProject.Core.Models.GenreModels;
+﻿using Microsoft.Extensions.Logging;
+using MyShowsLibraryProject.Core.Constants;
+using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
@@ -7,14 +9,17 @@ namespace MyShowsLibraryProject.Core.Services
 {
     public class MovieGenreService : IMovieGenreService
     {
+        private readonly ILogger<MovieGenreService> logger;
         private readonly IRepository repository;
         private readonly IMovieService movieService;
         private readonly IGenreService genreService;
 
-        public MovieGenreService(IRepository _repository,
+        public MovieGenreService(ILogger<MovieGenreService> _logger,
+            IRepository _repository,
             IMovieService _movieService,
             IGenreService _genreService)
         {
+            logger = _logger;
             repository = _repository;
             movieService = _movieService;
             genreService = _genreService;
@@ -29,48 +34,51 @@ namespace MyShowsLibraryProject.Core.Services
         public async Task AddGenreToMovieAsync(int movieId, int genreId)
         {
             var movie = await movieService.GetMovieDetailsByIdAsync(movieId);
-             
+
             if (movie == null)
             {
-                throw new NullReferenceException();
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage, nameof(Movie), movieId);
+                throw new NullReferenceException(MessagesConstants.MovieDoesNotExistsMessage);
             }
 
-            if (movie.Genres.Any(g => g.GenreId == genreId))
+            if (!movie.Genres.Any(g => g.GenreId == genreId))
             {
-                throw new NullReferenceException("Movie contains genre already!");
+                var newMovieGenre = new MovieGenre()
+                {
+                    MovieId = movie.MovieId,
+                    GenreId = genreId
+                };
+
+                await repository.AddAsync(newMovieGenre);
+                await repository.SaveChangesAsync();
+                logger.LogInformation(MessagesConstants.EntityCreatedSuccesfullyMessage, nameof(MovieGenre));
             }
-
-            var newMovieGenre = new MovieGenre()
-            {
-                MovieId = movie.MovieId,
-                GenreId = genreId
-            };
-
-            await repository.AddAsync(newMovieGenre);
-            await repository.SaveChangesAsync();
         }
         public async Task RemoveGenreFromMovieAsync(int movieId, int genreId)
         {
             var movie = await movieService.GetMovieDetailsByIdAsync(movieId);
 
-            if (!movie.Genres.Any())
+            if (movie == null)
             {
-                throw new NullReferenceException("Movie dont have genres!");
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage, nameof(Movie), movieId);
+                throw new NullReferenceException(MessagesConstants.MovieDoesNotExistsMessage);
             }
 
-            if (!movie.Genres.Any(g => g.GenreId == genreId))
+            if (movie.Genres.Any())
             {
-                throw new NullReferenceException("Movie dont have chosen genre!");
+                if (movie.Genres.Any(g => g.GenreId == genreId))
+                {
+                    var modelToRemove = new MovieGenre()
+                    {
+                        MovieId = movie.MovieId,
+                        GenreId = genreId
+                    };
+
+                    repository.Remove<MovieGenre>(modelToRemove);
+                    await repository.SaveChangesAsync();
+                    logger.LogInformation(MessagesConstants.EntityDeleteSuccesfullyMessage, nameof(MovieGenre));
+                }
             }
-
-            var modelToRemove = new MovieGenre()
-            {
-                MovieId = movie.MovieId,
-                GenreId = genreId
-            };
-
-            repository.Remove<MovieGenre>(modelToRemove);
-            await repository.SaveChangesAsync();
         }
     }
 }

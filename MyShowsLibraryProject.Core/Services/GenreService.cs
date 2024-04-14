@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using MyShowsLibraryProject.Core.Constants;
 using MyShowsLibraryProject.Core.Models.GenreModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
@@ -8,10 +10,13 @@ namespace MyShowsLibraryProject.Core.Services
 {
     public class GenreService : IGenreService
     {
+        private readonly ILogger<GenreService> logger;
         private readonly IRepository repository;
 
-        public GenreService(IRepository _repository)
+        public GenreService(ILogger<GenreService> _logger,
+            IRepository _repository)
         {
+            logger = _logger;
             repository = _repository;
         }
 
@@ -40,22 +45,24 @@ namespace MyShowsLibraryProject.Core.Services
                })
                .FirstOrDefaultAsync();
 
-            if (genres == null)
-            {
-                throw new NullReferenceException("Genre does not exist!");
-            }
-
             return genres;
         }
         public async Task CreateAsync(GenreFormModel genre)
         {
-            var newGenre = new Genre()
-            {
-                Name = genre.Name
-            };
+            var genres = await GetAllReadonlyAsync();
 
-            await repository.AddAsync(newGenre);
-            await repository.SaveChangesAsync();
+            if (!genres.Any(g => g.Name == genre.Name))
+            {
+                var newGenre = new Genre()
+                {
+                    Name = genre.Name
+                };
+
+                await repository.AddAsync(newGenre);
+                await repository.SaveChangesAsync();
+                logger.LogInformation(MessagesConstants.EntityCreatedMessage,nameof(Genre),genre.Name);
+            }
+
         }
         public async Task EditAsync(int genreId, GenreFormModel genre)
         {
@@ -63,17 +70,20 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (genreToEdit == null)
             {
-                throw new NullReferenceException("Genre to edit dont exist!");
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage,nameof(Genre),genreId);
+                throw new NullReferenceException(MessagesConstants.GenreDoesNotExistsMessage);
             }
 
             genreToEdit.Name = genre.Name;
 
             await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityEditedMessage,nameof(Genre),genreId);
         }
         public async Task DeleteAsync(int genreId)
         {
             await repository.DeleteAsync<Genre>(genreId);
             await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityDeleteMessage,nameof(Genre),genreId);
         }
     }
 }

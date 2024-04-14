@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using MyShowsLibraryProject.Core.Constants;
 using MyShowsLibraryProject.Core.Models.CrewModels;
 using MyShowsLibraryProject.Core.Models.MovieModels;
 using MyShowsLibraryProject.Core.Models.RolesModels;
@@ -11,10 +13,13 @@ namespace MyShowsLibraryProject.Core.Services
 {
     public class CrewService : ICrewService
     {
+        private readonly ILogger<CrewService> logger;   
         private readonly IRepository repository;
 
-        public CrewService(IRepository _repository)
+        public CrewService(ILogger<CrewService> _logger,
+            IRepository _repository)
         {
+            logger = _logger;
             repository = _repository;
         }
 
@@ -48,8 +53,8 @@ namespace MyShowsLibraryProject.Core.Services
                     Roles = repository
                         .TakeAllReadOnly<CrewRole>()
                         .Where(cr => cr.CrewId == c.CrewId)
-                        .Select(cr => new RoleInfoServiceModel 
-                        { 
+                        .Select(cr => new RoleInfoServiceModel
+                        {
                             RoleId = cr.Role.RoleId,
                             Name = cr.Role.Name
                         })
@@ -57,8 +62,8 @@ namespace MyShowsLibraryProject.Core.Services
                     Series = repository
                         .TakeAllReadOnly<SerieCrew>()
                         .Where(sc => sc.CrewId == c.CrewId)
-                        .Select(sc => new SeriesCardInfoServiceModel 
-                        { 
+                        .Select(sc => new SeriesCardInfoServiceModel
+                        {
                             SerieId = sc.SerieId,
                             Title = sc.Serie.Title,
                             PosterUrl = sc.Serie.PosterUrl,
@@ -69,8 +74,8 @@ namespace MyShowsLibraryProject.Core.Services
                     Movies = repository
                         .TakeAllReadOnly<MovieCrew>()
                         .Where(mc => mc.CrewId == c.CrewId)
-                        .Select(mc => new MoviesCardInfoServiceModel 
-                        { 
+                        .Select(mc => new MoviesCardInfoServiceModel
+                        {
                             MovieId = mc.MovieId,
                             Title = mc.Movie.Title,
                             PosterUrl = mc.Movie.PosterUrl,
@@ -79,11 +84,6 @@ namespace MyShowsLibraryProject.Core.Services
                         .ToList()
                 })
                 .FirstOrDefaultAsync();
-
-            if (crew == null)
-            {
-                throw new NullReferenceException("Crew does not exists!");
-            }
 
             return crew;
         }
@@ -100,26 +100,27 @@ namespace MyShowsLibraryProject.Core.Services
         {
             var crewId = await GetCrewName(crew.Name);
 
-            if (crewId != 0)
+            if (crewId == 0)
             {
-                throw new NullReferenceException("Crew with this name already exists!");
+                var newCrew = new Crew()
+                {
+                    Name = crew.Name,
+                    Pseudonyms = crew.Pseudonyms,
+                    Birthdate = crew.Birthdate,
+                    Nationality = crew.Nationality,
+                    PictureUrl = crew.PictureUrl,
+                    Biography = crew.Biography,
+                    MoreInfo = crew.MoreInfo
+                };
+
+                await repository.AddAsync(newCrew);
+                await repository.SaveChangesAsync();
+
+                logger.LogInformation(MessagesConstants.EntityCreatedMessage,nameof(Crew),newCrew.Name);
+                return newCrew.CrewId;
             }
 
-            var newCrew = new Crew()
-            {
-                Name = crew.Name,
-                Pseudonyms = crew.Pseudonyms,
-                Birthdate = crew.Birthdate,
-                Nationality = crew.Nationality,
-                PictureUrl = crew.PictureUrl,
-                Biography = crew.Biography,
-                MoreInfo = crew.MoreInfo          
-            };
-
-            await repository.AddAsync(newCrew);
-            await repository.SaveChangesAsync();
-
-            return newCrew.CrewId;
+            return crewId;
         }
         public async Task EditAsync(int crewId, CrewFormModel crew)
         {
@@ -127,7 +128,8 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (crewToEdit == null)
             {
-                throw new NullReferenceException("Crew does not exists!");
+                logger.LogError(MessagesConstants.EntityIdNotFountMessage,nameof(Crew), crewId);
+                throw new NullReferenceException(MessagesConstants.CrewDoesNotExistsMessage);
             }
 
             crewToEdit.Name = crew.Name;
@@ -138,12 +140,14 @@ namespace MyShowsLibraryProject.Core.Services
             crewToEdit.Biography = crew.Biography;
             crewToEdit.MoreInfo = crew.MoreInfo;
 
+            logger.LogInformation(MessagesConstants.EntityEditedMessage,nameof(Crew), crewToEdit.Name);
             await repository.SaveChangesAsync();
         }
         public async Task DeleteAsync(int crewId)
         {
             await repository.DeleteAsync<Crew>(crewId);
             await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityDeleteMessage,nameof(Crew), crewId);
         }
     }
 }

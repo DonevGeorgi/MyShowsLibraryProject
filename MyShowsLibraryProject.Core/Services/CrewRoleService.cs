@@ -1,4 +1,6 @@
-﻿using MyShowsLibraryProject.Core.Models.RolesModels;
+﻿using Microsoft.Extensions.Logging;
+using MyShowsLibraryProject.Core.Constants;
+using MyShowsLibraryProject.Core.Models.RolesModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
@@ -7,14 +9,17 @@ namespace MyShowsLibraryProject.Core.Services
 {
     public class CrewRoleService : ICrewRoleService
     {
+        private readonly ILogger<CrewRoleService> logger;
         private readonly IRepository repository;
         private readonly ICrewService crewService;
         private readonly IRoleService roleService;
 
-        public CrewRoleService(IRepository _repository,
+        public CrewRoleService(ILogger<CrewRoleService> _logger,
+            IRepository _repository,
             ICrewService _crewService,
-            IRoleService _roleService) 
-        { 
+            IRoleService _roleService)
+        {
+            logger = _logger;
             repository = _repository;
             crewService = _crewService;
             roleService = _roleService;
@@ -30,42 +35,50 @@ namespace MyShowsLibraryProject.Core.Services
         {
             var crew = await crewService.GetCrewDetailsById(crewId);
 
-            if (crew.Roles.Any(g => g.RoleId == roleId))
+            if (crew == null)
             {
-                throw new NullReferenceException("Crew contains role already!");
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage, nameof(Crew), crewId);
+                throw new NullReferenceException(MessagesConstants.CrewDoesNotExistsMessage);
             }
 
-            var newCrewRole = new CrewRole()
+            if (!crew.Roles.Any(g => g.RoleId == roleId))
             {
-                CrewId = crewId,
-                RoleId = roleId
-            };
+                var newCrewRole = new CrewRole()
+                {
+                    CrewId = crewId,
+                    RoleId = roleId
+                };
 
-            await repository.AddAsync(newCrewRole);
-            await repository.SaveChangesAsync();
+                await repository.AddAsync(newCrewRole);
+                await repository.SaveChangesAsync();
+                logger.LogInformation(MessagesConstants.EntityCreatedSuccesfullyMessage, nameof(CrewRole));
+            }
         }
         public async Task RemoveRoleFromCrewAsync(int crewId, int roleId)
         {
             var crew = await crewService.GetCrewDetailsById(crewId);
 
-            if (!crew.Roles.Any())
+            if (crew == null)
             {
-                throw new NullReferenceException("Crew dont have roles!");
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage, nameof(Crew), crewId);
+                throw new NullReferenceException(MessagesConstants.CrewDoesNotExistsMessage);
             }
 
-            if (!crew.Roles.Any(g => g.RoleId == roleId))
+            if (crew.Roles.Any())
             {
-                throw new NullReferenceException("Crew dont have chosen role!");
+                if (crew.Roles.Any(g => g.RoleId == roleId))
+                {
+                    var modelToRemove = new CrewRole()
+                    {
+                        CrewId = crewId,
+                        RoleId = roleId,
+                    };
+
+                    repository.Remove<CrewRole>(modelToRemove);
+                    await repository.SaveChangesAsync();
+                    logger.LogInformation(MessagesConstants.EntityDeleteSuccesfullyMessage,nameof(CrewRole));
+                }
             }
-
-            var modelToRemove = new CrewRole()
-            {
-               CrewId = crewId,
-               RoleId = roleId,
-            };
-
-            repository.Remove<CrewRole>(modelToRemove);
-            await repository.SaveChangesAsync();
         }
     }
 }

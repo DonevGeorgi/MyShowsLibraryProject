@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using MyShowsLibraryProject.Core.Constants;
 using MyShowsLibraryProject.Core.Models.RolesModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
@@ -8,10 +10,13 @@ namespace MyShowsLibraryProject.Core.Services
 {
     public class RoleService : IRoleService
     {
+        private readonly ILogger<RoleService> logger;
         private readonly IRepository repository;
 
-        public RoleService(IRepository _repository)
+        public RoleService(ILogger<RoleService> _logger,
+            IRepository _repository)
         {
+            logger = _logger;
             repository = _repository;
         }
 
@@ -40,11 +45,6 @@ namespace MyShowsLibraryProject.Core.Services
                 })
                 .FirstOrDefaultAsync();
 
-            if (role == null)
-            {
-                throw new NullReferenceException("Role does not exists!");
-            }
-
             return role;
         }
         public async Task<bool> IsRolePresent(string roleName)
@@ -65,7 +65,8 @@ namespace MyShowsLibraryProject.Core.Services
         {
             if (await IsRolePresent(role.Name))
             {
-                throw new NullReferenceException("Role does not exists!");
+                logger.LogInformation(MessagesConstants.EntityNotFountMessage,nameof(Role));
+                throw new NullReferenceException(MessagesConstants.RoleDoesNotExistsMessage);
             }
 
             var newRole = new Role()
@@ -82,7 +83,8 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (roleToEdit == null)
             {
-                throw new NullReferenceException("Role you want to edit does not exists!");
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage,nameof(Role),roleId);
+                throw new NullReferenceException(MessagesConstants.RoleDoesNotExistsMessage);
             }
 
             roleToEdit.Name = role.Name;
@@ -93,6 +95,7 @@ namespace MyShowsLibraryProject.Core.Services
         {
             await repository.DeleteAsync<Role>(roleId);
             await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityDeleteMessage,nameof(Role),roleId);
         }
     }
 }

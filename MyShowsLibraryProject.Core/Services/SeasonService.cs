@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using MyShowsLibraryProject.Core.Constants;
 using MyShowsLibraryProject.Core.Models.SeasonModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
@@ -8,10 +10,13 @@ namespace MyShowsLibraryProject.Core.Services
 {
     public class SeasonService : ISeasonService
     {
+        private readonly ILogger<SeasonService> logger;
         private readonly IRepository repository;
 
-        public SeasonService(IRepository _repository)
+        public SeasonService(ILogger<SeasonService> _logger,
+            IRepository _repository)
         {
+            logger = _logger;
             repository = _repository;
         }
 
@@ -64,11 +69,6 @@ namespace MyShowsLibraryProject.Core.Services
                 })
                 .FirstOrDefaultAsync();
 
-            if (season == null)
-            {
-                throw new NullReferenceException("Season does not exists!");
-            }
-
             return season;
         }
         public async Task CreateAsync(SeasonFormModel season, int seriesId)
@@ -77,7 +77,8 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (seasonForCreation == null)
             {
-                throw new NullReferenceException("Serie does not exists!");
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage,nameof(Serie),seriesId);
+                throw new NullReferenceException(MessagesConstants.SerieDoesNotExistsMessage);
             }
 
             var newSeason = new Season()
@@ -91,6 +92,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             await repository.AddAsync(newSeason);
             await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityCreatedSuccesfullyMessage,nameof(Season));
         }
         public async Task EditAsync(int seasonId, SeasonFormModel season)
         {
@@ -98,7 +100,8 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (seasonToEdit == null)
             {
-                throw new NullReferenceException("Season does not exists!");
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage, nameof(Serie), seasonId);
+                throw new NullReferenceException(MessagesConstants.SerieDoesNotExistsMessage);
             }
 
             seasonToEdit.PosterUrl = season.PosterUrl;
@@ -107,11 +110,13 @@ namespace MyShowsLibraryProject.Core.Services
             seasonToEdit.EpisodesInSeason = season.EpisodesInSeason;
 
             await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityEditedSuccesfullyMessage, nameof(Season));
         }
         public async Task DeleteAsync(int seasonId)
         {
             await repository.DeleteAsync<Season>(seasonId);
             await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityDeleteMessage, nameof(Season),seasonId);
         }
     }
 }

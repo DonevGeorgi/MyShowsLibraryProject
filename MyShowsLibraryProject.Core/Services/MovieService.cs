@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using MyShowsLibraryProject.Core.Constants;
 using MyShowsLibraryProject.Core.Enumeration;
 using MyShowsLibraryProject.Core.Models.CrewModels;
 using MyShowsLibraryProject.Core.Models.GenreModels;
@@ -13,10 +15,13 @@ namespace MyShowsLibraryProject.Core.Services
 {
     public class MovieService : IMovieService
     {
+        private readonly ILogger<MovieService> logger;
         private readonly IRepository repository;
 
-        public MovieService(IRepository _repository)
+        public MovieService(ILogger<MovieService> _logger,
+            IRepository _repository)
         {
+            logger = _logger;
             repository = _repository;
         }
 
@@ -141,11 +146,6 @@ namespace MyShowsLibraryProject.Core.Services
              })
             .FirstOrDefaultAsync();
 
-            if (movie == null)
-            {
-                throw new NullReferenceException("Movie does not exists!");
-            }
-
             return movie;
         }
         public async Task<bool> IsMoviePresent(int movieId)
@@ -176,6 +176,7 @@ namespace MyShowsLibraryProject.Core.Services
             await repository.AddAsync(newMovie);
             await repository.SaveChangesAsync();
 
+            logger.LogInformation(MessagesConstants.EntityCreatedMessage,nameof(Movie),newMovie.Title);
             return newMovie.MovieId;
         }
         public async Task EditAsync(int movieId, MovieFormModel movie)
@@ -184,7 +185,8 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (movieToEdit == null)
             {
-                throw new NullReferenceException("Movie you want to edit does not exists!");
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage,nameof(Movie),movieId);
+                throw new NullReferenceException(MessagesConstants.MovieEditDoesNotExistMessage);
             }
 
             movieToEdit.Title = movie.Title;
@@ -196,12 +198,14 @@ namespace MyShowsLibraryProject.Core.Services
             movieToEdit.OriginalAudioLanguage = movie.OriginalAudioLanguage;
             movieToEdit.ForMoreSummaryUrl = movie.ForMoreSummaryUrl;
 
+            logger.LogInformation(MessagesConstants.EntityEditedMessage,nameof(Movie),movieToEdit.Title);
             await repository.SaveChangesAsync();
         }
         public async Task DeleteAsync(int movieId)
         {
             await repository.DeleteAsync<Movie>(movieId);
             await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityDeleteMessage,nameof(Movie),movieId);
         }
     }
 }

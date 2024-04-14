@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using MyShowsLibraryProject.Core.Constants;
 using MyShowsLibraryProject.Core.Enumeration;
 using MyShowsLibraryProject.Core.Models.CrewModels;
 using MyShowsLibraryProject.Core.Models.GenreModels;
@@ -13,10 +15,13 @@ namespace MyShowsLibraryProject.Core.Services
 {
     public class SerieService : ISerieService
     {
+        private readonly ILogger<SerieService> logger;
         private readonly IRepository repository;
 
-        public SerieService(IRepository _repository)
+        public SerieService(ILogger<SerieService> _logger,
+            IRepository _repository)
         {
+            logger = _logger;
             repository = _repository;
         }
 
@@ -34,6 +39,69 @@ namespace MyShowsLibraryProject.Core.Services
                  .ToListAsync();
 
             return series;
+        }
+        public async Task<SeriesDetailsServiceModel> GetSerieDetailsByIdAsync(int serieId)
+        {
+            var serie = await repository
+            .TakeAllReadOnly<Serie>()
+            .Where(s => s.SeriesId == serieId)
+            .Select(s => new SeriesDetailsServiceModel()
+            {
+                SerieId = s.SeriesId,
+                Title = s.Title,
+                PosterUrl = s.PosterUrl,
+                TrailerUrl = s.TrailerUrl,
+                YearOfStart = s.YearOfStart,
+                YearOfEnd = s.YearOfEnd,
+                Summary = s.Summary,
+                OriginalAudioLanguage = s.OriginalAudioLanguage,
+                ForMoreSummaryUrl = s.ForMoreSummaryUrl,
+                Genres = repository
+                    .TakeAllReadOnly<SerieGenre>()
+                    .Where(sg => sg.SerieId == serieId)
+                    .Select(sg => new GenreInfoSeviceModel()
+                    {
+                        GenreId = sg.GenreId,
+                        Name = sg.Genre.Name,
+                    })
+                    .ToList(),
+                Crews = repository
+                .TakeAllReadOnly<SerieCrew>()
+                .Where(sc => sc.SerieId == serieId)
+                .Select(sc => new CrewCardInfoServiceModel()
+                {
+                    CrewId = sc.CrewId,
+                    Name = sc.Crew.Name,
+                    PictureUrl = sc.Crew.PictureUrl,
+                    Roles = repository
+                    .TakeAllReadOnly<CrewRole>()
+                    .Where(cr => cr.CrewId == sc.CrewId)
+                    .Select(cr => new RoleInfoServiceModel()
+                    {
+                        Name = cr.Role.Name
+                    })
+                    .ToList()
+                })
+                .ToList(),
+                Reviews = repository
+                .TakeAllReadOnly<SerieReview>()
+                .Where(sr => sr.SerieId == serieId)
+                .Select(r => new ReviewInfoServiceModel
+                {
+                    ReviewId = r.ReviewId,
+                    Rating = r.Review.Rating,
+                    Content = r.Review.Content,
+                    UserUsername = repository
+                        .TakeAllReadOnly<UserReview>()
+                        .Where(ur => ur.ReviewId == r.ReviewId)
+                        .Select(ur => ur.User.UserName)
+                        .First()
+                })
+                .ToList()
+            })
+            .FirstOrDefaultAsync();
+
+            return serie;
         }
         public async Task<SerieQueryServiceModel> GetAllCardInfoAsync(
             string? searchTerm = null,
@@ -100,6 +168,7 @@ namespace MyShowsLibraryProject.Core.Services
             await repository.AddAsync(newSeire);
             await repository.SaveChangesAsync();
 
+            logger.LogInformation(MessagesConstants.EntityCreatedMessage,nameof(Serie),newSeire.Title);
             return newSeire.SeriesId;
         }
         public async Task EditAsync(int serieId, SerieFormModel serie)
@@ -108,7 +177,8 @@ namespace MyShowsLibraryProject.Core.Services
 
             if (serieToEdit == null)
             {
-                throw new NullReferenceException("Serie you want to edit does not exists!");
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage,nameof(Serie),serieId);
+                throw new NullReferenceException(MessagesConstants.SerieEditDoesNotExistMessage);
             }
 
             serieToEdit.Title = serie.Title;
@@ -120,80 +190,14 @@ namespace MyShowsLibraryProject.Core.Services
             serieToEdit.OriginalAudioLanguage = serie.OriginalAudioLanguage;
             serieToEdit.ForMoreSummaryUrl = serie.ForMoreSummaryUrl;
 
+            logger.LogInformation(MessagesConstants.EntityEditedMessage,nameof(Serie),serieToEdit.Title);
             await repository.SaveChangesAsync();
         }
         public async Task DeleteAsync(int serieId)
         {
             await repository.DeleteAsync<Serie>(serieId);
             await repository.SaveChangesAsync();
-        }
-        public async Task<SeriesDetailsServiceModel> GetSerieDetailsByIdAsync(int serieId)
-        {
-            var serie = await repository
-            .TakeAllReadOnly<Serie>()
-            .Where(s => s.SeriesId == serieId)
-            .Select(s => new SeriesDetailsServiceModel()
-            {
-                SerieId = s.SeriesId,
-                Title = s.Title,
-                PosterUrl = s.PosterUrl,
-                TrailerUrl = s.TrailerUrl,
-                YearOfStart = s.YearOfStart,
-                YearOfEnd = s.YearOfEnd,
-                Summary = s.Summary,
-                OriginalAudioLanguage = s.OriginalAudioLanguage,
-                ForMoreSummaryUrl = s.ForMoreSummaryUrl,
-                Genres = repository
-                    .TakeAllReadOnly<SerieGenre>()
-                    .Where(sg => sg.SerieId == serieId)
-                    .Select(sg => new GenreInfoSeviceModel()
-                    {
-                        GenreId = sg.GenreId,
-                        Name = sg.Genre.Name,
-                    })
-                    .ToList(),
-                Crews = repository
-                .TakeAllReadOnly<SerieCrew>()
-                .Where(sc => sc.SerieId == serieId)
-                .Select(sc => new CrewCardInfoServiceModel()
-                {
-                    CrewId = sc.CrewId,
-                    Name = sc.Crew.Name,
-                    PictureUrl = sc.Crew.PictureUrl,
-                    Roles = repository
-                    .TakeAllReadOnly<CrewRole>()
-                    .Where(cr => cr.CrewId == sc.CrewId)
-                    .Select(cr => new RoleInfoServiceModel()
-                    {
-                        Name = cr.Role.Name
-                    })
-                    .ToList()
-                })
-                .ToList(),
-                Reviews = repository
-                .TakeAllReadOnly<SerieReview>()
-                .Where(sr => sr.SerieId == serieId)
-                .Select(r => new ReviewInfoServiceModel
-                {
-                    ReviewId = r.ReviewId,
-                    Rating = r.Review.Rating,
-                    Content = r.Review.Content,
-                    UserUsername = repository
-                        .TakeAllReadOnly<UserReview>()
-                        .Where(ur => ur.ReviewId == r.ReviewId)
-                        .Select(ur => ur.User.UserName)
-                        .First()
-                })
-                .ToList()
-            })
-            .FirstOrDefaultAsync();
-
-            if (serie == null)
-            {
-                throw new NullReferenceException("Serie does not exists!");
-            }
-
-            return serie;
+            logger.LogInformation(MessagesConstants.EntityDeleteMessage,nameof(Serie),serieId);
         }
         public async Task<bool> IsSeriePresent(int serieId)
         {

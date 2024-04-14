@@ -1,5 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 using MyShowsLibraryProject.Core.Services;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data;
@@ -20,6 +22,10 @@ namespace MyShowsLibraryProject.Test
         [SetUp]
         public void Setup()
         {
+            var mockLogger = new Mock<ILogger<MovieGenreService>>();
+            var mockGenreLogger = new Mock<ILogger<GenreService>>();
+            var mockMovieLogger = new Mock<ILogger<MovieService>>();
+
             connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
             var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(connection);
@@ -28,9 +34,9 @@ namespace MyShowsLibraryProject.Test
             dbContext.Database.EnsureCreated();
 
             repository = new Repository(dbContext);
-            movieService = new MovieService(repository);
-            genreService = new GenreService(repository);
-            movieGenreService = new MovieGenreService(repository,movieService,genreService);
+            movieService = new MovieService(mockMovieLogger.Object, repository);
+            genreService = new GenreService(mockGenreLogger.Object, repository);
+            movieGenreService = new MovieGenreService(mockLogger.Object, repository, movieService,genreService);
         }
 
         [Test]

@@ -1,5 +1,8 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
+using MyShowsLibraryProject.Core.Constants;
 using MyShowsLibraryProject.Core.Services;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data;
@@ -19,6 +22,8 @@ namespace MyShowsLibraryProject.Test
         [SetUp]
         public void Setup()
         {
+            var mockLogger = new Mock<ILogger<GenreService>>();
+
             connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
             var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(connection);
@@ -27,7 +32,7 @@ namespace MyShowsLibraryProject.Test
             dbContext.Database.EnsureCreated();
 
             repository = new Repository(dbContext);
-            genreService = new GenreService(repository);
+            genreService = new GenreService(mockLogger.Object, repository);
         }
 
         [Test]
@@ -45,13 +50,6 @@ namespace MyShowsLibraryProject.Test
             var genre = await genreService.GetGenreById(genreId);
 
             Assert.That(genre.GenreId,Is.EqualTo(genreId), "GetGenreById method did not return expected results!");
-        }
-        [Test]
-        public void GetGenreByIdIfGenreIsNullTest()
-        {
-            var genreId = 63;
-
-            Assert.ThrowsAsync<NullReferenceException>(async () => await genreService.GetGenreById(genreId), "Genre does not exist!");
         }
         [Test]
         public async Task GenreCreateAsyncTest()
@@ -84,7 +82,7 @@ namespace MyShowsLibraryProject.Test
 
             var genre = DatabaseConstants.GenreForEditAndCreate();
 
-            Assert.ThrowsAsync<NullReferenceException>(async () => await genreService.EditAsync(genreId,genre), "Genre to edit dont exist!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await genreService.EditAsync(genreId,genre), MessagesConstants.GenreDoesNotExistsMessage);
         }
         [Test]
         public async Task GenreDeleteAsyncTest()

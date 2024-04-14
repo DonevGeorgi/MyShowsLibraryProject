@@ -4,12 +4,16 @@ using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Core.Services;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
 using MyShowsLibraryProject.Infrastructure.Data;
+using Microsoft.Extensions.Logging;
 
 namespace MyShowsLibraryProject.Test
 {
     [TestFixture]
     public class SerieGenreServiceTest
     {
+        private ILogger<SerieGenreService> logger;
+        private ILogger<GenreService> loggerGenre;
+        private ILogger<SerieService> loggerSerie;
         private ISerieGenreService serieGenreService;
         private IRepository repository;
         private ISerieService serieService;
@@ -28,9 +32,9 @@ namespace MyShowsLibraryProject.Test
             dbContext.Database.EnsureCreated();
 
             repository = new Repository(dbContext);
-            serieService = new SerieService(repository);
-            genreService = new GenreService(repository);
-            serieGenreService = new SerieGenreService(repository, serieService, genreService);
+            serieService = new SerieService(loggerSerie,repository);
+            genreService = new GenreService(loggerGenre,repository);
+            serieGenreService = new SerieGenreService(logger, repository, serieService, genreService);
         }
 
         [Test]

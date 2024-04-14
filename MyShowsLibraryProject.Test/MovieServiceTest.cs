@@ -1,5 +1,8 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
+using MyShowsLibraryProject.Core.Constants;
 using MyShowsLibraryProject.Core.Enumeration;
 using MyShowsLibraryProject.Core.Models.MovieModels;
 using MyShowsLibraryProject.Core.Services;
@@ -21,6 +24,8 @@ namespace MyShowsLibraryProject.Test
         [SetUp]
         public void Setup()
         {
+            var mockLogger = new Mock<ILogger<MovieService>>();
+
             connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
             var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(connection);
@@ -29,7 +34,7 @@ namespace MyShowsLibraryProject.Test
             dbContext.Database.EnsureCreated();
 
             repository = new Repository(dbContext);
-            movieService = new MovieService(repository);
+            movieService = new MovieService(mockLogger.Object, repository);
         }
 
         [Test]
@@ -159,7 +164,7 @@ namespace MyShowsLibraryProject.Test
             var movieId = 14;
             var movieToEdit = DatabaseConstants.MovieForEdit();
 
-            Assert.ThrowsAsync<NullReferenceException>(async () => await movieService.EditAsync(movieId, movieToEdit), "Movie you want to edit does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await movieService.EditAsync(movieId, movieToEdit), MessagesConstants.MovieEditDoesNotExistMessage);
         }
         [Test]
         public async Task MovieDeleteAsyncTest()

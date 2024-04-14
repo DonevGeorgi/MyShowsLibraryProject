@@ -1,7 +1,9 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
+using MyShowsLibraryProject.Core.Constants;
 using MyShowsLibraryProject.Core.Enumeration;
-using MyShowsLibraryProject.Core.Models.MovieModels;
 using MyShowsLibraryProject.Core.Models.SerieModels;
 using MyShowsLibraryProject.Core.Services;
 using MyShowsLibraryProject.Core.Services.Contacts;
@@ -22,6 +24,8 @@ namespace MyShowsLibraryProject.Test
         [SetUp]
         public void Setup()
         {
+            var mockLogger = new Mock<ILogger<SerieService>>();
+
             connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
             var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(connection);
@@ -30,7 +34,7 @@ namespace MyShowsLibraryProject.Test
             dbContext.Database.EnsureCreated();
 
             repository = new Repository(dbContext);
-            serieService = new SerieService(repository);
+            serieService = new SerieService(mockLogger.Object, repository);
         }
 
         [Test]
@@ -160,7 +164,7 @@ namespace MyShowsLibraryProject.Test
             var serieId = 14;
             var serieToEdit = DatabaseConstants.SerieForEdit();
 
-            Assert.ThrowsAsync<NullReferenceException>(async () => await serieService.EditAsync(serieId, serieToEdit), "Serie you want to edit does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await serieService.EditAsync(serieId, serieToEdit), MessagesConstants.SerieEditDoesNotExistMessage);
         }
         [Test]
         public async Task SerieDeleteAsyncTest()

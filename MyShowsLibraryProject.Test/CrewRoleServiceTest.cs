@@ -1,9 +1,12 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using MyShowsLibraryProject.Core.Services.Contacts;
+using Microsoft.Extensions.Logging;
+using Moq;
+using MyShowsLibraryProject.Core.Constants;
 using MyShowsLibraryProject.Core.Services;
-using MyShowsLibraryProject.Infrastructure.Data.Common;
+using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data;
+using MyShowsLibraryProject.Infrastructure.Data.Common;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
 
 namespace MyShowsLibraryProject.Test
@@ -21,6 +24,10 @@ namespace MyShowsLibraryProject.Test
         [SetUp]
         public void Setup()
         {
+            var mockLogger = new Mock<ILogger<CrewRoleService>>();
+            var mockCrewLogger = new Mock<ILogger<CrewService>>();
+            var mockRoleLogger = new Mock<ILogger<RoleService>>();
+
             connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
             var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(connection);
@@ -29,9 +36,9 @@ namespace MyShowsLibraryProject.Test
             dbContext.Database.EnsureCreated();
 
             repository = new Repository(dbContext);
-            crewService = new CrewService(repository);
-            roleService = new RoleService(repository);
-            crewRoleService = new CrewRoleService(repository, crewService, roleService);
+            crewService = new CrewService(mockCrewLogger.Object, repository);
+            roleService = new RoleService(mockRoleLogger.Object, repository);
+            crewRoleService = new CrewRoleService(mockLogger.Object, repository, crewService, roleService);
         }
 
         [Test]
@@ -51,15 +58,19 @@ namespace MyShowsLibraryProject.Test
 
             var count = repository.TakeAll<CrewRole>().Count();
 
-            Assert.That(count,Is.EqualTo(24), "CrewRole was not created succesfully!");
+            Assert.That(count,Is.EqualTo(24), "AddRoleToCrewAsync was not created succesfully!");
         }
         [Test]
-        public void TryAddExistingRoleToCrewAsyncTest()
+        public async Task TryAddExistingRoleToCrewAsyncTest()
         {
             var crewId = 1;
             var roleId = 1;
 
-            Assert.ThrowsAsync<NullReferenceException>(async () => await crewRoleService.AddRoleToCrewAsync(crewId, roleId), "Crew contains role already!");
+            await crewRoleService.AddRoleToCrewAsync(crewId, roleId);
+
+            var count = repository.TakeAll<CrewRole>().Count();
+
+            Assert.That(count, Is.EqualTo(23), "AddRoleToCrewAsync created succesfully!");
         }
         [Test]
         public void AddRoleToNullCrewAsyncTest()
@@ -67,7 +78,7 @@ namespace MyShowsLibraryProject.Test
             var crewId = 200;
             var roleId = 8;
 
-            Assert.ThrowsAsync<NullReferenceException>(async () => await crewRoleService.AddRoleToCrewAsync(crewId, roleId), "Crew does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await crewRoleService.AddRoleToCrewAsync(crewId, roleId), MessagesConstants.CrewDoesNotExistsMessage);
         }
         [Test]
         public async Task RemoveRoleFromCrewAsync()
@@ -82,12 +93,16 @@ namespace MyShowsLibraryProject.Test
             Assert.That(count,Is.EqualTo(22), "RemoveRoleFromCrewAsync dont delete what was expected!");
         }
         [Test]
-        public void RemoveNullRoleFromCrewAsync()
+        public async Task RemoveNullRoleFromCrewAsync()
         {
             var crewId = 1;
             var roleId = 8;
 
-            Assert.ThrowsAsync<NullReferenceException>(async () => await crewRoleService.RemoveRoleFromCrewAsync(crewId, roleId), "Crew dont have chosen role!");
+            await crewRoleService.RemoveRoleFromCrewAsync(crewId, roleId);
+
+            var count = repository.TakeAll<CrewRole>().Count();
+
+            Assert.That(count, Is.EqualTo(23), "RemoveRoleFromCrewAsync dont delete what was expected!");
         }
         [Test]
         public void RemoveRoleFromNullCrewAsync()
@@ -95,9 +110,8 @@ namespace MyShowsLibraryProject.Test
             var crewId = 200;
             var roleId = 8;
 
-            Assert.ThrowsAsync<NullReferenceException>(async () => await crewRoleService.RemoveRoleFromCrewAsync(crewId, roleId), "Crew does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await crewRoleService.RemoveRoleFromCrewAsync(crewId, roleId), MessagesConstants.CrewDoesNotExistsMessage);
         }
-
 
         [TearDown]
         public void TearDown()

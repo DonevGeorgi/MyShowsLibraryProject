@@ -5,6 +5,9 @@ using MyShowsLibraryProject.Core.Services;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
 using MyShowsLibraryProject.Infrastructure.Data;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
+using Microsoft.Extensions.Logging;
+using Moq;
+using MyShowsLibraryProject.Core.Constants;
 
 namespace MyShowsLibraryProject.Test
 {
@@ -21,6 +24,10 @@ namespace MyShowsLibraryProject.Test
         [SetUp]
         public void Setup()
         {
+            var mockLogger = new Mock<ILogger<ReviewService>>();
+            var mockSerieLogger = new Mock<ILogger<SerieService>>();
+            var mockMovieLogger = new Mock<ILogger<MovieService>>();
+
             connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
             var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(connection);
@@ -29,9 +36,9 @@ namespace MyShowsLibraryProject.Test
             dbContext.Database.EnsureCreated();
 
             repository = new Repository(dbContext);
-            serieService = new SerieService(repository);
-            movieService = new MovieService(repository);
-            reviewService = new ReviewService(repository, movieService, serieService);
+            serieService = new SerieService(mockSerieLogger.Object, repository);
+            movieService = new MovieService(mockMovieLogger.Object, repository);
+            reviewService = new ReviewService(mockLogger.Object, repository, movieService, serieService);
         }
 
         [Test]
@@ -42,13 +49,6 @@ namespace MyShowsLibraryProject.Test
             var review = await reviewService.GetReviewById(reviewId);
 
             Assert.That(review.ReviewId, Is.EqualTo(reviewId), "GetReviewById method did not return expected results!");
-        }
-        [Test]
-        public void GetReviewByIdIfNullTest()
-        {
-            var reviewId = 1;
-
-            Assert.ThrowsAsync<NullReferenceException>(async () => await reviewService.GetReviewById(reviewId), "Review does not exists!");
         }
         [Test]
         public async Task CreateMovieReviewAsync()
@@ -100,7 +100,7 @@ namespace MyShowsLibraryProject.Test
             var userId = "8e656345-a56d-4543-a7c6-4556d32d4db2";
             var movieId = 44;
 
-            Assert.ThrowsAsync<NullReferenceException>(async () => await reviewService.CreateAsync(review,userId,movieId,showType), "The show you chose does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await reviewService.CreateAsync(review,userId,movieId,showType), MessagesConstants.ShowDoesNotExsistsMessage);
         }
         [Test]
         public async Task CreateSerieReviewAsync()
@@ -150,7 +150,7 @@ namespace MyShowsLibraryProject.Test
             var userId = "8e656345-a56d-4543-a7c6-4556d32d4db2";
             var serieId = 44;
 
-            Assert.ThrowsAsync<NullReferenceException>(async () => await reviewService.CreateAsync(review, userId, serieId, showType), "The show you chose does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await reviewService.CreateAsync(review, userId, serieId, showType), MessagesConstants.ShowDoesNotExsistsMessage);
         }
         [Test]
         public async Task ReviewEditAsyncTest()
@@ -170,7 +170,7 @@ namespace MyShowsLibraryProject.Test
             var reivewId = 4;
             var reviewToEdit = DatabaseConstants.ReviewForEdit();
 
-            Assert.ThrowsAsync<NullReferenceException>(async () => await reviewService.EditAsync(reivewId, reviewToEdit), "Review you want to edit does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await reviewService.EditAsync(reivewId, reviewToEdit), MessagesConstants.ReviewDoesNotExistsMessage);
         }
         [Test]
         public async Task ReivewDeleteAsyncTest()

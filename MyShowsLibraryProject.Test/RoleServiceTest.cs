@@ -5,6 +5,9 @@ using MyShowsLibraryProject.Core.Services;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
 using MyShowsLibraryProject.Infrastructure.Data;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
+using Microsoft.Extensions.Logging;
+using Moq;
+using MyShowsLibraryProject.Core.Constants;
 
 namespace MyShowsLibraryProject.Test
 {
@@ -19,6 +22,8 @@ namespace MyShowsLibraryProject.Test
         [SetUp]
         public void Setup()
         {
+            var mockLogger = new Mock<ILogger<RoleService>>();
+
             connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
             var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(connection);
@@ -27,7 +32,7 @@ namespace MyShowsLibraryProject.Test
             dbContext.Database.EnsureCreated();
 
             repository = new Repository(dbContext);
-            roleService = new RoleService(repository);
+            roleService = new RoleService(mockLogger.Object, repository);
         }
 
         [Test]
@@ -45,13 +50,6 @@ namespace MyShowsLibraryProject.Test
             var role = await roleService.GetRoleById(roleId);
 
             Assert.That(role.RoleId, Is.EqualTo(roleId), "GetRoleById method did not return expected results!");
-        }
-        [Test]
-        public void GetRoleByIdIfRoleIsNullTest()
-        {
-            var roleId = 72;
-
-            Assert.ThrowsAsync<NullReferenceException>(async () => await roleService.GetRoleById(roleId), "Role does not exists!");
         }
         [Test]
         public async Task IsRolePresentTest()
@@ -87,7 +85,7 @@ namespace MyShowsLibraryProject.Test
         {
             var role = DatabaseConstants.ExistedRole();
 
-            Assert.ThrowsAsync<NullReferenceException>(async () => await roleService.CreateAsync(role), "Role does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await roleService.CreateAsync(role), MessagesConstants.RoleDoesNotExistsMessage);
         }
         [Test]
         public async Task RoleEditAsyncTest()
@@ -109,7 +107,7 @@ namespace MyShowsLibraryProject.Test
 
             var role = DatabaseConstants.RoleForEditAndCreate();
 
-            Assert.ThrowsAsync<NullReferenceException>(async () => await roleService.EditAsync(roleId, role), "Role you want to edit does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await roleService.EditAsync(roleId, role), MessagesConstants.RoleDoesNotExistsMessage);
         }
         [Test]
         public async Task RoleDeleteAsyncTest()

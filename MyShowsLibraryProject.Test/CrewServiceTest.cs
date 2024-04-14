@@ -1,5 +1,8 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
+using MyShowsLibraryProject.Core.Constants;
 using MyShowsLibraryProject.Core.Services;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data;
@@ -19,6 +22,8 @@ namespace MyShowsLibraryProject.Test
         [SetUp]
         public void Setup()
         {
+            var mockLogger = new Mock<ILogger<CrewService>>();
+
             connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
             var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(connection);
@@ -28,7 +33,7 @@ namespace MyShowsLibraryProject.Test
 
             repository = new Repository(dbContext);
 
-            crewService = new CrewService(repository);
+            crewService = new CrewService(mockLogger.Object, repository);
         }
 
         [Test]
@@ -57,9 +62,13 @@ namespace MyShowsLibraryProject.Test
             Assert.That(repositoryCount,Is.EqualTo(11), "Crew was not created succesfully!");
         }
         [Test]
-        public void IsCrewIsNullCreateAsyncTest()
+        public async Task IsCrewIsAlreadyCreateAsyncTest()
         {
-            Assert.ThrowsAsync<NullReferenceException>(async () => await crewService.CreateAsync(DatabaseConstants.CreateNullCrewModel()), "Crew with this name already exists!");
+            await crewService.CreateAsync(DatabaseConstants.CreateNullCrewModel());
+
+            var repositoryCount = repository.TakeAll<Crew>().Count();
+
+            Assert.That(repositoryCount, Is.EqualTo(10), "Crew was not created succesfully!");
         }
         [Test]
         public async Task CrewEditAsyncTest()
@@ -79,7 +88,7 @@ namespace MyShowsLibraryProject.Test
             var crewId = 21;
             var crewToEdit = DatabaseConstants.CrewForEdit();
 
-            Assert.ThrowsAsync<NullReferenceException>(async () => await crewService.EditAsync(crewId, crewToEdit), "Crew does not exists!");
+            Assert.ThrowsAsync<NullReferenceException>(async () => await crewService.EditAsync(crewId, crewToEdit), MessagesConstants.CrewDoesNotExistsMessage);
         }
         [Test]
         public async Task CrewDeleteAsyncTest()

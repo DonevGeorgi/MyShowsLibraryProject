@@ -53,12 +53,6 @@ namespace Microsoft.Extensions.DependencyInjection
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            //services.AddAuthentication()
-            //    .AddCookie(options =>
-            //    {
-            //        options.LoginPath = PathString.FromUriComponent("/Account/Login");
-            //    });
-
             return services;
         }
     }

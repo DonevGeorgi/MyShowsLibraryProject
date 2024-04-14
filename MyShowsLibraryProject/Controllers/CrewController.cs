@@ -12,6 +12,7 @@ namespace MyShowsLibraryProject.Controllers
             crewService = _crewService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index(int crewId)
         {
             var model = await crewService.GetCrewDetailsById(crewId);

@@ -51,7 +51,15 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
                 data.GotS4SeventhEpisode,
                 data.GotS4EighthEpisode,
                 data.GotS4NinthEpisode,
-                data.GotS4TenthEpisode
+                data.GotS4TenthEpisode,
+                data.BPS1FirstEpisode,
+                data.BPS1SecondEpisode,
+                data.BPS1ThirdEpisode,
+                data.BPS1FourthEpisode,
+                data.BPS1FifthEpisode,
+                data.BPS1SixthEpisode,
+                data.BPS1SeventhEpisode,
+                data.BPS1EighthEpisode
             });
         }
     }

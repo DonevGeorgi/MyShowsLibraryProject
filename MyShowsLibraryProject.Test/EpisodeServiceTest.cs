@@ -74,7 +74,7 @@ namespace MyShowsLibraryProject.Test
 
             var repositoryCount = repository.TakeAll<Episode>().Count();
 
-            Assert.That(repositoryCount, Is.EqualTo(41), "Episode was not created succesfully!");
+            Assert.That(repositoryCount, Is.EqualTo(49), "Episode was not created succesfully!");
         }
         [Test]
         public void NullEpisodeCreateAsyncTest()
@@ -123,7 +123,7 @@ namespace MyShowsLibraryProject.Test
 
             var count = repository.TakeAll<Episode>().Count();
 
-            Assert.That(count, Is.EqualTo(40), "DeleteAsync delete unexpected record!");
+            Assert.That(count, Is.EqualTo(48), "DeleteAsync delete unexpected record!");
         }
 
         [TearDown]

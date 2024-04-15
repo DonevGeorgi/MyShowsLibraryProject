@@ -4,38 +4,43 @@
     ViewData["Title"] = "Movie Detail";
 }
 
-<div class="bg-white bg-opacity-50 d-flex flex-column p-2 gap-2" style="border-radius: 0.5em">
+<div class="bg-white bg-opacity-50 d-flex flex-column p-2 gap-3" style="border-radius: 0.5em; font-size: 1.3em; text-shadow: 0px 0px 0px grey;">
     <div class="container d-flex flex-row">
-        <div>
-            <img style="height: 360px;" src="@Model.PosterUrl">
+        <div class="container w-75">
+            <img class="w-100 h-100" src="@Model.PosterUrl">
         </div>
-        <div class="container d-flex flex-column gap-2 p-2">
+        <div class="container d-flex flex-column gap-4 p-1">
             <div class="container d-flex justify-content-center p-1">
-                <span class="fw-bolder">@Model.Title</span>
+                <h3 class="fw-bold p-1 m-1">@Model.Title</h3>
             </div>
-            <div class="d-flex flex-column">
-                <span>@Model.DateOfRelease</span>
-                <span>@string.Join(", ", Model.Genres.Select(n => n.Name))</span>
-                <span>@Model.Duration</span>
-                <span>@Model.OriginalAudioLanguage</span>
+            <div class="d-flex flex-column gap-3 p-1">
+                <span>Release date: @Model.DateOfRelease</span>
+                <span>Movie genre: @string.Join(", ", Model.Genres.Select(n => n.Name))</span>
+                <span>Running time: @Model.Duration</span>
+                <span>Movie language: @Model.OriginalAudioLanguage</span>
             </div>
         </div>
     </div>
-    <div class="container p-2">
-        <p>@Model.Summary</p>
-        <a href="@Model.ForMoreSummaryUrl" class="text-decoration-none text-black fw-bold">For more information you can visit this link:</a>
+    <div class="bg-white bg-opacity-50 p-4 m-2" style="border-radius: 0.5em">
+        <h2 class="text-center">Movie summary</h2>
+        <div class="container p-2">
+            <p>@Model.Summary</p>
+            <a href="@Model.ForMoreSummaryUrl" class="text-decoration-none text-black fw-bold">For more information you can visit this link:</a>
+        </div>
     </div>
-    <div class="container p-2 d-flex justify-content-center">
-        <iframe width="1280" height="720" src="@Model.TrailerUrl" allowfullscreen></iframe>
+    <h2 class="text-center">Movie trailer</h2>
+    <div class="container" style="height: 720px">
+        <iframe class="w-100 h-100" src="@Model.TrailerUrl" allowfullscreen></iframe>
     </div>
-    <div class="container p-2 d-flex gap-1 flex-wrap">
+    <h2 class="text-center">Movie crew</h2>
+    <div class="d-flex flex-column gap-2 p-2">
         @foreach (var crew in Model.Crews)
         {
-            <div class="d-flex flex-column gap-1 p-3" style="max-height: 75%; max-width: 33%;">
+            <div class="d-flex gap-5">
                 <div>
-                    <img class="h-auto w-100 d-block" style="border-radius: 0.5em" src="@crew.PictureUrl" />
+                    <img class="w-100" style="border-radius: 0.5em; max-height: 500px; max-width: 340px" src="@crew.PictureUrl" />
                 </div>
-                <div class="d-flex flex-column p-2 align-items-center">
+                <div class="d-flex gap-5 align-items-center">
                     <a asp-action="Index" asp-controller="Crew" asp-route-crewId="@crew.CrewId" class="text-black text-decoration-none fw-bold">@crew.Name</a>
                     <p class="mb-0">@string.Join(", ", crew.Roles.Select(r => r.Name))</p>
                 </div>
@@ -46,7 +51,7 @@
         <a asp-action="AddingReview" asp-controller="Review" asp-route-showId="@Model.MovieId" asp-route-showType="@("movie")" class="text-decoration-none text-black">Add new review</a>
     </div>
     <div class="bg-white bg-opacity-50 p-4" style="border-radius: 0.5em;">
-        <p class="text-center fw-bold" style="font-size: 2em">Reviews:</p>
+        <h2 class="text-center fw-bold">Reviews:</h2>
         @foreach (var review in Model.Reviews)
         {
             <div class="d-flex flex-column">
@@ -58,14 +63,14 @@
                     <p class="p-2">@review.Content</p>
                 </div>
                 <div class="p-1">
-                    @if(User.Identity.Name == review.UserUsername){
+                    @if (User.Identity.Name == review.UserUsername)
+                    {
                         <a asp-area="default" asp-action="EditingReview" asp-controller="Review" asp-route-reviewId="@review.ReviewId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Edit</a>
                         <a asp-area="default" asp-action="RemovingReview" asp-controller="Review" asp-route-reviewId="@review.ReviewId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Delete</a>
                     }
                 </div>
             </div>
             <hr style="border: 3px solid black; border-radius: 0.5em;" />
-
         }
     </div>
 </div>

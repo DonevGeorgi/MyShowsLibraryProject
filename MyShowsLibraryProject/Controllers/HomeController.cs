@@ -1,22 +1,31 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyShowsLibraryProject.Core.Models.HomeModels;
+using MyShowsLibraryProject.Core.Services.Contacts;
 
 namespace MyShowsLibraryProject.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IHomeService homeService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IHomeService _homeService)
         {
-            _logger = logger;
+            homeService = _homeService;
         }
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var model = new HomeShowsServiceModel();
+
+            model.Movies = await homeService.GetLastAddedMovies();
+            model.Series = await homeService.GetLastAddedSeries();
+            model.HighestRatedMovies = await homeService.GetHighestRatedLastAddedMovies();
+            model.HighestRatedSeries = await homeService.GetHighestRatedLastAddedSeries();
+
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

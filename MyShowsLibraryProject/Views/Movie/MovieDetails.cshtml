@@ -16,7 +16,7 @@
             <div class="d-flex flex-column gap-3 p-1">
                 <span>Release date: @Model.DateOfRelease</span>
                 <span>Movie genre: @string.Join(", ", Model.Genres.Select(n => n.Name))</span>
-                <span>Running time: @Model.Duration</span>
+                <span>Runtime: @Model.Duration</span>
                 <span>Movie language: @Model.OriginalAudioLanguage</span>
             </div>
         </div>

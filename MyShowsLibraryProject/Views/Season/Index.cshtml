@@ -12,7 +12,7 @@
                 <img class="h-100 w-100" style="border-radius: 2em;" src="@m.PosterUrl" />
             </div>
             <div class="container d-flex flex-column justify-content-center">
-                <a asp-action="Index" asp-controller="Episode" asp-route-seasonId="@m.SeasonId" class="text-white text-decoration-none pb-2" style="font-size: 2em;">Season: @m.SeasonNumberation</a>
+                <a asp-action="Index" asp-controller="Episode" asp-route-seasonId="@m.SeasonId" class="text-white pb-2" style="font-size: 2em;">Season: @m.SeasonNumberation</a>
                 <p class="text-white" style="font-size: 2em;">Release year: @m.YearOfRelease</p>
                 <p class="text-white" style="font-size: 2em;">Episode in season @m.SeasonNumberation: @m.EpisodesInSeason episode</p>
             </div>

@@ -47,7 +47,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             return role;
         }
-        public async Task<bool> IsRolePresent(string roleName)
+        public async Task<bool> IsRoleAvailable(string roleName)
         {
             var role = await repository
                 .TakeAllReadOnly<Role>()
@@ -63,7 +63,7 @@ namespace MyShowsLibraryProject.Core.Services
         }
         public async Task CreateAsync(RoleFormModel role)
         {
-            if (await IsRolePresent(role.Name))
+            if (await IsRoleAvailable(role.Name))
             {
                 logger.LogInformation(MessagesConstants.EntityNotFountMessage,nameof(Role));
                 throw new NullReferenceException(MessagesConstants.RoleDoesNotExistsMessage);

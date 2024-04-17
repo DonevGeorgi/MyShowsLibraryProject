@@ -56,7 +56,7 @@ namespace MyShowsLibraryProject.Test
         {
             var role = DatabaseConstants.ExistedRole();
 
-            var result = await roleService.IsRolePresent(role.Name);
+            var result = await roleService.IsRoleAvailable(role.Name);
 
             Assert.IsTrue(result, "ExistedRole method did not return expected results!");
         }
@@ -65,7 +65,7 @@ namespace MyShowsLibraryProject.Test
         {
             var role = DatabaseConstants.RoleForEditAndCreate();
 
-            var result = await roleService.IsRolePresent(role.Name);
+            var result = await roleService.IsRoleAvailable(role.Name);
 
             Assert.IsFalse(result, "ExistedRole method did not return expected results!");
         }

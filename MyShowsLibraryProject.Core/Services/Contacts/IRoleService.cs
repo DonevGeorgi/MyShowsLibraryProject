@@ -5,7 +5,7 @@ namespace MyShowsLibraryProject.Core.Services.Contacts
     public interface IRoleService
     {
         Task<IEnumerable<RoleInfoServiceModel>> GetAllReadonlyAsync();
-        Task<bool> IsRolePresent(string roleName);
+        Task<bool> IsRoleAvailable(string roleName);
         Task<RoleInfoServiceModel> GetRoleById(int roleId);
         Task CreateAsync(RoleFormModel role);
         Task EditAsync(int roleId, RoleFormModel role);

@@ -5,52 +5,54 @@
 }
 
 <div class="row">
-    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form asp-action="Add" method="post">
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.Title" class="form-label-add-edit">Serie Title</label>
-                <input asp-for="@Model.Title" class="form-control" aria-required="true" />
-                <span asp-validation-for="@Model.Title" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.PosterUrl" class="form-label-add-edit">Serie Poster URL</label>
-                <input asp-for="@Model.PosterUrl" class="form-control" aria-required="true">
-                <span asp-validation-for="@Model.PosterUrl" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.TrailerUrl" class="form-label-add-edit">Serie Trailer URL</label>
-                <input asp-for="@Model.TrailerUrl" class="form-control" aria-required="true" />
-                <span asp-validation-for="@Model.TrailerUrl" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.YearOfStart" class="form-label-add-edit">Date of release</label>
-                <input asp-for="@Model.YearOfStart" class="form-control" aria-required="true" placeholder="YYYY" />
-                <span asp-validation-for="@Model.YearOfStart" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.YearOfEnd" class="form-label-add-edit">Date of end</label>
-                <input asp-for="@Model.YearOfEnd" class="form-control" aria-required="true" placeholder="YYYY" />
-                <span asp-validation-for="@Model.YearOfEnd" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.OriginalAudioLanguage" class="form-label-add-edit">Serie Original Audio</label>
-                <input asp-for="@Model.OriginalAudioLanguage" class="form-control" />
-                <span asp-validation-for="@Model.OriginalAudioLanguage" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.Summary" class="form-label-add-edit">Summary</label>
-                <textarea asp-for="@Model.Summary" class="form-control" aria-required="true" rows="5"></textarea>
-                <span asp-validation-for="@Model.Summary" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.ForMoreSummaryUrl" class="form-label-add-edit">Link for more summary</label>
-                <input asp-for="@Model.ForMoreSummaryUrl" class="form-control" />
-                <span asp-validation-for="@Model.ForMoreSummaryUrl" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Add Serie" />
-            </div>
-        </form>
+    <div class=" container bg-black bg-opacity-50" style="border-radius: 1em">
+        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <form asp-action="Add" method="post">
+                <div class="mb-3">
+                    <label class="text-white" asp-for="@Model.Title" class="form-label-add-edit">Serie Title</label>
+                    <input asp-for="@Model.Title" class="form-control" aria-required="true" />
+                    <span asp-validation-for="@Model.Title" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="text-white" asp-for="@Model.PosterUrl" class="form-label-add-edit">Serie Poster URL</label>
+                    <input asp-for="@Model.PosterUrl" class="form-control" aria-required="true">
+                    <span asp-validation-for="@Model.PosterUrl" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="text-white" asp-for="@Model.TrailerUrl" class="form-label-add-edit">Serie Trailer URL</label>
+                    <input asp-for="@Model.TrailerUrl" class="form-control" aria-required="true" />
+                    <span asp-validation-for="@Model.TrailerUrl" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="text-white" asp-for="@Model.YearOfStart" class="form-label-add-edit">Date of release</label>
+                    <input asp-for="@Model.YearOfStart" class="form-control" aria-required="true" placeholder="YYYY" />
+                    <span asp-validation-for="@Model.YearOfStart" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="text-white" asp-for="@Model.YearOfEnd" class="form-label-add-edit">Date of end</label>
+                    <input asp-for="@Model.YearOfEnd" class="form-control" aria-required="true" placeholder="YYYY" />
+                    <span asp-validation-for="@Model.YearOfEnd" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="text-white" asp-for="@Model.OriginalAudioLanguage" class="form-label-add-edit">Serie Original Audio</label>
+                    <input asp-for="@Model.OriginalAudioLanguage" class="form-control" />
+                    <span asp-validation-for="@Model.OriginalAudioLanguage" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="text-white" asp-for="@Model.Summary" class="form-label-add-edit">Summary</label>
+                    <textarea asp-for="@Model.Summary" class="form-control" aria-required="true" rows="5"></textarea>
+                    <span asp-validation-for="@Model.Summary" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="text-white" asp-for="@Model.ForMoreSummaryUrl" class="form-label-add-edit">Link for more summary</label>
+                    <input asp-for="@Model.ForMoreSummaryUrl" class="form-control" />
+                    <span asp-validation-for="@Model.ForMoreSummaryUrl" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Add Serie" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

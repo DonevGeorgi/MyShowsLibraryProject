@@ -23,7 +23,7 @@
                     <td>@season.SeasonNumberation</td>
                     <td>@season.EpisodesInSeason</td>
                     <td>@season.YearOfRelease</td>
-                    <td class="text-center">
+                    <td class="text-end">
                         <a asp-area="Administration" asp-action="Edit" asp-controller="Season" asp-route-seasonId="@season.SeasonId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Edit</a>
                         <a asp-area="Administration" asp-action="Delete" asp-controller="Season" asp-route-seasonId="@season.SeasonId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Delete</a>
                         <a asp-area="Administration" asp-action="Index" asp-controller="Episode" asp-route-seasonId="@season.SeasonId" asp-route-numeration="@season.SeasonNumberation" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Add Episode</a>

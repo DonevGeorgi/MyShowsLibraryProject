@@ -5,47 +5,49 @@
 }
 
 <div class="row">
-    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form asp-action="Add" method="post">
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.Name" class="form-label-add-edit">Person name</label>
-                <input asp-for="@Model.Name" class="form-control" aria-required="true" />
-                <span asp-validation-for="@Model.Name" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.Pseudonyms" class="form-label-add-edit">Pseudonyms</label>
-                <input asp-for="@Model.Pseudonyms" class="form-control" aria-required="true" />
-                <span asp-validation-for="@Model.Pseudonyms" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.Birthdate" class="form-label-add-edit">Birthdate</label>
-                <input asp-for="@Model.Birthdate" class="form-control" aria-required="true" placeholder="dd MMM(Jun) YYYY">
-                <span asp-validation-for="@Model.Birthdate" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.Nationality" class="form-label-add-edit">Nationality</label>
-                <input asp-for="@Model.Nationality" class="form-control" aria-required="true" />
-                <span asp-validation-for="@Model.Nationality" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.PictureUrl" class="form-label-add-edit">Person picture URL</label>
-                <input asp-for="@Model.PictureUrl" class="form-control" aria-required="true"/>
-                <span asp-validation-for="@Model.PictureUrl" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.Biography" class="form-label-add-edit">Biography</label>
-                <textarea asp-for="@Model.Biography" class="form-control"></textarea>
-                <span asp-validation-for="@Model.Biography" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.MoreInfo" class="form-label-add-edit">Link for more info</label>
-                <input asp-for="@Model.MoreInfo" class="form-control" aria-required="true" rows="5"/>
-                <span asp-validation-for="@Model.MoreInfo" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Add Crew" />
-            </div>
-        </form>
+    <div class=" container bg-black bg-opacity-50" style="border-radius: 1em">
+        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <form asp-action="Add" method="post">
+                <div class="mb-3">
+                    <label class="text-white" asp-for="@Model.Name" class="form-label-add-edit">Person name</label>
+                    <input asp-for="@Model.Name" class="form-control" aria-required="true" />
+                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="text-white" asp-for="@Model.Pseudonyms" class="form-label-add-edit">Pseudonyms</label>
+                    <input asp-for="@Model.Pseudonyms" class="form-control" aria-required="true" />
+                    <span asp-validation-for="@Model.Pseudonyms" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="text-white" asp-for="@Model.Birthdate" class="form-label-add-edit">Birthdate</label>
+                    <input asp-for="@Model.Birthdate" class="form-control" aria-required="true" placeholder="dd MMM(Jun) YYYY">
+                    <span asp-validation-for="@Model.Birthdate" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="text-white" asp-for="@Model.Nationality" class="form-label-add-edit">Nationality</label>
+                    <input asp-for="@Model.Nationality" class="form-control" aria-required="true" />
+                    <span asp-validation-for="@Model.Nationality" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="text-white" asp-for="@Model.PictureUrl" class="form-label-add-edit">Person picture URL</label>
+                    <input asp-for="@Model.PictureUrl" class="form-control" aria-required="true" />
+                    <span asp-validation-for="@Model.PictureUrl" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="text-white" asp-for="@Model.Biography" class="form-label-add-edit">Biography</label>
+                    <textarea asp-for="@Model.Biography" class="form-control"></textarea>
+                    <span asp-validation-for="@Model.Biography" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="text-white" asp-for="@Model.MoreInfo" class="form-label-add-edit">Link for more info</label>
+                    <input asp-for="@Model.MoreInfo" class="form-control" aria-required="true" rows="5" />
+                    <span asp-validation-for="@Model.MoreInfo" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Add Crew" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

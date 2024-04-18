@@ -7,11 +7,11 @@ form of reviews or be the judge and leave a review. In case the user likes some 
 it in a list called watch later. Admin on the other hand can manage all movies, series or crew's information 
 by adding, editing or deleting them, giving crews roles or movie genres, adding crews to movies and series and more.
 
-For the creation of this app was used: 
-C#
-.NET6
-ASP.NET Core MVC
-Entity Framework
-SQL
-HTML
-CSS
+# For the creation of this app was used: 
+-C#
+-.NET6
+-ASP.NET Core MVC
+-Entity Framework
+-SQL
+-HTML
+-CSS

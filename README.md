@@ -1,4 +1,4 @@
-MyShowsLibraryProject is my project made for SoftUni ASP.NET Advanced Course
+#MyShowsLibraryProject is my project made for SoftUni ASP.NET Advanced Course
 
 My project is basicaly shows library for displaying movies and series split in user and admin area. 
 Users can browse in the app, search up movies or series from a vast veriety in many genres,
@@ -8,10 +8,10 @@ it in a list called watch later. Admin on the other hand can manage all movies, 
 by adding, editing or deleting them, giving crews roles or movie genres, adding crews to movies and series and more.
 
 # For the creation of this app was used: 
--C#
--.NET6
--ASP.NET Core MVC
--Entity Framework
--SQL
--HTML
--CSS
+- C#
+- .NET6
+- ASP.NET Core MVC
+- Entity Framework
+- SQL
+- HTML
+- CSS

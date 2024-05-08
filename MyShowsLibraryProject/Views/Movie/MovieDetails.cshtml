@@ -78,8 +78,8 @@
                 <div class="p-1">
                     @if (User.Identity.Name == review.UserUsername)
                     {
-                        <a asp-area="default" asp-action="EditingReview" asp-controller="Review" asp-route-reviewId="@review.ReviewId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Edit</a>
-                        <a asp-area="default" asp-action="RemovingReview" asp-controller="Review" asp-route-reviewId="@review.ReviewId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Delete</a>
+                        <a asp-area="default" asp-action="EditingReview" asp-controller="Review" asp-route-reviewId="@review.ReviewId" asp-route-showId="@Model.MovieId" asp-route-showType="@("movie")" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Edit</a>
+                        <a asp-area="default" asp-action="RemovingReview" asp-controller="Review" asp-route-reviewId="@review.ReviewId" asp-route-showId="@Model.MovieId" asp-route-showType="@("movie")" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Delete</a>
                     }
                 </div>
             </div>

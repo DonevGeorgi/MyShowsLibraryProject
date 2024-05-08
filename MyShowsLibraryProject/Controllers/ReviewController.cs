@@ -75,11 +75,13 @@ namespace MyShowsLibraryProject.Controllers
             return RedirectToAction("SerieDetails", "Serie", new { serieId = showId });
         }
         [HttpGet]
-        public async Task<IActionResult> EditingReview(int reviewId)
+        public async Task<IActionResult> EditingReview(int reviewId, int showId, string showType)
         {
             var review = await reviewService.GetReviewById(reviewId);
 
             TempData["identifier"] = reviewId;
+            TempData["showIdentitfier"] = showId;
+            TempData["type"] = showType;
 
             var model = new ReviewFormModel()
             {
@@ -98,6 +100,20 @@ namespace MyShowsLibraryProject.Controllers
                 return View(newReview);
             }
 
+            int showId = Convert.ToInt32(TempData["showIdentitfier"]);
+
+            if (showId == 0)
+            {
+                return BadRequest();
+            }
+
+            string? type = Convert.ToString(TempData["type"]);
+
+            if (type == null)
+            {
+                return BadRequest();
+            }
+
             var reviewId = Convert.ToInt32(TempData["identifier"]);
 
             if (reviewId == 0)
@@ -107,10 +123,15 @@ namespace MyShowsLibraryProject.Controllers
 
             await reviewService.EditAsync(reviewId, newReview);
 
-            return RedirectToAction("Index","Movie");
+            if (type == "movie")
+            {
+                return RedirectToAction("MovieDetails", "Movie", new { movieId = showId });
+            }
+
+            return RedirectToAction("SerieDetails", "Serie", new { serieId = showId });
         }
         [HttpGet]
-        public async Task<IActionResult> RemovingReview(int reviewId)
+        public async Task<IActionResult> RemovingReview(int reviewId, int showId, string showType)
         {
             var review = await reviewService.GetReviewById(reviewId);
 
@@ -128,7 +149,12 @@ namespace MyShowsLibraryProject.Controllers
 
             await reviewService.DeleteAsync(reviewId,userId);
 
-            return RedirectToAction("Index","Movie");
+            if (showType == "movie")
+            {
+                return RedirectToAction("MovieDetails", "Movie", new { movieId = showId });
+            }
+
+            return RedirectToAction("SerieDetails", "Serie", new { serieId = showId });
         }
 
     }

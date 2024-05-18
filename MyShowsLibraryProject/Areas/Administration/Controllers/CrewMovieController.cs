@@ -45,12 +45,17 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
             return RedirectToAction("Index", "Movie");
         }
         [HttpGet]
-        public IActionResult RemoveCrewFromMovie(int movieId)
+        public async Task<IActionResult> RemoveCrewFromMovie(int movieId)
         {
-            var model = new CrewNameFromModel()
+            var model = new CrewChoseFormModel()
             {
-
+                CrewNames = await crewMovieService.TakeAllCrews(movieId)
             };
+
+            if (model.CrewNames.Any() == false)
+            {
+                return NotFound();
+            }
 
             TempData["movieIdentifier"] = movieId;
 

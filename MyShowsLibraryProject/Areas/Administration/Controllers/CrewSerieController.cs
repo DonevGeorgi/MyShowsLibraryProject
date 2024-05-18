@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyShowsLibraryProject.Core.Models.CrewModels;
+using MyShowsLibraryProject.Core.Services;
 using MyShowsLibraryProject.Core.Services.Contacts;
+using MyShowsLibraryProject.Infrastructure.Data.Models;
 
 namespace MyShowsLibraryProject.Areas.Administration.Controllers
 {
@@ -16,9 +18,9 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
         [HttpGet]
         public IActionResult AddCrewToSerie(int serieId)
         {
-            var model = new CrewNameFromModel() 
-            { 
-                
+            var model = new CrewNameFromModel()
+            {
+
             };
 
             TempData["serieIdentifier"] = serieId;
@@ -45,12 +47,17 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
             return RedirectToAction("Index", "Serie");
         }
         [HttpGet]
-        public IActionResult RemoveCrewFromSerie(int serieId)
+        public async Task<IActionResult> RemoveCrewFromSerie(int serieId)
         {
-            var model = new CrewNameFromModel()
+            var model = new CrewChoseFormModel()
             {
-
+                CrewNames = await crewSerieService.TakeAllCrews(serieId)
             };
+
+            if (model.CrewNames.Any() == false)
+            {
+                return NotFound();
+            }
 
             TempData["serieIdentifier"] = serieId;
 

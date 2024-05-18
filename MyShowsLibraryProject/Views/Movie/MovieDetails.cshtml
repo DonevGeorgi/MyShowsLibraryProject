@@ -49,15 +49,7 @@
     <div class="d-flex flex-column gap-2 p-2">
         @foreach (var crew in Model.Crews)
         {
-            <div class="d-flex gap-5">
-                <div>
-                    <img class="w-100" style="border-radius: 0.5em; max-height: 500px; max-width: 340px" src="@crew.PictureUrl" />
-                </div>
-                <div class="d-flex gap-5 align-items-center">
-                    <a asp-action="Index" asp-controller="Crew" asp-route-crewId="@crew.CrewId" class="text-black text-decoration-none fw-bold">@crew.Name</a>
-                    <p class="mb-0">@string.Join(", ", crew.Roles.Select(r => r.Name))</p>
-                </div>
-            </div>
+            <partial name="_ShowsCrewDisplayPartial" model="@crew" />
         }
     </div>
     <div class="container h-25 w-75 p-2 text-center" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">
@@ -67,23 +59,15 @@
         <h2 class="text-center fw-bold">Reviews:</h2>
         @foreach (var review in Model.Reviews)
         {
-            <div class="d-flex flex-column">
-                <div class="d-flex justify-content-between">
-                    <span class="m-2 p-2 fw-bold">@review.UserUsername</span>
-                    <span class="m-2 p-2" style="background-color: gold; border-radius: 3em;">Rating: @review.Rating</span>
-                </div>
-                <div class="d-flex" style="background-color: lightgrey; border-radius: 0.5em;">
-                    <p class="p-2">@review.Content</p>
-                </div>
-                <div class="p-1">
-                    @if (User.Identity.Name == review.UserUsername)
-                    {
-                        <a asp-area="default" asp-action="EditingReview" asp-controller="Review" asp-route-reviewId="@review.ReviewId" asp-route-showId="@Model.MovieId" asp-route-showType="@("movie")" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Edit</a>
-                        <a asp-area="default" asp-action="RemovingReview" asp-controller="Review" asp-route-reviewId="@review.ReviewId" asp-route-showId="@Model.MovieId" asp-route-showType="@("movie")" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Delete</a>
-                    }
-                </div>
+            <partial name="_ReviewDisplayPartial" model="@review" />
+
+            <div class="p-1">
+                @if (User.Identity.Name == review.UserUsername)
+                {
+                    <a asp-area="default" asp-action="EditingReview" asp-controller="Review" asp-route-reviewId="@review.ReviewId" asp-route-showId="@review.MovieId" asp-route-showType="@("movie")" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Edit</a>
+                    <a asp-area="default" asp-action="RemovingReview" asp-controller="Review" asp-route-reviewId="@review.ReviewId" asp-route-showId="@review.MovieId" asp-route-showType="@("movie")" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Delete</a>
+                }
             </div>
-            <hr style="border: 3px solid black; border-radius: 0.5em;" />
         }
     </div>
 </div>

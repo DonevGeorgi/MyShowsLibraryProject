@@ -1,0 +1,11 @@
+﻿@model CrewCardInfoServiceModel
+
+<div class="d-flex gap-5">
+    <div>
+        <img class="w-100" style="border-radius: 0.5em; max-height: 500px; max-width: 340px" src="@Model.PictureUrl" />
+    </div>
+    <div class="d-flex gap-5 align-items-center">
+        <a asp-action="Index" asp-controller="Crew" asp-route-crewId="@Model.CrewId" class="text-black text-decoration-none fw-bold">@Model.Name</a>
+        <p class="mb-0">@string.Join(", ", Model.Roles.Select(r => r.Name))</p>
+    </div>
+</div>

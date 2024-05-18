@@ -1,4 +1,4 @@
-﻿@model CrewNameFromModel
+﻿@model CrewChoseFormModel
 
 @{
     ViewData["Title"] = "CrewMovie form";
@@ -7,11 +7,12 @@
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6 pt-3">
         <form asp-action="RemoveCrewFromMovie" method="post">
-            <div class="mb-3">
-                <label class="text-white" asp-for="@Model.CrewName" class="form-label-add-edit">Movie Title</label>
-                <input asp-for="@Model.CrewName" class="form-control" aria-required="true" />
-                <span asp-validation-for="@Model.CrewName" class="text-danger"></span>
-            </div>
+            <<select asp-for="@Model.CrewId" class="form-control" aria-label="Crew name:">
+                @foreach (var crew in Model.CrewNames)
+                {
+                    <option value="@crew.CrewId">@crew.Name</option>
+                }
+            </select>
             <div class="mb-3">
                 <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Remove Crew" />
             </div>

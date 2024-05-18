@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MyShowsLibraryProject.Core.Constants;
+using MyShowsLibraryProject.Core.Models.CrewModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
@@ -24,6 +26,20 @@ namespace MyShowsLibraryProject.Core.Services
             serieService = _serieService;
         }
 
+        public async Task<IEnumerable<CrewInfoServiceModel>> TakeAllCrews(int serieId)
+        {
+            var crews = await repository
+                .TakeAllReadOnly<Crew>()
+                .Where(s => s.SerieCrew.Any(s => s.SerieId == serieId))
+                .Select(c => new CrewInfoServiceModel()
+                {
+                    CrewId = c.CrewId,
+                    Name = c.Name
+                })
+                .ToListAsync();
+
+            return crews;
+        }
         public async Task AddCrewToSerie(int serieId, string crewName)
         {
             var serie = await serieService.GetSerieDetailsByIdAsync(serieId);

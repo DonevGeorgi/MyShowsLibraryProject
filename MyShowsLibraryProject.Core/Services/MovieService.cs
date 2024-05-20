@@ -138,8 +138,8 @@ namespace MyShowsLibraryProject.Core.Services
                         Content = r.Review.Content,
                         UserUsername = repository
                         .TakeAllReadOnly<UserReview>()
-                        .Where(ur => ur.ReviewId == r.ReviewId)
-                        .Select(ur => ur.User.UserName)
+                        .Where(ur => ur.ReviewIdentifier == r.ReviewId)
+                        .Select(ur => ur.UserId)
                         .First()
                     })
                     .ToList()

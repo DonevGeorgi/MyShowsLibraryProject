@@ -20,6 +20,6 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         public string Content { get; set; } = string.Empty;
         public IEnumerable<SerieReview> SerieReviews { get; set; } = new List<SerieReview>();
         public IEnumerable<MovieReview> MovieReviews { get; set; } = new List<MovieReview>();
-        public IEnumerable<IdentityUser> UserReviews { get; set; } = new List<IdentityUser>();  
+        public IEnumerable<UserReview> UserReviews { get; set; } = new List<UserReview>();  
     }
 }

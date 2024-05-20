@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MyShowsLibraryProject.Infrastructure.Constants;
 using System.ComponentModel.DataAnnotations;
 
@@ -44,6 +43,6 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         public IEnumerable<Season> Seasons { get; set; } = new List<Season>();
         public IEnumerable<SerieReview> SerieReviews { get; set;} = new List<SerieReview>();
         public IEnumerable<SerieCrew> SerieCrews { get; set; } = new List<SerieCrew>();
-        public IEnumerable<IdentityUser> UserSerie { get; set; } = new List<IdentityUser>();
+        public IEnumerable<UserSerie> UserSerie { get; set; } = new List<UserSerie>();
     }
 }

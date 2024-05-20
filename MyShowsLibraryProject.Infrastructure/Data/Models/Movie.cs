@@ -9,6 +9,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
     public class Movie
     {
         [Key]
+        [Comment("Serie identifier")]
         public int MovieId { get; set; }
         [Required]
         [MaxLength(DataConstants.TitleMaxLength)]
@@ -40,6 +41,6 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         public IEnumerable<MovieGenre> MovieGenres { get; set; } = new List<MovieGenre>();
         public IEnumerable<MovieReview> MovieReviews { get; set; } = new List<MovieReview>();
         public IEnumerable<MovieCrew> MovieCrews { get; set; } = new List<MovieCrew>();
-        public IEnumerable<IdentityUser> UserMovies { get; set; } = new List<IdentityUser>();
+        public IEnumerable<UserMovie> UserMovies { get; set; } = new List<UserMovie>();
     }
 }

@@ -1770,13 +1770,13 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed
             URFirstConnection = new UserReview()
             {
                 UserId = "8e656345-a56d-4543-a7c6-4556d32d4db2",
-                ReviewId = 67
+                ReviewIdentifier = 67
             };
 
             URSecondConnection = new UserReview()
             {
                 UserId = "8e656345-a56d-4543-a7c6-4556d32d4db2",
-                ReviewId = 68
+                ReviewIdentifier = 68
             };
         }
     }

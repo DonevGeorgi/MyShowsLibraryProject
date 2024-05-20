@@ -90,7 +90,7 @@ namespace MyShowsLibraryProject.Core.Services
             var newUserReview = new UserReview()
             {
                 UserId = userId,
-                ReviewId = newReview.ReviewId
+                ReviewIdentifier = newReview.ReviewId
             };
 
             await repository.AddAsync(newUserReview);
@@ -124,7 +124,7 @@ namespace MyShowsLibraryProject.Core.Services
             var modelToRemove = new UserReview()
             {
                 UserId = userId,
-                ReviewId = reviewId
+                ReviewIdentifier = reviewId
             };
 
             repository.Remove<UserReview>(modelToRemove);

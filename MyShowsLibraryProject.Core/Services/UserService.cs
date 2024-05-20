@@ -77,7 +77,7 @@ namespace MyShowsLibraryProject.Core.Services
             var newMovieForWatchLater = new UserMovie()
             {
                 UserId = userId,
-                MovieId = movie.MovieId,
+                MovieIdentifier = movie.MovieId,
             };
 
             await repository.AddAsync(newMovieForWatchLater);
@@ -97,7 +97,7 @@ namespace MyShowsLibraryProject.Core.Services
             var newSerieForWatchLater = new UserSerie()
             {
                 UserId = userId,
-                SerieId = serie.SeriesId,
+                SerieIdentifier = serie.SeriesId,
             };
 
             await repository.AddAsync(newSerieForWatchLater);
@@ -109,7 +109,7 @@ namespace MyShowsLibraryProject.Core.Services
             var removeFromWatchLater = new UserMovie()
             {
                 UserId = userId,
-                MovieId = movieId
+                MovieIdentifier = movieId
             };
 
             repository.Remove<UserMovie>(removeFromWatchLater);
@@ -121,7 +121,7 @@ namespace MyShowsLibraryProject.Core.Services
             var removeFromWatchLater = new UserSerie()
             {
                 UserId = userId,
-                SerieId = serieId
+                SerieIdentifier = serieId
             };
 
             repository.Remove<UserSerie>(removeFromWatchLater);
@@ -132,7 +132,7 @@ namespace MyShowsLibraryProject.Core.Services
         {
             var movies = await repository.TakeAll<UserMovie>().Where(um => um.UserId == userId).ToListAsync();    
 
-            if (!movies.Any(m => m.MovieId == movieId))
+            if (!movies.Any(m => m.MovieIdentifier == movieId))
             {
                 return true;
             }
@@ -143,7 +143,7 @@ namespace MyShowsLibraryProject.Core.Services
         {
             var series = await repository.TakeAll<UserSerie>().Where(um => um.UserId == userId).ToListAsync();
 
-            if (!series.Any(m => m.SerieId == serieId))
+            if (!series.Any(m => m.SerieIdentifier == serieId))
             {
                 return true;
             }

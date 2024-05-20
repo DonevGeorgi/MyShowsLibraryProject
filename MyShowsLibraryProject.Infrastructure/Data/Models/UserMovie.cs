@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
@@ -12,11 +11,11 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         [Comment("User identifier")]
         public string UserId { get; set; } = string.Empty;
         [ForeignKey(nameof(UserId))]
-        public IdentityUser User { get; set; } = null!;
+        public ApplicationUser User { get; set; } = null!;
         [Required]
         [Comment("Movie identifier")]
-        public int MovieId { get; set; }
-        [ForeignKey(nameof(MovieId))]
+        public int MovieIdentifier { get; set; }
+        [ForeignKey(nameof(MovieIdentifier))]
         public Movie Movie { get; set; } = null!;
     }
 }

@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyShowsLibraryProject.Infrastructure.Data.Models
 {
@@ -12,11 +11,11 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         [Comment("User identifier")]
         public string UserId { get; set; } = string.Empty;
         [ForeignKey(nameof(UserId))]
-        public IdentityUser User { get; set; } = null!;
+        public ApplicationUser User { get; set; } = null!;
         [Required]
         [Comment("Serie identifier")]
-        public int SerieId { get; set; }
-        [ForeignKey(nameof(SerieId))]
+        public int SerieIdentifier { get; set; }
+        [ForeignKey(nameof(SerieIdentifier))]
         public Serie Serie { get; set; } = null!;
     }
 }

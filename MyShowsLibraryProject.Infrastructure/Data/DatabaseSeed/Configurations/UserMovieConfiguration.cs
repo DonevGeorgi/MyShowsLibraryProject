@@ -9,19 +9,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
         public void Configure(EntityTypeBuilder<UserMovie> builder)
         {
             builder
-                .HasKey(um => new { um.UserId, um.MovieId });
-
-            builder
-                .HasOne(e => e.Movie)
-                .WithMany()
-                .HasForeignKey(e => e.MovieId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                 .HasOne(e => e.User)
-                 .WithMany()
-                 .HasForeignKey(e => e.UserId)
-                 .OnDelete(DeleteBehavior.Restrict);
+                .HasKey(um => new { um.UserId, um.MovieIdentifier });
         }
     }
 }

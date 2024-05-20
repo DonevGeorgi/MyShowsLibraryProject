@@ -9,19 +9,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
         public void Configure(EntityTypeBuilder<UserReview> builder)
         {
             builder
-              .HasKey(ur => new { ur.UserId, ur.ReviewId });
-
-            builder
-                .HasOne(e => e.Review)
-                .WithMany()
-                .HasForeignKey(e => e.ReviewId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-               .HasOne(e => e.User)
-               .WithMany()
-               .HasForeignKey(e => e.UserId)
-               .OnDelete(DeleteBehavior.Restrict);
+              .HasKey(ur => new { ur.UserId, ur.ReviewIdentifier });
 
             var data = new SeedData();
 

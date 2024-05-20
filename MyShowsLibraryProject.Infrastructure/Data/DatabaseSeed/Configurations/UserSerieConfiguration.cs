@@ -9,19 +9,7 @@ namespace MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations
         public void Configure(EntityTypeBuilder<UserSerie> builder)
         {
             builder
-                .HasKey(us => new { us.UserId, us.SerieId });
-
-            builder
-                .HasOne(e => e.Serie)
-                .WithMany()
-                .HasForeignKey(e => e.SerieId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                 .HasOne(e => e.User)
-                 .WithMany()
-                 .HasForeignKey(e => e.UserId)
-                 .OnDelete(DeleteBehavior.Restrict);
+                .HasKey(us => new { us.UserId, us.SerieIdentifier });
         }
     }
 }

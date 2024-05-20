@@ -83,5 +83,8 @@ namespace MyShowsLibraryProject.Infrastructure.Data
         public DbSet<UserReview> UsersReviews { get; set; }
         public DbSet<UserSerie> UsersSeries { get; set; }
         public DbSet<UserMovie> UsersMovies { get; set; }
+        public DbSet<Topic> Topics { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Reply> Replys { get; set; }
     }
 }

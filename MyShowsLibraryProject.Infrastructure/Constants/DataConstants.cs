@@ -42,6 +42,15 @@
         //Role constants
         public const int RoleNameMinLength = 2;
         public const int RoleNameMaxLength = 30;
+        //AplicationUser
+        public const int FirstNameMaxLength = 15;
+        public const int LastNameMaxLength = 15;
+        //Post
+        public const int PostBodyMaxLength = 500;
+        //Topic
+        public const int TopicNameMaxLength = 60;
+        //Reply
+        public const int ReplyBodyMaxLength = 500;
         //ReqularExpresions
         public const string DataRegex = @"(?:(?:0[1-9]|[12]\d|30)\s(?:Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov)|(?:0[1-9]|[12]\d|3[01])\s(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Dec))\s(?:[1-9]\d{3}|(?:19|20)\d{2})";
         public const string ReleaseAndEndYearRegex = @"^(19|20)\d{2}$";

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.QuickInfo;
 using MyShowsLibraryProject.Core.Models.MovieModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 
@@ -19,9 +18,9 @@ namespace MyShowsLibraryProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Index([FromQuery]MoviesQueryModel query)
         {
-            var model = await movieService.GetAllCardInfoAsync(query.SearchTerm,query.Sorting,query.CurrentPage,query.MoviePerPage);
+            var model = await movieService.GetAllCardInfoAsync(query.SearchTerm,query.Sorting,query.CurrentPage,query.ShowsPerPage);
 
-            query.TotalMoviesCount = model.TotalMovieCount;
+            query.TotalShowsCount = model.TotalMovieCount;
             query.Movies = model.Movies;
 
             return View(query);

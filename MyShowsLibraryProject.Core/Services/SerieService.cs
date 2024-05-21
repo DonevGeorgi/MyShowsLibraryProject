@@ -105,7 +105,7 @@ namespace MyShowsLibraryProject.Core.Services
         }
         public async Task<SerieQueryServiceModel> GetAllCardInfoAsync(
             string? searchTerm = null,
-            SerieSorting sorting = SerieSorting.FromA,
+            ShowSorting sorting = ShowSorting.FromA,
             int currPage = 1,
             int seriePerPage = 4)
         {
@@ -120,8 +120,8 @@ namespace MyShowsLibraryProject.Core.Services
 
             serie = sorting switch
             {
-                SerieSorting.FromA => serie.OrderBy(m => m.Title),
-                SerieSorting.ToA => serie.OrderByDescending(m => m.Title),
+                ShowSorting.FromA => serie.OrderBy(m => m.Title),
+                ShowSorting.ToA => serie.OrderByDescending(m => m.Title),
                 _ => serie
             };
 

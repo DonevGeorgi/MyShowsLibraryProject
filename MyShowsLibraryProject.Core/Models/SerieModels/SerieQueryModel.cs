@@ -1,16 +1,9 @@
-﻿using MyShowsLibraryProject.Core.Enumeration;
-using System.ComponentModel.DataAnnotations;
+﻿using MyShowsLibraryProject.Core.Models.BaseQueryModels;
 
 namespace MyShowsLibraryProject.Core.Models.SerieModels
 {
-    public class SerieQueryModel
+    public class SerieQueryModel : BaseQueryModel
     {
-        public int SeriePerPage { get; } = 4;
-        [Display(Name = "Search by text")]
-        public string SearchTerm { get; set; } = string.Empty;
-        public SerieSorting Sorting { get; set; }
-        public int CurrentPage { get; set; } = 1;
-        public int TotalSeriesCount { get; set; }
         public IEnumerable<SeriesCardInfoServiceModel> Serie { get; set; } = new List<SeriesCardInfoServiceModel>();
 
     }

@@ -1,6 +1,6 @@
 ﻿namespace MyShowsLibraryProject.Core.Enumeration
 {
-    public enum MovieSorting
+    public enum ShowSorting
     {
         FromA = 0,
         ToA = 1

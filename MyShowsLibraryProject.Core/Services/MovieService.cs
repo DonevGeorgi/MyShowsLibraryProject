@@ -40,7 +40,7 @@ namespace MyShowsLibraryProject.Core.Services
             return movies;
         }
         public async Task<MoviesQueryServiceModel> GetAllCardInfoAsync(string? searchTerm = null,
-            MovieSorting sorting = MovieSorting.FromA,
+            ShowSorting sorting = ShowSorting.FromA,
             int currPage = 1,
             int moviePerPage = 4)
         {
@@ -55,8 +55,8 @@ namespace MyShowsLibraryProject.Core.Services
 
             movies = sorting switch
             {
-                MovieSorting.FromA => movies.OrderBy(m => m.Title),
-                MovieSorting.ToA => movies.OrderByDescending(m => m.Title),
+                ShowSorting.FromA => movies.OrderBy(m => m.Title),
+                ShowSorting.ToA => movies.OrderByDescending(m => m.Title),
                 _ => movies
             };
 

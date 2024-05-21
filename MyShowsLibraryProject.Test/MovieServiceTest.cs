@@ -62,7 +62,7 @@ namespace MyShowsLibraryProject.Test
                 testQuery.SearchTerm,
                 testQuery.Sorting,
                 testQuery.CurrentPage,
-                testQuery.MoviePerPage);
+                testQuery.ShowsPerPage);
 
             Assert.That(query.Movies.Count(),Is.EqualTo(4), "GetAllCardInfoAsync method did not return expected results!");
         }
@@ -75,7 +75,7 @@ namespace MyShowsLibraryProject.Test
                 testQuery.SearchTerm,
                 testQuery.Sorting,
                 testQuery.CurrentPage,
-                testQuery.MoviePerPage);
+                testQuery.ShowsPerPage);
 
             Assert.That(query.TotalMovieCount, Is.EqualTo(12), "GetAllCardInfoAsync method did not return expected results!");
         }
@@ -90,7 +90,7 @@ namespace MyShowsLibraryProject.Test
                 testQuery.SearchTerm,
                 testQuery.Sorting,
                 testQuery.CurrentPage,
-                testQuery.MoviePerPage);
+                testQuery.ShowsPerPage);
 
             Assert.That(query.Movies.Count(), Is.EqualTo(0), "GetAllCardInfoAsync method did not return expected results!");
         }
@@ -99,13 +99,13 @@ namespace MyShowsLibraryProject.Test
         {
             var testQuery = new MoviesQueryModel();
 
-            testQuery.Sorting = MovieSorting.ToA;
+            testQuery.Sorting = ShowSorting.ToA;
 
             var query = await movieService.GetAllCardInfoAsync(
                 testQuery.SearchTerm,
                 testQuery.Sorting,
                 testQuery.CurrentPage,
-                testQuery.MoviePerPage);
+                testQuery.ShowsPerPage);
 
             var result = query.Movies.Take(1).Any(t => t.Title == "The Lion King");
 
@@ -116,13 +116,13 @@ namespace MyShowsLibraryProject.Test
         {
             var testQuery = new MoviesQueryModel();
 
-            testQuery.Sorting = MovieSorting.FromA;
+            testQuery.Sorting = ShowSorting.FromA;
 
             var query = await movieService.GetAllCardInfoAsync(
                 testQuery.SearchTerm,
                 testQuery.Sorting,
                 testQuery.CurrentPage,
-                testQuery.MoviePerPage);
+                testQuery.ShowsPerPage);
 
             var result = query.Movies.Take(1).Any(t => t.Title == "Back to the Future");
 

@@ -62,7 +62,7 @@ namespace MyShowsLibraryProject.Test
                 testQuery.SearchTerm,
                 testQuery.Sorting,
                 testQuery.CurrentPage,
-                testQuery.ShowsPerPage);
+                testQuery.ItemsPerPage);
 
             Assert.That(query.Serie.Count(), Is.EqualTo(4), "GetAllCardInfoAsync method did not return expected results!");
         }
@@ -75,7 +75,7 @@ namespace MyShowsLibraryProject.Test
                 testQuery.SearchTerm,
                 testQuery.Sorting,
                 testQuery.CurrentPage,
-                testQuery.ShowsPerPage);
+                testQuery.ItemsPerPage);
 
             Assert.That(query.TotalSerieCount, Is.EqualTo(12), "GetAllCardInfoAsync method did not return expected results!");
         }
@@ -90,7 +90,7 @@ namespace MyShowsLibraryProject.Test
                 testQuery.SearchTerm,
                 testQuery.Sorting,
                 testQuery.CurrentPage,
-                testQuery.ShowsPerPage);
+                testQuery.ItemsPerPage);
 
             Assert.That(query.Serie.Count(), Is.EqualTo(0), "GetAllCardInfoAsync method did not return expected results!");
         }
@@ -99,13 +99,13 @@ namespace MyShowsLibraryProject.Test
         {
             var testQuery = new SerieQueryModel();
 
-            testQuery.Sorting = ShowSorting.FromA;
+            testQuery.Sorting = BaseSorting.FromA;
 
             var query = await serieService.GetAllCardInfoAsync(
                 testQuery.SearchTerm,
                 testQuery.Sorting,
                 testQuery.CurrentPage,
-                testQuery.ShowsPerPage);
+                testQuery.ItemsPerPage);
 
             var result = query.Serie.Take(1).Any(t => t.Title == "3 Body Problem");
 
@@ -116,13 +116,13 @@ namespace MyShowsLibraryProject.Test
         {
             var testQuery = new SerieQueryModel();
 
-            testQuery.Sorting = ShowSorting.ToA;
+            testQuery.Sorting = BaseSorting.ToA;
 
             var query = await serieService.GetAllCardInfoAsync(
                 testQuery.SearchTerm,
                 testQuery.Sorting,
                 testQuery.CurrentPage,
-                testQuery.ShowsPerPage);
+                testQuery.ItemsPerPage);
 
             var result = query.Serie.Take(1).Any(t => t.Title == "Westworld");
 

@@ -18,9 +18,9 @@ namespace MyShowsLibraryProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Index([FromQuery]MoviesQueryModel query)
         {
-            var model = await movieService.GetAllCardInfoAsync(query.SearchTerm,query.Sorting,query.CurrentPage,query.ShowsPerPage);
+            var model = await movieService.GetAllCardInfoAsync(query.SearchTerm,query.Sorting,query.CurrentPage,query.ItemsPerPage);
 
-            query.TotalShowsCount = model.TotalMovieCount;
+            query.TotalItemsCount = model.TotalMovieCount;
             query.Movies = model.Movies;
 
             return View(query);

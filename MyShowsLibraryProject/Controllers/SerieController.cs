@@ -19,9 +19,9 @@ namespace MyShowsLibraryProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Index([FromQuery] SerieQueryModel query)
         {
-            var serie = await serieService.GetAllCardInfoAsync(query.SearchTerm, query.Sorting, query.CurrentPage, query.ShowsPerPage);
+            var serie = await serieService.GetAllCardInfoAsync(query.SearchTerm, query.Sorting, query.CurrentPage, query.ItemsPerPage);
 
-            query.TotalShowsCount = serie.TotalSerieCount;
+            query.TotalItemsCount = serie.TotalSerieCount;
             query.Serie = serie.Serie;
 
             return View(query);

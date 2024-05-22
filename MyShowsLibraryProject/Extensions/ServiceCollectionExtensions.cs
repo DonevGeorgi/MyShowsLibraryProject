@@ -26,6 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<ICrewSerieService, CrewSerieService>();
             services.AddScoped<IHomeService, HomeService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IForumService, ForumService>();
 
             return services;
         }

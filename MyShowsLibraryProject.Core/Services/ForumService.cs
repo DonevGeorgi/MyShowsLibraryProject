@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using MyShowsLibraryProject.Core.Constants;
 using MyShowsLibraryProject.Core.Enumeration;
 using MyShowsLibraryProject.Core.Models.ForumModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
@@ -9,13 +11,28 @@ namespace MyShowsLibraryProject.Core.Services
 {
     public class ForumService : IForumService
     {
+        public readonly ILogger<ForumService> logger;   
         public readonly IRepository repository;
 
-        public ForumService(IRepository _repository)
+        public ForumService(IRepository _repository,
+           ILogger<ForumService> _logger)
         {
             repository = _repository;
+            logger = _logger;
         }
 
+        public async Task<List<TopicCardsInfoServiceModel>> GetAllTopics()
+        {
+            var topics = await repository.TakeAllReadOnly<Topic>()
+                .Select(t => new TopicCardsInfoServiceModel()
+                {
+                    TopicId = t.TopicId,
+                    TopicName = t.Name
+                })
+                .ToListAsync();
+
+            return topics;
+        }
         public async Task<ForumQueryServiceModel> ShowAllTopics(string? searchTerm = null,
             BaseSorting sorting = BaseSorting.FromA,
             int currPage = 1,
@@ -55,6 +72,22 @@ namespace MyShowsLibraryProject.Core.Services
                 Topics = topicsToShow,
                 TotalTopicCount = totalTicsCount
             };
+        }
+        public async Task CreateTopic(TopicFormModel model)
+        {
+            var topic = repository.TakeAllReadOnly<Topic>();
+
+            if (!topic.Any(t => t.Name == model.Name))
+            {
+                var newTopic = new Topic()
+                {
+                    Name = model.Name
+                };
+
+                await repository.AddAsync(newTopic);
+                await repository.SaveChangesAsync();
+                logger.LogInformation(MessagesConstants.EntityCreatedMessage, nameof(Topic), model.Name);
+            }
         }
     }
 }

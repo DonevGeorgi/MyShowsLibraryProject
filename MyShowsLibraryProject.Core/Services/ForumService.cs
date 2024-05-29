@@ -67,8 +67,7 @@ namespace MyShowsLibraryProject.Core.Services
                 _ => topics
             };
 
-            var topicsToShow = await repository
-                .TakeAllReadOnly<Topic>()
+            var topicsToShow = await topics
                 .Skip((currPage - 1) * topicsPerPage)
                 .Take(topicsPerPage)
                 .Select(t => new TopicCardsInfoServiceModel

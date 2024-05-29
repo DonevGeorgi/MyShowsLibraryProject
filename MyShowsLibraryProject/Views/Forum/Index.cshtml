@@ -39,12 +39,10 @@
 
     <div class="row">
         <div class="containter bg-white bg-opacity-50 p-3 mt-3 mb-3" style="border-radius: 0.5em;">
-            <div class="d-flex flex-wrap w-100 gap-2">
-                @foreach (var topic in Model.Topics)
-                {
-                    <partial name="_TopicsAllPartial" model="@topic" />
-                }
-            </div>
+            @foreach (var topic in Model.Topics)
+            {
+                <partial name="_TopicsAllPartial" model="@topic" />
+            }
         </div>
     </div>
 

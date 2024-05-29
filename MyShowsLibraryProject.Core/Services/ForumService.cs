@@ -21,6 +21,19 @@ namespace MyShowsLibraryProject.Core.Services
             logger = _logger;
         }
 
+        public async Task<TopicCardsInfoServiceModel> GetTopicById(int id)
+        {
+            var topic = await repository
+                .TakeAllReadOnly<Topic>()
+                .Select(t => new TopicCardsInfoServiceModel
+                {
+                    TopicId = t.TopicId,
+                    TopicName = t.Name
+                })
+                .FirstOrDefaultAsync();
+
+            return topic;
+        }
         public async Task<List<TopicCardsInfoServiceModel>> GetAllTopics()
         {
             var topics = await repository.TakeAllReadOnly<Topic>()
@@ -73,7 +86,7 @@ namespace MyShowsLibraryProject.Core.Services
                 TotalTopicCount = totalTicsCount
             };
         }
-        public async Task CreateTopic(TopicFormModel model)
+        public async Task CreateTopicAsync(TopicFormModel model)
         {
             var topic = repository.TakeAllReadOnly<Topic>();
 
@@ -88,6 +101,27 @@ namespace MyShowsLibraryProject.Core.Services
                 await repository.SaveChangesAsync();
                 logger.LogInformation(MessagesConstants.EntityCreatedMessage, nameof(Topic), model.Name);
             }
+        }
+        public async Task EditTopicAsync(int topicId, TopicFormModel model)
+        {
+            var topicToEdit = await repository.GetByIdAsync<Topic>(topicId);
+
+            if (topicToEdit == null)
+            {
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage, nameof(Topic), topicId);
+                throw new NullReferenceException(MessagesConstants.TopicDoesNotExistsMessage);
+            }
+
+            topicToEdit.Name = model.Name;
+
+            await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityEditedMessage, nameof(Topic), topicId);
+        }
+        public async Task DeleteAsync(int topicId)
+        {
+            await repository.DeleteAsync<Topic>(topicId);
+            await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityDeleteMessage, nameof(Topic), topicId);
         }
     }
 }

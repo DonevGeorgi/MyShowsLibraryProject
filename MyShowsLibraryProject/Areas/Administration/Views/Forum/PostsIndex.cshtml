@@ -1,0 +1,31 @@
+﻿@model List<PostsInfoServiceModel>
+
+@{
+    ViewData["Title"] = "Posts managing page";
+}
+
+<div class="bg-white bg-opacity-50 d-flex flex-column p-2 gap-2" style="border-radius: 0.5em">
+    <h1 class="text-center pt-2">Posts in the topic:</h1>
+    <a asp-area="Administration" asp-action="AddPost" asp-controller="Forum" role="button" class="btn btn-lg" style="border-radius: 0.5em; background-color: rgb(255, 210, 0)">Add new posts</a>
+    
+    @foreach (var topic in Model)
+    {
+        <table class="table m-2">
+            <thead>
+                <tr>
+                    <th scope="col">Topic name:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@topic.CreatedOn</td>
+                    <td class="text-end">
+                        <a asp-area="Administration" asp-action="EditPost" asp-controller="Forum" asp-route-topicId="" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Edit post</a>
+                        <a asp-area="Administration" asp-action="DeletePost" asp-controller="Forum" asp-route-topicId="" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Remove post</a>
+                        <a asp-area="Administration" asp-action="" asp-controller="" asp-route-topicId="" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">View replies</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</div>

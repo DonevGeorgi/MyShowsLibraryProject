@@ -96,5 +96,13 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [HttpGet]
+        public async Task<IActionResult> PostsIndex()
+        {
+            var posts = await forumService.GetAllPosts();
+
+            return View(posts);
+        }
+
     }
 }

@@ -21,7 +21,7 @@
                     <td class="text-end">
                         <a asp-area="Administration" asp-action="EditTopic" asp-controller="Forum" asp-route-topicId="@topic.TopicId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Edit topic</a>
                         <a asp-area="Administration" asp-action="DeleteTopic" asp-controller="Forum" asp-route-topicId="@topic.TopicId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Remove topic</a>
-                        <a asp-area="Administration" asp-action="" asp-controller="" asp-route-topicId="" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">View posts</a>
+                        <a asp-area="Administration" asp-action="PostsIndex" asp-controller="Forum" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">View posts</a>
                     </td>
                 </tr>
             </tbody>

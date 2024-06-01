@@ -14,6 +14,7 @@ namespace MyShowsLibraryProject.Controllers
             forumService = _forumService;
         }
 
+        [HttpGet]
         public async Task<IActionResult?> Index([FromQuery] ForumQueryModel query)
         {
             var model = await forumService.ShowAllTopics(query.SearchTerm, query.Sorting, query.CurrentPage, query.ItemsPerPage);
@@ -21,6 +22,13 @@ namespace MyShowsLibraryProject.Controllers
             query.Topics = model.Topics;
 
             return View(query);
+        }
+        [HttpGet]
+        public async Task<IActionResult> AllTopicPosts(int topicId)
+        {
+            var posts = await forumService.GetAllPostsForTopic(topicId);
+
+            return View(posts);
         }
     }
 }

@@ -1,0 +1,21 @@
+﻿@model AllPostInfoServiceModel
+
+@{
+    ViewData["Title"] = "Topic posts page";
+}
+
+<div class="bg-white bg-opacity-50 p-4" style="border-radius: 0.5em;">
+    <h2 class="text-center fw-bold">Reviews:</h2>
+    @foreach (var post in Model.Posts)
+    {
+        <partial name="_PostsDisplayPartial" model="@post" />
+
+        <div class="p-1">
+            @if (User.Identity.Name == post.UserUsername)
+            {
+                <a asp-area="default" asp-action="AddPost" asp-controller="Forum" asp-route-reviewId="@post.PostId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Edit</a>
+                <a asp-area="default" asp-action="RemovePost" asp-controller="Forum" asp-route-reviewId="@post.PostId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Delete</a>
+            }
+        </div>
+    }
+</div>

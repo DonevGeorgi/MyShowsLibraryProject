@@ -1,0 +1,11 @@
+﻿@model PostsInfoServiceModel;
+
+<div class="d-flex flex-column">
+    <div class="d-flex justify-content-between">
+        <span class="m-2 p-2 fw-bold">@Model.UserUsername</span>
+    </div>
+    <div class="d-flex" style="background-color: lightgrey; border-radius: 0.5em;">
+        <p class="p-2">@Model.PostBody</p>
+    </div>
+</div>
+<hr style="border: 3px solid black; border-radius: 0.5em;" />

@@ -5,10 +5,13 @@ namespace MyShowsLibraryProject.Core.Services.Contacts
 {
     public interface IForumService
     {
-        Task<TopicCardsInfoServiceModel> GetTopicById(int id);
         Task<List<TopicCardsInfoServiceModel>> GetAllTopics();
+        Task<List<PostsInfoServiceModel>> GetAllPosts();
+        Task<List<PostsInfoServiceModel>> GetAllPostsForTopic(int topicId);
+        Task<TopicCardsInfoServiceModel> GetTopicById(int id);
         Task<ForumQueryServiceModel> ShowAllTopics(string? searchTerm, BaseSorting sorting, int currPage, int topicsPerPage);
         Task CreateTopicAsync(TopicFormModel model);
+        Task CreatePostAsync(PostFormModel model);
         Task EditTopicAsync(int topicId, TopicFormModel model);
         Task DeleteAsync(int topicId);
     }

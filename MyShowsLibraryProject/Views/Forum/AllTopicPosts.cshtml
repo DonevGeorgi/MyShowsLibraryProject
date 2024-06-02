@@ -6,6 +6,11 @@
 
 <div class="bg-white bg-opacity-50 p-4" style="border-radius: 0.5em;">
     <h2 class="text-center fw-bold">Reviews:</h2>
+
+    <div class="container w-75 h-25 text-center p-2" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">
+        <a asp-area="" asp-action="AddPostToTopic" asp-controller="Forum" asp-route-topicId="@Model" asp class="text-decoration-none text-black">Add posts</a>
+    </div>
+
     @foreach (var post in Model.Posts)
     {
         <partial name="_PostsDisplayPartial" model="@post" />

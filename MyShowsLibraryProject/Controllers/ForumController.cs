@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyShowsLibraryProject.Core.Models.ForumModels;
-using MyShowsLibraryProject.Core.Models.MovieModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
-using MyShowsLibraryProject.Infrastructure.Data.Models;
 using System.Security.Claims;
 
 namespace MyShowsLibraryProject.Controllers
@@ -108,6 +106,21 @@ namespace MyShowsLibraryProject.Controllers
             await forumService.EditPostAsync(postId, newModel);
 
              return RedirectToAction(nameof(AllTopicPosts), new { topicId });
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeletePost(int postId)
+        {
+
+            var topicId = Convert.ToInt32(TempData["identitfier"]);
+
+            if (topicId == 0)
+            {
+                NotFound();
+            }
+
+            await forumService.DeletePostAsync(postId);
+
+            return RedirectToAction(nameof(AllTopicPosts), new { topicId });
         }
     }
 }

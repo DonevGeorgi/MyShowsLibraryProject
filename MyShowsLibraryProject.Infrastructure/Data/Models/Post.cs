@@ -21,6 +21,9 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         public string UserId { get; set; } = string.Empty;
         [ForeignKey(nameof(UserId))]
         public ApplicationUser User { get; set; } = null!;
-        public IEnumerable<Reply> Repolies { get; set; } = new List<Reply>();
+        public int TopicId { get; set; }
+        [ForeignKey(nameof(TopicId))]
+        public Topic Topic { get; set; } = null!;
+        public IEnumerable<Reply> Replies { get; set; } = new List<Reply>();
     }
 }

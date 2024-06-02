@@ -21,5 +21,8 @@ namespace MyShowsLibraryProject.Infrastructure.Data.Models
         public ApplicationUser User { get; set; } = null!;
         [Comment("Reply creation date")]
         public DateTime CreatedOn { get; set; }
+        public int PostId { get; set; }
+        [ForeignKey(nameof(PostId))]
+        public Post Post { get; set; } = null!;
     }
 }

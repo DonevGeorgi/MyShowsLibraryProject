@@ -8,7 +8,7 @@
                     <p><b>Topic :</b> @Model.TopicName</p>
                 </div>
                 <div class="container w-75 h-25 text-center p-2" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">
-                    <a asp-area="" asp-action="" asp-controller="" asp class="text-decoration-none text-black">View posts</a>
+                    <a asp-area="" asp-action="AllTopicPosts" asp-controller="Forum" asp-route-topicId="@Model.TopicId" asp class="text-decoration-none text-black">View posts</a>
                 </div>
             </div>
         </div>

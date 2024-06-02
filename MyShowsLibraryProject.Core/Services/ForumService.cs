@@ -6,7 +6,6 @@ using MyShowsLibraryProject.Core.Models.ForumModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
-using System.Security.Claims;
 
 namespace MyShowsLibraryProject.Core.Services
 {
@@ -59,7 +58,8 @@ namespace MyShowsLibraryProject.Core.Services
                   {
                       PostId = p.PostId,
                       PostBody = p.PostBody,
-                      CreatedOn = p.CreatedOn.ToString()
+                      CreatedOn = p.CreatedOn.ToString(),
+                      UserUsername = p.UserId
                   })
               })
               .FirstOrDefaultAsync();
@@ -78,6 +78,21 @@ namespace MyShowsLibraryProject.Core.Services
                 .FirstOrDefaultAsync();
 
             return topic;
+        }
+        public async Task<PostsInfoServiceModel> GetPostById(int id)
+        {
+            var post = await repository
+                .TakeAllReadOnly<Post>()
+                .Where(p => p.PostId == id)
+                .Select(p => new PostsInfoServiceModel()
+                {
+                    PostId = p.PostId,
+                    PostBody = p.PostBody,
+                    CreatedOn = p.CreatedOn.ToString()
+                })
+                .FirstOrDefaultAsync();
+
+            return post;
         }
         public async Task<ForumQueryServiceModel> ShowAllTopics(string? searchTerm = null,
             BaseSorting sorting = BaseSorting.FromA,
@@ -162,6 +177,21 @@ namespace MyShowsLibraryProject.Core.Services
 
             await repository.SaveChangesAsync();
             logger.LogInformation(MessagesConstants.EntityEditedMessage, nameof(Topic), topicId);
+        }
+        public async Task EditPostAsync(int postId, PostFormModel model)
+        {
+            var postToEdit = await repository.GetByIdAsync<Post>(postId);
+
+            if (postToEdit == null)
+            {
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage, nameof(Post), postId);
+                throw new NullReferenceException(MessagesConstants.PostDoesNotExistsMessage);
+            }
+
+            postToEdit.PostBody = model.PostBody;
+
+            await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityEditedMessage, nameof(Post), postId);
         }
         public async Task DeleteTopicAsync(int topicId)
         {

@@ -6,6 +6,7 @@ using MyShowsLibraryProject.Core.Models.ForumModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
 using MyShowsLibraryProject.Infrastructure.Data.Common;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
+using System.Security.Claims;
 
 namespace MyShowsLibraryProject.Core.Services
 {
@@ -47,7 +48,7 @@ namespace MyShowsLibraryProject.Core.Services
 
             return posts;
         }
-        public async Task<List<AllPostInfoServiceModel>> GetAllPostsForTopic(int topicId)
+        public async Task<AllPostInfoServiceModel> GetAllPostsForTopic(int topicId)
         {
             var posts = await repository
               .TakeAllReadOnly<Topic>()
@@ -61,110 +62,112 @@ namespace MyShowsLibraryProject.Core.Services
                       CreatedOn = p.CreatedOn.ToString()
                   })
               })
-              .ToListAsync();
+              .FirstOrDefaultAsync();
 
             return posts;
         }
-    public async Task<TopicCardsInfoServiceModel> GetTopicById(int id)
-    {
-        var topic = await repository
-            .TakeAllReadOnly<Topic>()
-            .Select(t => new TopicCardsInfoServiceModel
-            {
-                TopicId = t.TopicId,
-                TopicName = t.Name
-            })
-            .FirstOrDefaultAsync();
-
-        return topic;
-    }
-    public async Task<ForumQueryServiceModel> ShowAllTopics(string? searchTerm = null,
-        BaseSorting sorting = BaseSorting.FromA,
-        int currPage = 1,
-        int topicsPerPage = 4)
-    {
-        var topics = repository.TakeAllReadOnly<Topic>();
-
-        if (searchTerm != null)
+        public async Task<TopicCardsInfoServiceModel> GetTopicById(int id)
         {
-            string normalizeSearchTerm = searchTerm.ToLower();
-            topics = topics
-                .Where(t => t.Name.ToLower().Contains(normalizeSearchTerm));
+            var topic = await repository
+                .TakeAllReadOnly<Topic>()
+                .Select(t => new TopicCardsInfoServiceModel
+                {
+                    TopicId = t.TopicId,
+                    TopicName = t.Name
+                })
+                .FirstOrDefaultAsync();
+
+            return topic;
         }
-
-        topics = sorting switch
+        public async Task<ForumQueryServiceModel> ShowAllTopics(string? searchTerm = null,
+            BaseSorting sorting = BaseSorting.FromA,
+            int currPage = 1,
+            int topicsPerPage = 4)
         {
-            BaseSorting.FromA => topics.OrderBy(t => t.Name),
-            BaseSorting.ToA => topics.OrderByDescending(t => t.Name),
-            _ => topics
-        };
+            var topics = repository.TakeAllReadOnly<Topic>();
 
-        var topicsToShow = await topics
-            .Skip((currPage - 1) * topicsPerPage)
-            .Take(topicsPerPage)
-            .Select(t => new TopicCardsInfoServiceModel
+            if (searchTerm != null)
             {
-                TopicId = t.TopicId,
-                TopicName = t.Name
-            })
-            .ToListAsync();
+                string normalizeSearchTerm = searchTerm.ToLower();
+                topics = topics
+                    .Where(t => t.Name.ToLower().Contains(normalizeSearchTerm));
+            }
 
-        int totalTicsCount = await topics.CountAsync();
-
-        return new ForumQueryServiceModel()
-        {
-            Topics = topicsToShow,
-            TotalTopicCount = totalTicsCount
-        };
-    }
-    public async Task CreateTopicAsync(TopicFormModel model)
-    {
-        var topic = repository.TakeAllReadOnly<Topic>();
-
-        if (!topic.Any(t => t.Name == model.Name))
-        {
-            var newTopic = new Topic()
+            topics = sorting switch
             {
-                Name = model.Name
+                BaseSorting.FromA => topics.OrderBy(t => t.Name),
+                BaseSorting.ToA => topics.OrderByDescending(t => t.Name),
+                _ => topics
             };
 
-            await repository.AddAsync(newTopic);
+            var topicsToShow = await topics
+                .Skip((currPage - 1) * topicsPerPage)
+                .Take(topicsPerPage)
+                .Select(t => new TopicCardsInfoServiceModel
+                {
+                    TopicId = t.TopicId,
+                    TopicName = t.Name
+                })
+                .ToListAsync();
+
+            int totalTicsCount = await topics.CountAsync();
+
+            return new ForumQueryServiceModel()
+            {
+                Topics = topicsToShow,
+                TotalTopicCount = totalTicsCount
+            };
+        }
+        public async Task CreateTopicAsync(TopicFormModel model)
+        {
+            var topic = repository.TakeAllReadOnly<Topic>();
+
+            if (!topic.Any(t => t.Name == model.Name))
+            {
+                var newTopic = new Topic()
+                {
+                    Name = model.Name
+                };
+
+                await repository.AddAsync(newTopic);
+                await repository.SaveChangesAsync();
+                logger.LogInformation(MessagesConstants.EntityCreatedMessage, nameof(Topic), model.Name);
+            }
+        }
+        public async Task CreatePostAsync(PostFormModel model,string userId,int topicId)
+        {
+            var newPost = new Post()
+            {
+                PostBody = model.PostBody,
+                CreatedOn = DateTime.UtcNow,
+                UserId = userId,
+                TopicId = topicId
+            };
+
+            await repository.AddAsync(newPost);
             await repository.SaveChangesAsync();
-            logger.LogInformation(MessagesConstants.EntityCreatedMessage, nameof(Topic), model.Name);
+            logger.LogInformation(MessagesConstants.EntityCreatedMessage, nameof(Post), DateTime.UtcNow.ToString());
+        }
+        public async Task EditTopicAsync(int topicId, TopicFormModel model)
+        {
+            var topicToEdit = await repository.GetByIdAsync<Topic>(topicId);
+
+            if (topicToEdit == null)
+            {
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage, nameof(Topic), topicId);
+                throw new NullReferenceException(MessagesConstants.TopicDoesNotExistsMessage);
+            }
+
+            topicToEdit.Name = model.Name;
+
+            await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityEditedMessage, nameof(Topic), topicId);
+        }
+        public async Task DeleteTopicAsync(int topicId)
+        {
+            await repository.DeleteAsync<Topic>(topicId);
+            await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityDeleteMessage, nameof(Topic), topicId);
         }
     }
-    public async Task CreatePostAsync(PostFormModel model)
-    {
-        var newPost = new Post()
-        {
-            PostBody = model.PostBody,
-            CreatedOn = DateTime.UtcNow
-        };
-
-        await repository.AddAsync(newPost);
-        await repository.SaveChangesAsync();
-        logger.LogInformation(MessagesConstants.EntityCreatedMessage, nameof(Post), DateTime.UtcNow.ToString());
-    }
-    public async Task EditTopicAsync(int topicId, TopicFormModel model)
-    {
-        var topicToEdit = await repository.GetByIdAsync<Topic>(topicId);
-
-        if (topicToEdit == null)
-        {
-            logger.LogInformation(MessagesConstants.EntityIdNotFountMessage, nameof(Topic), topicId);
-            throw new NullReferenceException(MessagesConstants.TopicDoesNotExistsMessage);
-        }
-
-        topicToEdit.Name = model.Name;
-
-        await repository.SaveChangesAsync();
-        logger.LogInformation(MessagesConstants.EntityEditedMessage, nameof(Topic), topicId);
-    }
-    public async Task DeleteAsync(int topicId)
-    {
-        await repository.DeleteAsync<Topic>(topicId);
-        await repository.SaveChangesAsync();
-        logger.LogInformation(MessagesConstants.EntityDeleteMessage, nameof(Topic), topicId);
-    }
-}
 }

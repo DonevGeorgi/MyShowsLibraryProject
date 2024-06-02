@@ -7,11 +7,11 @@ namespace MyShowsLibraryProject.Core.Services.Contacts
     {
         Task<List<TopicCardsInfoServiceModel>> GetAllTopics();
         Task<List<PostsInfoServiceModel>> GetAllPosts();
-        Task<List<AllPostInfoServiceModel>> GetAllPostsForTopic(int topicId);
+        Task<AllPostInfoServiceModel> GetAllPostsForTopic(int topicId);
         Task<TopicCardsInfoServiceModel> GetTopicById(int id);
         Task<ForumQueryServiceModel> ShowAllTopics(string? searchTerm, BaseSorting sorting, int currPage, int topicsPerPage);
         Task CreateTopicAsync(TopicFormModel model);
-        Task CreatePostAsync(PostFormModel model);
+        Task CreatePostAsync(PostFormModel model, string userId,int topicId);
         Task EditTopicAsync(int topicId, TopicFormModel model);
         Task DeleteTopicAsync(int topicId);
     }

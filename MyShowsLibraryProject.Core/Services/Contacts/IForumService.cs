@@ -16,5 +16,6 @@ namespace MyShowsLibraryProject.Core.Services.Contacts
         Task EditTopicAsync(int topicId, TopicFormModel model);
         Task EditPostAsync(int postId, PostFormModel model);
         Task DeleteTopicAsync(int topicId);
+        Task DeletePostAsync(int postId);
     }
 }

@@ -199,5 +199,11 @@ namespace MyShowsLibraryProject.Core.Services
             await repository.SaveChangesAsync();
             logger.LogInformation(MessagesConstants.EntityDeleteMessage, nameof(Topic), topicId);
         }
+        public async Task DeletePostAsync(int postId)
+        {
+            await repository.DeleteAsync<Post>(postId);
+            await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityDeleteMessage, nameof(Post), postId);
+        }
     }
 }

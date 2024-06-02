@@ -92,7 +92,7 @@ namespace MyShowsLibraryProject.Areas.Administration.Controllers
                 return NotFound();
             }
 
-            await forumService.DeleteAsync(topicId);
+            await forumService.DeleteTopicAsync(topicId);
 
             return RedirectToAction(nameof(Index));
         }

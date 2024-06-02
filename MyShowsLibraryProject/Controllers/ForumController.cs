@@ -2,6 +2,7 @@
 using MyShowsLibraryProject.Core.Models.ForumModels;
 using MyShowsLibraryProject.Core.Models.MovieModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
+using MyShowsLibraryProject.Infrastructure.Data.Models;
 using System.Security.Claims;
 
 namespace MyShowsLibraryProject.Controllers
@@ -67,6 +68,46 @@ namespace MyShowsLibraryProject.Controllers
             await forumService.CreatePostAsync(model, userId,topicId);
 
             return RedirectToAction(nameof(AllTopicPosts), new { topicId });
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditPost(int postId)
+        {
+            var post = await forumService.GetPostById(postId);
+
+            var model = new PostFormModel()
+            {
+                PostBody = post.PostBody
+            };
+
+            TempData["postIdentifier"] = postId;
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditPost(PostFormModel newModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(newModel);
+            }
+
+            var postId = Convert.ToInt32(TempData["postIdentifier"]);
+
+            if(postId == 0)
+            {
+                NotFound();
+            }
+
+            var topicId = Convert.ToInt32(TempData["identitfier"]);
+
+            if (topicId == 0)
+            {
+                NotFound();
+            }
+
+            await forumService.EditPostAsync(postId, newModel);
+
+             return RedirectToAction(nameof(AllTopicPosts), new { topicId });
         }
     }
 }

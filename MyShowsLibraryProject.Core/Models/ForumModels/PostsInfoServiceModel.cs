@@ -6,5 +6,6 @@
         public string PostBody { get; set; } = string.Empty;
         public string CreatedOn { get; set; } = string.Empty;
         public string UserUsername { get; set; } = string.Empty;
+        public List<RepliesInfoServiceModel> Replies { get; set; } = new List<RepliesInfoServiceModel>();
     }
 }

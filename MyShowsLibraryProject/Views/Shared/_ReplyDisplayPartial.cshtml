@@ -1,0 +1,8 @@
+﻿@model List<RepliesInfoServiceModel>
+
+@foreach (var reply in Model)
+{
+    <div class="bg-opacity-50 p-4" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">
+        @reply.ReplyBody
+    </div>
+}

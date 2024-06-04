@@ -13,6 +13,7 @@ namespace MyShowsLibraryProject.Core.Services.Contacts
         Task<ForumQueryServiceModel> ShowAllTopics(string? searchTerm, BaseSorting sorting, int currPage, int topicsPerPage);
         Task CreateTopicAsync(TopicFormModel model);
         Task CreatePostAsync(PostFormModel model, string userId,int topicId);
+        Task CreateReplyAsync(ReplyFormModel model, string userId, int postId);
         Task EditTopicAsync(int topicId, TopicFormModel model);
         Task EditPostAsync(int postId, PostFormModel model);
         Task DeleteTopicAsync(int topicId);

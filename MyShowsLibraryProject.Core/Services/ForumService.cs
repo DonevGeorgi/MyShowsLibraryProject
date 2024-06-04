@@ -59,7 +59,17 @@ namespace MyShowsLibraryProject.Core.Services
                       PostId = p.PostId,
                       PostBody = p.PostBody,
                       CreatedOn = p.CreatedOn.ToString(),
-                      UserUsername = p.UserId
+                      UserUsername = p.UserId,
+                      Replies = repository
+                                .TakeAllReadOnly<Reply>()
+                                .Where(r => r.PostId == p.PostId)
+                                .Select(r => new RepliesInfoServiceModel()
+                                {
+                                    ReplyId = r.ReplyId,
+                                    ReplyBody = r.ReplyBody,
+                                    CreatedOn = r.CreatedOn.ToString(),
+                                })
+                                .ToList()
                   })
               })
               .FirstOrDefaultAsync();
@@ -149,7 +159,7 @@ namespace MyShowsLibraryProject.Core.Services
                 logger.LogInformation(MessagesConstants.EntityCreatedMessage, nameof(Topic), model.Name);
             }
         }
-        public async Task CreatePostAsync(PostFormModel model,string userId,int topicId)
+        public async Task CreatePostAsync(PostFormModel model, string userId, int topicId)
         {
             var newPost = new Post()
             {
@@ -162,6 +172,20 @@ namespace MyShowsLibraryProject.Core.Services
             await repository.AddAsync(newPost);
             await repository.SaveChangesAsync();
             logger.LogInformation(MessagesConstants.EntityCreatedMessage, nameof(Post), DateTime.UtcNow.ToString());
+        }
+        public async Task CreateReplyAsync(ReplyFormModel model, string userId, int postId)
+        {
+            var newReply = new Reply()
+            {
+                ReplyBody = model.ReplyBody,
+                UserId = userId,
+                CreatedOn = DateTime.UtcNow,
+                PostId = postId
+            };
+
+            await repository.AddAsync(newReply);
+            await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityCreatedMessage, nameof(Reply), "new");
         }
         public async Task EditTopicAsync(int topicId, TopicFormModel model)
         {

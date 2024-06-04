@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyShowsLibraryProject.Core.Models.ForumModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
+using MyShowsLibraryProject.Infrastructure.Data.Models;
 using System.Security.Claims;
 
 namespace MyShowsLibraryProject.Controllers
@@ -63,7 +64,7 @@ namespace MyShowsLibraryProject.Controllers
                 return BadRequest();
             }
 
-            await forumService.CreatePostAsync(model, userId,topicId);
+            await forumService.CreatePostAsync(model, userId, topicId);
 
             return RedirectToAction(nameof(AllTopicPosts), new { topicId });
         }
@@ -119,6 +120,50 @@ namespace MyShowsLibraryProject.Controllers
             }
 
             await forumService.DeletePostAsync(postId);
+
+            return RedirectToAction(nameof(AllTopicPosts), new { topicId });
+        }
+        [HttpGet]
+        public IActionResult AddReply(int postId)
+        {
+            var result = new ReplyFormModel();
+
+            TempData["postIdentifier"] = postId;
+
+            return View(result);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddReply(ReplyFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var result = new ReplyFormModel();
+
+                return View(result);
+            }
+
+            var postId = Convert.ToInt32(TempData["postIdentifier"]);
+
+            if (postId == 0)
+            {
+                return BadRequest();
+            }
+
+            var userId = User.GetId();
+
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var topicId = Convert.ToInt32(TempData["identitfier"]);
+
+            if (topicId == 0)
+            {
+                return BadRequest();
+            }
+
+            await forumService.CreateReplyAsync(model, userId, postId);
 
             return RedirectToAction(nameof(AllTopicPosts), new { topicId });
         }

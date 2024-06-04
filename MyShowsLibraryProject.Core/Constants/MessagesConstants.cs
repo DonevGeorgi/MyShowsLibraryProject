@@ -31,6 +31,8 @@
         public const string MovieDoesNotExistsMessage = "Movie does not exists!";
         public const string SerieDoesNotExistsMessage = "Serie does not exists!";
         public const string SeasonDoesNotExistsMessage = "Season does not exists!";
+        public const string TopicDoesNotExistsMessage = "Topic does not exists!";
+        public const string PostDoesNotExistsMessage = "Post does not exists!";
         public const string EpisodeDoesNotExistsMessage = "Episode does not exists!";
         public const string MovieEditDoesNotExistMessage = "Movie you want to edit does not exists!";
         public const string SerieEditDoesNotExistMessage = "Serie you want to edit does not exists!";

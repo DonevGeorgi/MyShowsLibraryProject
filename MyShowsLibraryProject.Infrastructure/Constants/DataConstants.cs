@@ -47,9 +47,12 @@
         public const int LastNameMaxLength = 15;
         //Post
         public const int PostBodyMaxLength = 500;
+        public const int PostBodyMinLength = 10;
         //Topic
+        public const int TopicNameMinLength = 3;
         public const int TopicNameMaxLength = 60;
         //Reply
+        public const int ReplyBodyMinLength = 3;
         public const int ReplyBodyMaxLength = 500;
         //ReqularExpresions
         public const string DataRegex = @"(?:(?:0[1-9]|[12]\d|30)\s(?:Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov)|(?:0[1-9]|[12]\d|3[01])\s(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Dec))\s(?:[1-9]\d{3}|(?:19|20)\d{2})";

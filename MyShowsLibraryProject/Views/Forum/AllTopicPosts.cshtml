@@ -15,12 +15,14 @@
         @foreach (var post in Model.Posts)
         {
             <partial name="_PostsDisplayPartial" model="@post" />
+            <partial name="_ReplyDisplayPartial" model="@post.Replies" />
 
             <div class="p-1">
                 @if (User.GetId() == post.UserUsername)
                 {
                     <a asp-area="default" asp-action="EditPost" asp-controller="Forum" asp-route-postId="@post.PostId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Edit</a>
                     <a asp-area="default" asp-action="DeletePost" asp-controller="Forum" asp-route-postId="@post.PostId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Delete</a>
+                    <a asp-area="default" asp-action="AddReply" asp-controller="Forum" asp-route-postId="@post.PostId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Add reply</a>
                 }
             </div>
         }

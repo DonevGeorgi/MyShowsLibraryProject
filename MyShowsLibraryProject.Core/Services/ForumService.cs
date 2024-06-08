@@ -105,6 +105,21 @@ namespace MyShowsLibraryProject.Core.Services
 
             return post;
         }
+        public async Task<RepliesInfoServiceModel> GetReplyById(int id)
+        {
+            var reply = await repository
+                .TakeAllReadOnly<Reply>()
+                .Where(r => r.ReplyId == id)
+                .Select(r => new RepliesInfoServiceModel()
+                {
+                    ReplyId = r.ReplyId,
+                    ReplyBody = r.ReplyBody,
+                    CreatedOn = r.CreatedOn.ToString()
+                })
+                .FirstOrDefaultAsync();
+
+            return reply;
+        }
         public async Task<ForumQueryServiceModel> ShowAllTopics(string? searchTerm = null,
             BaseSorting sorting = BaseSorting.FromA,
             int currPage = 1,
@@ -218,6 +233,21 @@ namespace MyShowsLibraryProject.Core.Services
             await repository.SaveChangesAsync();
             logger.LogInformation(MessagesConstants.EntityEditedMessage, nameof(Post), postId);
         }
+        public async Task EditReplyAsync(int replyId, ReplyFormModel model)
+        {
+            var replyToEdit = await repository.GetByIdAsync<Reply>(replyId);
+
+            if (replyToEdit == null)
+            {
+                logger.LogInformation(MessagesConstants.EntityIdNotFountMessage, nameof(Reply), replyId);
+                throw new NullReferenceException(MessagesConstants.ReplyDoesNotExistsMessage);
+            }
+
+            replyToEdit.ReplyBody = model.ReplyBody;
+
+            await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityEditedMessage, nameof(Reply), replyId);
+        }
         public async Task DeleteTopicAsync(int topicId)
         {
             await repository.DeleteAsync<Topic>(topicId);
@@ -229,6 +259,12 @@ namespace MyShowsLibraryProject.Core.Services
             await repository.DeleteAsync<Post>(postId);
             await repository.SaveChangesAsync();
             logger.LogInformation(MessagesConstants.EntityDeleteMessage, nameof(Post), postId);
+        }
+        public async Task DeleteReplyAsync(int replyId)
+        {
+            await repository.DeleteAsync<Reply>(replyId);
+            await repository.SaveChangesAsync();
+            logger.LogInformation(MessagesConstants.EntityDeleteMessage, nameof(Reply), replyId);
         }
     }
 }

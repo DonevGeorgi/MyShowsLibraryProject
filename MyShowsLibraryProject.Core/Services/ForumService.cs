@@ -67,7 +67,8 @@ namespace MyShowsLibraryProject.Core.Services
                                 {
                                     ReplyId = r.ReplyId,
                                     ReplyBody = r.ReplyBody,
-                                    CreatedOn = r.CreatedOn.ToString(),
+                                    CreatedOn = r.CreatedOn.ToString("dd/MM/yyyy hh:mm"),
+                                    Username = r.UserId
                                 })
                                 .ToList()
                   })

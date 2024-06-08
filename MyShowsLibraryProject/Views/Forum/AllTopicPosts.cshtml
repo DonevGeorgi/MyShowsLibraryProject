@@ -21,9 +21,12 @@
         <div class="bg-white bg-opacity-75 p-4" style="border-radius: 0.5em;">
             <partial name="_PostsDisplayPartial" model="@post" />
 
-            <div class="d-flex flex-column gap-2 bg-white bg-opacity-75 p-4 m-4" style="border-radius: 1em;">
-                <partial name="_ReplyDisplayPartial" model="@post.Replies" />
-            </div>
+            @if (post.Replies.Any())
+            {
+                <div class="d-flex flex-column gap-2 bg-white bg-opacity-75 p-4 m-4" style="border-radius: 1em;">
+                    <partial name="_ReplyDisplayPartial" model="@post.Replies" />
+                </div>
+            }
 
         </div>
 

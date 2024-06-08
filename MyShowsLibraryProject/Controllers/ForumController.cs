@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyShowsLibraryProject.Core.Models.ForumModels;
 using MyShowsLibraryProject.Core.Services.Contacts;
-using MyShowsLibraryProject.Infrastructure.Data.Models;
 using System.Security.Claims;
 
 namespace MyShowsLibraryProject.Controllers
@@ -94,14 +93,14 @@ namespace MyShowsLibraryProject.Controllers
 
             if(postId == 0)
             {
-                NotFound();
+                return NotFound();
             }
 
             var topicId = Convert.ToInt32(TempData["identitfier"]);
 
             if (topicId == 0)
             {
-                NotFound();
+                return NotFound();
             }
 
             await forumService.EditPostAsync(postId, newModel);
@@ -111,12 +110,11 @@ namespace MyShowsLibraryProject.Controllers
         [HttpGet]
         public async Task<IActionResult> DeletePost(int postId)
         {
-
             var topicId = Convert.ToInt32(TempData["identitfier"]);
 
             if (topicId == 0)
             {
-                NotFound();
+                return NotFound();
             }
 
             await forumService.DeletePostAsync(postId);
@@ -164,6 +162,60 @@ namespace MyShowsLibraryProject.Controllers
             }
 
             await forumService.CreateReplyAsync(model, userId, postId);
+
+            return RedirectToAction(nameof(AllTopicPosts), new { topicId });
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditReply(int replyId)
+        {
+            var reply = await forumService.GetReplyById(replyId);
+
+            var model = new ReplyFormModel()
+            {
+                 ReplyBody = reply.ReplyBody
+            };
+
+            TempData["replyIdentifier"] = replyId;
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditReply(ReplyFormModel newModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(newModel);
+            }
+
+            var replyId = Convert.ToInt32(TempData["replyIdentifier"]);
+
+            if (replyId == 0)
+            {
+                return NotFound();
+            }
+
+            var topicId = Convert.ToInt32(TempData["identitfier"]);
+
+            if (topicId == 0)
+            {
+                return NotFound();
+            }
+
+            await forumService.EditReplyAsync(replyId, newModel);
+
+            return RedirectToAction(nameof(AllTopicPosts), new { topicId });
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeleteReply(int replyId)
+        {
+            var topicId = Convert.ToInt32(TempData["identitfier"]);
+
+            if (topicId == 0)
+            {
+                return NotFound();
+            }
+
+            await forumService.DeleteReplyAsync(replyId);
 
             return RedirectToAction(nameof(AllTopicPosts), new { topicId });
         }

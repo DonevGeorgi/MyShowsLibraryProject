@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MyShowsLibraryProject.Infrastructure.Data.DatabaseSeed.Configurations;
 using MyShowsLibraryProject.Infrastructure.Data.Models;
+using System.Drawing;
+using System.Reflection.Emit;
 
 
 namespace MyShowsLibraryProject.Infrastructure.Data
@@ -33,6 +35,9 @@ namespace MyShowsLibraryProject.Infrastructure.Data
             builder.ApplyConfiguration(new UserMovieConfiguration());
             builder.ApplyConfiguration(new UserReviewConfiguration());
             builder.ApplyConfiguration(new ReviewConfiguration());
+            builder.ApplyConfiguration(new TopicConfiguration());
+            builder.ApplyConfiguration(new PostConfiguration());
+            builder.ApplyConfiguration(new ReplyConfiguration());
 
             base.OnModelCreating(builder);
 
@@ -44,10 +49,10 @@ namespace MyShowsLibraryProject.Infrastructure.Data
                     NormalizedName = "ADMINISTRATOR".ToUpper()
                 });
 
-            var hasher = new PasswordHasher<IdentityUser>();
+            var hasher = new PasswordHasher<ApplicationUser>();
 
-            builder.Entity<IdentityUser>().HasData(
-                new IdentityUser
+            builder.Entity<ApplicationUser>().HasData(
+                new ApplicationUser
                 {
                     Id = "8e656345-a56d-4543-a7c6-4556d32d4db2",
                     UserName = "admin1@abv.bg",
@@ -55,7 +60,9 @@ namespace MyShowsLibraryProject.Infrastructure.Data
                     Email = "admin1@abv.bg",
                     NormalizedEmail = "ADMIN1@ABV.BG",
                     EmailConfirmed = true,
-                    PasswordHash = hasher.HashPassword(null, "Admin_1")
+                    PasswordHash = hasher.HashPassword(null, "Admin_1"),
+                    FirstName = "Admin",
+                    LastName = "One"
                 });
 
             builder.Entity<IdentityUserRole<string>>().HasData(

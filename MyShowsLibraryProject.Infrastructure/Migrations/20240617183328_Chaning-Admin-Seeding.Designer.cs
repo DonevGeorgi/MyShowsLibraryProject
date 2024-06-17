@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyShowsLibraryProject.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using MyShowsLibraryProject.Infrastructure.Data;
 namespace MyShowsLibraryProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240617183328_Chaning-Admin-Seeding")]
+    partial class ChaningAdminSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,7 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                         new
                         {
                             Id = "2c2c1h4e-3t6e-556f-86af-487y56fd2410",
-                            ConcurrencyStamp = "baac5879-72a6-4ea2-8289-f31cbd3e0eef",
+                            ConcurrencyStamp = "f21b04d9-2d5c-4b86-ac1f-a8cf8bea5fb3",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -2220,15 +2222,15 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                         {
                             Id = "8e656345-a56d-4543-a7c6-4556d32d4db2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "82f6998b-9987-4335-ba5c-1a415da15f5e",
+                            ConcurrencyStamp = "97bf7e96-3156-433b-83cb-81a0784b0ea6",
                             Email = "admin1@abv.bg",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN1@ABV.BG",
                             NormalizedUserName = "ADMIN1@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGMVRibxj0Elo80N6hLDh1GqinmuKXr/lGwA36IMPV/599NsLqQWyyn2Wiq6e+TuAA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA0VY46R82fSyRMd6od6tqyjNQGxjn+pog1n2Tl8q8BaHtJ2VXSiN6avEqusk9ZqSw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "077f20e3-3c83-4606-bfa5-2430c5c56e6f",
+                            SecurityStamp = "a0fe045b-7096-41e2-860d-29c6860cddc1",
                             TwoFactorEnabled = false,
                             UserName = "admin1@abv.bg",
                             FirstName = "Admin",
@@ -2398,7 +2400,7 @@ namespace MyShowsLibraryProject.Infrastructure.Migrations
                     b.HasOne("MyShowsLibraryProject.Infrastructure.Data.Models.Post", "Post")
                         .WithMany("Replies")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("MyShowsLibraryProject.Infrastructure.Data.Models.ApplicationUser", "User")

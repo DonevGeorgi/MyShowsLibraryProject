@@ -7,5 +7,6 @@
         public string CreatedOn { get; set; } = string.Empty;
         public string UserUsername { get; set; } = string.Empty;
         public List<RepliesInfoServiceModel> Replies { get; set; } = new List<RepliesInfoServiceModel>();
+        public string UserName {  get; set; } = string.Empty;
     }
 }

@@ -5,14 +5,14 @@
     <div class="p-3" style="border-radius: 0.5em;">
         <div class="d-flex flex-column gap-2 p-1">
             <div class="fw-bold">
-                <p>@reply.Username</p>
+                <p>@reply.UserName</p>
             </div>
             <div class="d-flex text-black p-3 m-1" style="border: 1px solid  grey;  border-radius: 0.5em;">
                 <p>@reply.ReplyBody</p>
             </div>
             <div class="d-flex justify-content-between p-1">
                 <div>
-                    @if (User.GetId() == reply.Username)
+                    @if (User.GetId() == reply.UserUsername)
                     {
                         <a asp-area="default" asp-action="EditReply" asp-controller="Forum" asp-route-replyId="@reply.ReplyId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Edit</a>
                         <a asp-area="default" asp-action="DeleteReply" asp-controller="Forum" asp-route-replyId="@reply.ReplyId" class="btn m-1" role="button" style="border-radius: 0.5em; background-color: rgb(255, 210, 0);">Delete</a>

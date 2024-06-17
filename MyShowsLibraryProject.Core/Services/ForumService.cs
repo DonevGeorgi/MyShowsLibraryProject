@@ -68,9 +68,17 @@ namespace MyShowsLibraryProject.Core.Services
                                     ReplyId = r.ReplyId,
                                     ReplyBody = r.ReplyBody,
                                     CreatedOn = r.CreatedOn.ToString("dd/MM/yyyy hh:mm"),
-                                    Username = r.UserId
+                                    UserUsername = r.UserId,
+                                    UserName = repository.TakeAllReadOnly<Reply>()
+                                    .Where(r => r.UserId == r.UserId)
+                                    .Select(u => u.User.FirstName + " " + u.User.LastName)
+                                    .First()
                                 })
-                                .ToList()
+                                .ToList(),
+                      UserName = repository.TakeAllReadOnly<Post>()
+                                    .Where(r => r.UserId == r.UserId)
+                                    .Select(u => u.User.FirstName + " " + u.User.LastName)
+                                    .First()
                   })
               })
               .FirstOrDefaultAsync();

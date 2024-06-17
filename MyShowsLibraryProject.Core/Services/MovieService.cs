@@ -140,7 +140,11 @@ namespace MyShowsLibraryProject.Core.Services
                         .TakeAllReadOnly<UserReview>()
                         .Where(ur => ur.ReviewIdentifier == r.ReviewId)
                         .Select(ur => ur.UserId)
-                        .First()
+                        .First(),
+                        UserName = repository.TakeAllReadOnly<UserReview>()
+                        .Where(ur => ur.ReviewIdentifier == r.ReviewId)
+                        .Select(ur => ur.User.FirstName + " " + ur.User.LastName)
+                        .First(),
                     })
                     .ToList()
              })
